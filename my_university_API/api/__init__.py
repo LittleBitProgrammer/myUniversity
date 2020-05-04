@@ -5,8 +5,8 @@
 ####################################################################
 from flask import Flask  # to use flask Framework
 from flask_restx import Api  # to use flask-restx lib
-from api.secretary import secretary  # to use student namespace
-from api.professor import professor  # to use student namespace
+from api.secretary import secretary  # to use secretary namespace
+from api.professor import professor  # to use professor namespace
 from api.student import student  # to use student namespace
 
 ####################################################################
@@ -18,7 +18,7 @@ api_doc = '/'  # doc path of our API
 api_license = 'Apache-2.0'  # license name of our API
 api_license_url = 'https://github.com/robertove93/myUniversity/blob/master/LICENSE'  # license url of our API
 api_contact_email = 'roberto.vecchio001@studenti.uniparthenope.it'  # default contact (it's a placeholder)
-api_prefix = f'/api/v{api_version}/'  # base url of our API
+api_prefix = f'/api/{api_version}/'  # base url of our API
 api_description = 'This is myUniversity Official API. We divided the API in three main category:' \
                   '\n- Secretary' \
                   '\n- Professor' \
