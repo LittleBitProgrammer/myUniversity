@@ -12,7 +12,20 @@ from api.student import student  # to use student namespace
 ####################################################################
 #                           api_variables
 ####################################################################
-version_api = '0.1'
+api_version = '0.1'  # version of our API
+api_title = 'myUniversity API'  # title of our API
+api_doc = '/'  # doc path of our API
+api_license = 'Apache-2.0'  # license name of our API
+api_license_url = 'https://github.com/robertove93/myUniversity/blob/master/LICENSE'  # license url of our API
+api_contact_email = 'roberto.vecchio001@studenti.uniparthenope.it'  # default contact (it's a placeholder)
+api_prefix = f'/api/v{api_version}/'  # base url of our API
+api_description = 'This is myUniversity Official API. We divided the API in three main category:' \
+                  '\n- Secretary' \
+                  '\n- Professor' \
+                  '\n- Student '  # description of our API
+api_contact = '[carlo.lomello001@studenti.uniparthenope.it]  -  ' \
+              '[francesco.mabilia001@studenti.uniparthenope.it]  -  ' \
+              '[roberto.vecchio001@studenti.uniparthenope.it]'  # contact of our team
 
 ####################################################################
 #                       object initialization
@@ -21,20 +34,15 @@ version_api = '0.1'
 app = Flask(__name__)
 # Creation of a Api object
 api = Api(app,
-          version=f'{version_api}',
-          title='myUniversity API',
-          doc='/',  # TODO: web page of documentation
-          description='This is myUniversity Official API. We divided the API in three main category:'
-                      '\n- Secretary'
-                      '\n- Professor'
-                      '\n- Student ',
-          license='Apache-2.0',
-          license_url='https://github.com/robertove93/myUniversity/blob/master/LICENSE',
-          contact='[carlo.lomello001@studenti.uniparthenope.it]  -  '
-                  '[francesco.mabilia001@studenti.uniparthenope.it]  -  '
-                  '[roberto.vecchio001@studenti.uniparthenope.it]',
-          contact_email='roberto.vecchio001@studenti.uniparthenope.it',
-          prefix=f'/api/v{version_api}/',
+          version=api_version,
+          title=api_title,
+          doc=api_doc,  # TODO: web page of documentation
+          description=api_description,
+          license=api_license,
+          license_url=api_license_url,
+          contact=api_contact,
+          contact_email=api_contact_email,
+          prefix=api_prefix,
           catch_all_404=True)
 
 ####################################################################
