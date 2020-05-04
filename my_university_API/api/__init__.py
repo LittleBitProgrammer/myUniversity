@@ -5,6 +5,7 @@
 ####################################################################
 from flask import Flask  # to use flask Framework
 from flask_restx import Api  # to use flask-restx lib
+from config import Config  # to use the Config class
 from api.secretary import secretary  # to use secretary namespace
 from api.professor import professor  # to use professor namespace
 from api.student import student  # to use student namespace
@@ -32,6 +33,9 @@ api_contact = '[carlo.lomello001@studenti.uniparthenope.it]  -  ' \
 ####################################################################
 # Creation of a Flask object
 app = Flask(__name__)
+# add config to our app
+app.config.from_object(Config)
+
 # Creation of a Api object
 api = Api(app,
           version=api_version,
