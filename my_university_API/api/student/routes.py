@@ -1,15 +1,16 @@
-# This file contain all routes of our api
+# This file contain all routes of student
 
 ####################################################################
 #                             import
 ####################################################################
-from api import api
-from flask_restx import Resource
+from api.student import student  # to use api
+from flask_restx import Resource  # to use Resource, that expose http request method
+
 
 ####################################################################
-#                             routes
+#                             routing
 ####################################################################
-@api.route('/hello')
-class Hello(Resource):
+@student.route('/hello')
+class Testing(Resource):
     def get(self):
-        return {'hello': 'world'}
+        return {'Test': '1'}
