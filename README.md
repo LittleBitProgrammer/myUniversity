@@ -1,7 +1,8 @@
 # myUniversity
 University project for the examination of web technologies, Parthenope 🎓
 
-## API
+## API 
+![Immagine di path](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROSC6b0CtrgxHuiMRgl1VynmK98NiRGdQjtyv5aE-mYpWYP0B_&usqp=CAU)
 
 Le API sono organizzate in quattro namespace:
 - API Segreteria (secretary '/segreteria' )
@@ -10,7 +11,8 @@ Le API sono organizzate in quattro namespace:
 - API Global (universal '/universal')
 
 Inoltre gode di un prefisso, il quale utilizza questo path:
-http://{dominio}/api/{versione}
+
+![Immagine di path](https://github.com/robertove93/myUniversity/blob/Developer/images/path_myUniversity.png?raw=true)
 
 Vediamo ora nel dettaglio le nostre API:
 
