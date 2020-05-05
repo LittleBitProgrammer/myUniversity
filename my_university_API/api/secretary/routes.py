@@ -21,8 +21,12 @@ class HeadOffice(Resource):
     def post(self):
         return {'sede': '2'}
 
-    def delete(self):
-        return {'sede': '3'}
+
+# ============================    cancella sede    ========================== #
+@secretary.route('/cancella_sede')
+class DelHeadOffice(Resource):
+    def post(self):
+        return {'sede': '1'}
 
 
 # ============================    aula    ========================== #
@@ -30,10 +34,15 @@ class HeadOffice(Resource):
 class Room(Resource):
 
     def post(self):
-        return {'aula': '2'}
+        return {'aula': '1'}
 
-    def delete(self):
-        return {'aula': '3'}
+
+# ============================   cancella aula    ========================== #
+@secretary.route('/cancella_aula')
+class DelRoom(Resource):
+
+    def post(self):
+        return {'aula': '1'}
 
 
 # ============================    corso laurea    ========================== #
@@ -46,8 +55,13 @@ class DegreeCourse(Resource):
     def post(self):
         return {'corso laurea': '2'}
 
-    def delete(self):
-        return {'corso laurea': '3'}
+
+# ============================    cancella corso laurea    ========================== #
+@secretary.route('/cancella_corso_laurea')
+class DelDegreeCourse(Resource):
+
+    def post(self):
+        return {'corso laurea': '1'}
 
 
 # ============================    locazione    ========================== #
@@ -60,8 +74,13 @@ class Located(Resource):
     def post(self):
         return {'locazione': '2'}
 
-    def delete(self):
-        return {'locazione': '3'}
+
+# ============================    cancella locazione    ========================== #
+@secretary.route('/cancella_locazione')
+class DelLocated(Resource):
+
+    def post(self):
+        return {'locazione': '1'}
 
 
 # ============================    disciplina    ========================== #
@@ -74,8 +93,13 @@ class Discipline(Resource):
     def post(self):
         return {'disciplina': '2'}
 
-    def delete(self):
-        return {'disciplina': '3'}
+
+# ============================    cancella disciplina    ========================== #
+@secretary.route('/cancella_disciplina')
+class DelDiscipline(Resource):
+
+    def post(self):
+        return {'disciplina': '1'}
 
 
 # ============================    docente    ========================== #
@@ -88,8 +112,13 @@ class Professor(Resource):
     def post(self):
         return {'docente': '2'}
 
-    def delete(self):
-        return {'docente': '3'}
+
+# ============================    cancella docente    ========================== #
+@secretary.route('/cancella_docente')
+class DelProfessor(Resource):
+
+    def post(self):
+        return {'docente': '1'}
 
 
 # ============================    assunzione    ========================== #
@@ -113,8 +142,13 @@ class Student(Resource):
     def post(self):
         return {'studente': '2'}
 
-    def delete(self):
-        return {'studente': '3'}
+
+# ============================   cancella studente    ========================== #
+@secretary.route('/cancella_studente')
+class DelStudent(Resource):
+
+    def post(self):
+        return {'studente': '2'}
 
 
 # ============================    insegnamento    ========================== #
@@ -127,16 +161,26 @@ class Teaching(Resource):
     def post(self):
         return {'insegnamento': '2'}
 
-    def delete(self):
-        return {'insegnamento': '3'}
+
+# ============================    cancella insegnamento    ========================== #
+@secretary.route('/cancella_insegnamento')
+class DelTeaching(Resource):
+
+    def post(self):
+        return {'insegnamento': '1'}
 
 
 # ============================    lezione    ========================== #
 @secretary.route('/lezione')
-class Teaching(Resource):
+class Lesson(Resource):
 
     def post(self):
         return {'lezione': '2'}
 
-    def delete(self):
-        return {'lezione': '3'}
+
+# ============================   cancella lezione    ========================== #
+@secretary.route('/cancella_lezione')
+class DelLesson(Resource):
+
+    def post(self):
+        return {'lezione': '1'}

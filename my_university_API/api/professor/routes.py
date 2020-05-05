@@ -65,8 +65,12 @@ class Lesson(Resource):
     def post(self):
         return {'lezione': '1'}
 
-    def delete(self):
-        return {'lezione': '2'}
+
+# ============================    cancella lezione    ========================== #
+@professor.route('/cancella_lezione')
+class DelLesson(Resource):
+    def post(self):
+        return {'lezione': '1'}
 
 
 # ============================   get lezioni    ========================== #
@@ -82,8 +86,12 @@ class Alert(Resource):
     def post(self):
         return {'avviso': '1'}
 
-    def delete(self):
-        return {'avviso': '2'}
+
+# ============================  cancella avviso   ========================== #
+@professor.route('/cancella_avviso')
+class DelAlert(Resource):
+    def post(self):
+        return {'avviso': '1'}
 
 
 # ============================  avvisi   ========================== #
@@ -99,15 +107,23 @@ class Receipt(Resource):
     def post(self):
         return {'ricevimento': '1'}
 
-    def delete(self):
-        return {'ricevimento': '2'}
 
-    def update(self):
-        return {'ricevimento': '3'}
+# ============================  update ricevimento   ========================== #
+@professor.route('/aggiorna_ricevimento')
+class UPReceipt(Resource):
+    def post(self):
+        return {'ricevimento': '1'}
+
+
+# ============================  cancella ricevimento   ========================== #
+@professor.route('/cancella_ricevimento')
+class DelReceipt(Resource):
+    def post(self):
+        return {'ricevimento': '1'}
 
 
 # ============================ richiesta ricevimento   ========================== #
 @professor.route('/ricevimenti')
-class Receipt(Resource):
+class Receipts(Resource):
     def post(self):
         return {'ricevimenti': '1'}
