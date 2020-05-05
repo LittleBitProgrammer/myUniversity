@@ -19,7 +19,7 @@ lib64/
 parts/
 sdist/
 var/
-wheels/
+my_university_API/wheels/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -48,7 +48,7 @@ coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
-.pytest_cache/
+.my_university_API/pytest_cache/
 cover/
 
 # Translations
@@ -108,8 +108,8 @@ celerybeat.pid
 .env
 .venv
 env/
-myUniversity/venv/
-ENV/
+my_university_API/venv/
+my_university_API/ENV/
 env.bak/
 venv.bak/
 
