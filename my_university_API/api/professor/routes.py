@@ -24,13 +24,6 @@ class Password(Resource):
         return {'password': '1'}
 
 
-# ============================    inserimento contatto    ========================== #
-@professor.route('/contatto')
-class Contact(Resource):
-    def post(self):
-        return {'contatto': '1'}
-
-
 # ============================    get contatti    ========================== #
 @professor.route('/contatti')
 class GetContact(Resource):
@@ -127,3 +120,11 @@ class DelReceipt(Resource):
 class Receipts(Resource):
     def post(self):
         return {'ricevimenti': '1'}
+
+
+# ============================    calendario   ========================== #
+@professor.route('/calendario')
+class Calendario(Resource):
+
+    def post(self):
+        return {'iscrizione newsletter': '1'}

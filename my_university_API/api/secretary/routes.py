@@ -170,17 +170,3 @@ class DelTeaching(Resource):
         return {'insegnamento': '1'}
 
 
-# ============================    lezione    ========================== #
-@secretary.route('/lezione')
-class Lesson(Resource):
-
-    def post(self):
-        return {'lezione': '2'}
-
-
-# ============================   cancella lezione    ========================== #
-@secretary.route('/cancella_lezione')
-class DelLesson(Resource):
-
-    def post(self):
-        return {'lezione': '1'}

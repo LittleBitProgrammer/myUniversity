@@ -10,7 +10,17 @@ from flask_restx import Resource  # to use Resource, that expose http request me
 ####################################################################
 #                             routing
 ####################################################################
-@global_op.route('/hello')
-class Testing(Resource):
-    def get(self):
-        return {'Test': '2'}
+# ============================    lezioni_corso    ========================== #
+@global_op.route('/lezioni_corso')
+class Lesson(Resource):
+
+    def post(self):
+        return {'lezione': '2'}
+
+
+# ============================    inserimento contatto (condivisa da studente e docente)   ========================== #
+@global_op.route('/contatto')
+class Contact(Resource):
+
+    def post(self):
+        return {'contatto': '1'}
