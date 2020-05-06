@@ -33,10 +33,10 @@ class HeadOffice(Resource):
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
-        parser.add_argument('orario_apertura', type=str, help='orario apertura della sede universitaria')
-        parser.add_argument('orario_chiusura', type=str, help='orario chiusura della sede universitaria')
-        parser.add_argument('numero_piani', type=str, help='numero piani della sede universitaria')
-        parser.add_argument('cap', type=str, help='cap della sede universitaria')
+        parser.add_argument('orario_apertura', type=int, help='orario apertura della sede universitaria')
+        parser.add_argument('orario_chiusura', type=int, help='orario chiusura della sede universitaria')
+        parser.add_argument('numero_piani', type=int, help='numero piani della sede universitaria')
+        parser.add_argument('cap', type=int, help='cap della sede universitaria')
         parser.add_argument('via_piazza', type=str, help='cap della sede universitaria')
         parser.add_argument('civico', type=str, help='civico della sede universitaria')
         args = parser.parse_args(strict=True)
@@ -201,7 +201,8 @@ class Student(Resource):
                       args['matricola_studente'],
                       args['email_studente'],
                       args['data_immatricolazione'],
-                      args['password_studente'])
+                      args['password_studente'],
+                      connection)
 
         return args, 201
 

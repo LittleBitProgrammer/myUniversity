@@ -18,10 +18,10 @@ insert_student_model = secretary.model('insert student model', {
 
 insert_headoffice_model = secretary.model('insert headoffice model', {
     'nome_sede': fields.String,
-    'orario_apertura': fields.String,
-    'orario_chiusura': fields.String,
-    'numero_piani': fields.String,
-    'cap': fields.String,
+    'orario_apertura': fields.Integer,
+    'orario_chiusura': fields.Integer,
+    'numero_piani': fields.Integer,
+    'cap': fields.Integer,
     'via_piazza': fields.String,
     'civico': fields.String
 })

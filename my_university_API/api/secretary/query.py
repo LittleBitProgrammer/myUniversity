@@ -58,10 +58,9 @@ def insertStudent(cf,
                   matricola_studente,
                   email_studente,
                   data_immatricolazione,
-                  password_studente
-                  ):
+                  password_studente,
+                  connection ):
     try:
-        connection = database.get_connection()
         cursor = connection.cursor()
         print(cf,
                nome,
