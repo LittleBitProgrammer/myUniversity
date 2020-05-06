@@ -50,7 +50,7 @@ def insertStudent(cf,
                                                        via_piazza,
                                                        civico)  
                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s) """
-        print('dopo query')
+
         # student query
         mySql_insert_studente = """ INSERT INTO studente(matricola_studente, 
                                                        cf,
@@ -64,7 +64,6 @@ def insertStudent(cf,
         student_tuple = (matricola_studente, cf, email_studente, data_immatricolazione, password_studente)
 
         cursor.execute(mySql_insert_persona, person_tuple)
-        print('dopo execute')
         cursor.execute(mySql_insert_studente, student_tuple)
 
         connection.commit()
