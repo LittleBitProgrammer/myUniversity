@@ -27,42 +27,6 @@ class Db(object):
         self.__database = database
         self.__user = user
         self.__password = password
-        self.__connection = mysql.connector.connect(host=self.__host,
-                                                    database=self.__database,
-                                                    user=self.__user,
-                                                    password=self.__password)
-        self.__cursor = self.__connection.cursor()
-
-    ####################################################################
-    #                             decorators
-    ####################################################################
-    # with this decorator we avoid to write the function with every insert operation into database
-    @classmethod
-    def __connection(cls):
-        # wrapper function
-        def wrapper(self, *args, **kwargs):
-            try:
-                # return the query, the record of tuple we want to insert and the message to print in console
-                db_query, db_record_tuple, message = cls(*args, **kwargs)
-                # if the values of all variables are not Null execute the operation
-                if db_query and db_record_tuple and message:
-                    self.__cursor.execute(db_query, db_record_tuple[1])
-                    self.__connection.commit()
-                    print(message)
-                # else raise an error
-                else:
-                    raise Error
-
-            except Error as error:
-                print(f"Failed to insert into MySQL table {error}")
-
-            finally:
-                # finally close the connection
-                if self.__connection.is_connected():
-                    self.__cursor.close()
-                    self.__connection.close()
-                    print("MySQL connection is closed")
-        return wrapper
 
     ####################################################################
     #                             db methods
