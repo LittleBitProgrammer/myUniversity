@@ -12,7 +12,7 @@ from mysql.connector import Error  # error handle mySQL errors
 ####################################################################
 # this class was created to avoid repeated connection in our main file, so with this we can simply
 # call, in our REST request, for example: db.insert_student
-class Db(object):
+class DatabaseConnector(object):
     ####################################################################
     #                             constructor
     ####################################################################
@@ -27,10 +27,10 @@ class Db(object):
         self.__database = database
         self.__user = user
         self.__password = password
-        self.__connection = mysql.connector.connect(host=self.__host,
+        self.connection = mysql.connector.connect(host=self.__host,
                                                   database=self.__database,
                                                   user=self.__user,
                                                   password=self.__password)
 
-        def get_connection(self):
-            return self.__connection
+    def get_connection(self):
+        return self.connection
