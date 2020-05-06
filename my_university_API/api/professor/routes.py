@@ -3,9 +3,17 @@
 ####################################################################
 #                             import
 ####################################################################
-from api.professor import professor  # to use api
-from flask_restx import Resource  # to use Resource, that expose http request method
 
+from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
+from api import professor
+from api.professor.database_functions import loginProfessor
+from api.professor.models import *
+from api.database_config import DatabaseConnector
+from mysql.connector import Error
+import mysql.connector
+
+database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
+connection = database.get_connection()
 
 ####################################################################
 #                             routing
@@ -13,8 +21,19 @@ from flask_restx import Resource  # to use Resource, that expose http request me
 # ============================    login    ========================== #
 @professor.route('/login')
 class Login(Resource):
+    @professor.expect(login_professor)
+    @professor.marshal_with(professor_model)
     def post(self):
-        return {'login': '1'}
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        parser.add_argument('password_docente', type=str, help='mat of professor')
+        args = parser.parse_args(strict=True)
+
+        return loginProfessor(args['matricola_docente'], args['password_docente'], connection), 201
+
+
+
 
 
 # ============================    password    ========================== #
