@@ -1,7 +1,7 @@
 from api.secretary import secretary
 from flask_restx import fields
 
-student_model = secretary.model('studente', {
+insert_student_model = secretary.model('insert student model', {
     'cf': fields.String,
     'nome': fields.String,
     'cognome': fields.String,
@@ -14,4 +14,14 @@ student_model = secretary.model('studente', {
     'email_studente': fields.String,
     'data_immatricolazione': fields.String,
     'password_studente': fields.String
+})
+
+insert_headoffice_model = secretary.model('insert headoffice model', {
+    'nome_sede': fields.String,
+    'orario_apertura': fields.String,
+    'orario_chiusura': fields.String,
+    'numero_piani': fields.String,
+    'cap': fields.String,
+    'via_piazza': fields.String,
+    'civico': fields.String
 })

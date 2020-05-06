@@ -5,75 +5,8 @@
 ####################################################################
 from api.secretary import secretary  # to use api
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api.secretary.models import *
-from api.database_config import DatabaseConnector
-from mysql.connector import Error
-import mysql.connector
-
-database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
-
-####################################################################
-#                             function
-####################################################################
-def insertStudent(cf,
-                  nome,
-                  cognome,
-                  data_di_nascita,
-                  luogo_di_nascita,
-                  cap,
-                  via_piazza,
-                  civico,
-                  matricola_studente,
-                  email_studente,
-                  data_immatricolazione,
-                  password_studente
-                  ):
-    try:
-        connection = database.get_connection()
-        cursor = connection.cursor()
-        print(cf,
-               nome,
-               cognome,
-               data_di_nascita,
-               luogo_di_nascita,
-               cap,
-               via_piazza,
-               civico)
-        # query persona
-        mySql_insert_persona = """INSERT INTO persona(cf, 
-                                                       nome,
-                                                       cognome, 
-                                                       data_di_nascita,
-                                                       luogo_di_nascita,
-                                                       cap,
-                                                       via_piazza,
-                                                       civico)  
-                                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s) """
-
-        # student query
-        mySql_insert_studente = """ INSERT INTO studente(matricola_studente, 
-                                                       cf,
-                                                       email_studente,
-                                                       data_immatricolazione,
-                                                       password_studente) 
-                                    VALUES (%s, %s, %s, %s, %s) """
-
-        # tuple of person and student
-        person_tuple = (cf, nome, cognome, data_di_nascita, luogo_di_nascita, cap, via_piazza, civico)
-        student_tuple = (matricola_studente, cf, email_studente, data_immatricolazione, password_studente)
-
-        cursor.execute(mySql_insert_persona, person_tuple)
-        cursor.execute(mySql_insert_studente, student_tuple)
-
-        connection.commit()
-        print("Record inserted successfully into Person and Student table")
-    except Error as error:
-        print(f"Failed to insert into MySQL table {error}")
-    finally:
-        if (connection.is_connected()):
-            cursor.close()
-            connection.close()
-            print("MySQL connection is closed")
+from api.secretary.models import insert_student_model, insert_headoffice_model  # to import models
+from api.secretary.query import insertStudent, insertHeadOffice  # to import query of db
 
 
 ####################################################################
@@ -87,8 +20,30 @@ class HeadOffice(Resource):
     def get(self):
         return {'sede': '1'}
 
+    @secretary.expect(insert_headoffice_model)
+    @secretary.marshal_with(insert_headoffice_model)
     def post(self):
-        return {'sede': '2'}
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
+        parser.add_argument('orario_apertura', type=str, help='orario apertura della sede universitaria')
+        parser.add_argument('orario_chiusura', type=str, help='orario chiusura della sede universitaria')
+        parser.add_argument('numero_piani', type=str, help='numero piani della sede universitaria')
+        parser.add_argument('cap', type=str, help='cap della sede universitaria')
+        parser.add_argument('via_piazza', type=str, help='cap della sede universitaria')
+        parser.add_argument('civico', type=str, help='civico della sede universitaria')
+        args = parser.parse_args(strict=True)
+
+
+        insertHeadOffice(args['nome_sede'],
+                         args['orario_apertura'],
+                         args['orario_chiusura'],
+                         args['numero_piani'],
+                         args['cap'],
+                         args['via_piazza'],
+                         args['civico'])
+
+        return args, 250
 
 
 # ============================    cancella sede    ========================== #
@@ -208,8 +163,8 @@ class Student(Resource):
     def get(self):
         return {'studente': '1'}
 
-    @secretary.expect(student_model)
-    @secretary.marshal_with(student_model)
+    @secretary.expect(insert_student_model)
+    @secretary.marshal_with(insert_student_model)
     def post(self):
 
         # arguments
