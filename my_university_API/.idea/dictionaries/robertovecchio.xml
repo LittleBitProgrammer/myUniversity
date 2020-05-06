@@ -8,11 +8,14 @@
       <w>avvisi</w>
       <w>avviso</w>
       <w>cancella</w>
+      <w>civico</w>
+      <w>cognome</w>
       <w>contatti</w>
       <w>contatto</w>
       <w>corso</w>
       <w>disciplina</w>
       <w>docente</w>
+      <w>immatricolazione</w>
       <w>insegnamenti</w>
       <w>insegnamento</w>
       <w>inserimento</w>
@@ -20,6 +23,9 @@
       <w>lezione</w>
       <w>lezioni</w>
       <w>locazione</w>
+      <w>luogo</w>
+      <w>matricola</w>
+      <w>nascita</w>
       <w>ricevimenti</w>
       <w>ricevimento</w>
       <w>richiesta</w>

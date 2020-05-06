@@ -4,7 +4,78 @@
 #                             import
 ####################################################################
 from api.secretary import secretary  # to use api
-from flask_restx import Resource  # to use Resource, that expose http request method
+from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
+from api.secretary.models import *
+import mysql.connector
+from mysql.connector import Error
+
+
+####################################################################
+#                             function
+####################################################################
+def insertStudent(cf,
+                  nome,
+                  cognome,
+                  data_di_nascita,
+                  luogo_di_nascita,
+                  cap,
+                  via_piazza,
+                  civico,
+                  matricola_studente,
+                  email_studente,
+                  data_immatricolazione,
+                  password_studente
+                  ):
+    try:
+        connection = mysql.connector.connect(host='localhost',
+                                             database='my_university_db',
+                                             user='root',
+                                             password='')
+        cursor = connection.cursor()
+        print(cf,
+               nome,
+               cognome,
+               data_di_nascita,
+               luogo_di_nascita,
+               cap,
+               via_piazza,
+               civico)
+        # query persona
+        mySql_insert_persona = """INSERT INTO persona(cf, 
+                                                       nome,
+                                                       cognome, 
+                                                       data_di_nascita,
+                                                       luogo_di_nascita,
+                                                       cap,
+                                                       via_piazza,
+                                                       civico)  
+                                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s) """
+        print('dopo query')
+        # student query
+        mySql_insert_studente = """ INSERT INTO studente(matricola_studente, 
+                                                       cf,
+                                                       email_studente,
+                                                       data_immatricolazione,
+                                                       password_studente) 
+                                    VALUES (%s, %s, %s, %s, %s) """
+
+        # tuple of person and student
+        person_tuple = (cf, nome, cognome, data_di_nascita, luogo_di_nascita, cap, via_piazza, civico)
+        student_tuple = (matricola_studente, cf, email_studente, data_immatricolazione, password_studente)
+
+        cursor.execute(mySql_insert_persona, person_tuple)
+        print('dopo execute')
+        cursor.execute(mySql_insert_studente, student_tuple)
+
+        connection.commit()
+        print("Record inserted successfully into Person and Student table")
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
 
 
 ####################################################################
@@ -139,8 +210,40 @@ class Student(Resource):
     def get(self):
         return {'studente': '1'}
 
+    @secretary.expect(student_model)
+    @secretary.marshal_with(student_model)
     def post(self):
-        return {'studente': '2'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('cf', type=str, help='cf of student')
+        parser.add_argument('nome', type=str, help='first name of student')
+        parser.add_argument('cognome', type=str, help='last name of student')
+        parser.add_argument('data_di_nascita', type=str, help='bd of student')
+        parser.add_argument('luogo_di_nascita', type=str, help='cf of student')
+        parser.add_argument('cap', type=str, help='first name of student')
+        parser.add_argument('via_piazza', type=str, help='last name of student')
+        parser.add_argument('civico', type=str, help='bd of student')
+        parser.add_argument('matricola_studente', type=str, help='bd of student')
+        parser.add_argument('email_studente', type=str, help='cf of student')
+        parser.add_argument('data_immatricolazione', type=str, help='first name of student')
+        parser.add_argument('password_studente', type=str, help='bd of student')
+        args = parser.parse_args(strict=True)
+
+        insertStudent(args['cf'],
+                      args['nome'],
+                      args['cognome'],
+                      args['data_di_nascita'],
+                      args['luogo_di_nascita'],
+                      args['cap'],
+                      args['via_piazza'],
+                      args['civico'],
+                      args['matricola_studente'],
+                      args['email_studente'],
+                      args['data_immatricolazione'],
+                      args['password_studente'])
+
+        return args, 201
 
 
 # ============================   cancella studente    ========================== #
