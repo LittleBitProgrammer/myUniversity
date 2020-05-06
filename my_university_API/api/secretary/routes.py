@@ -7,6 +7,13 @@ from api.secretary import secretary  # to use api
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
 from api.secretary.models import insert_student_model, insert_headoffice_model  # to import models
 from api.secretary.query import insertStudent, insertHeadOffice  # to import query of db
+from api.database_config import DatabaseConnector
+
+####################################################################
+#                             object
+####################################################################
+# instance of the database connection
+connection = DatabaseConnector('localhost', 'my_university_db', 'root', '').get_connection()
 
 
 ####################################################################
@@ -34,14 +41,14 @@ class HeadOffice(Resource):
         parser.add_argument('civico', type=str, help='civico della sede universitaria')
         args = parser.parse_args(strict=True)
 
-
         insertHeadOffice(args['nome_sede'],
                          args['orario_apertura'],
                          args['orario_chiusura'],
                          args['numero_piani'],
                          args['cap'],
                          args['via_piazza'],
-                         args['civico'])
+                         args['civico'],
+                         connection)
 
         return args, 250
 

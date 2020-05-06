@@ -4,13 +4,6 @@
 #                             import
 ####################################################################
 from mysql.connector import Error
-from api.database_config import DatabaseConnector
-
-####################################################################
-#                             object
-####################################################################
-# instance of the database connection
-database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
 
 
 ####################################################################
@@ -23,10 +16,10 @@ def insertHeadOffice(nome_sede,
                      numero_piani,
                      cap,
                      via_piazza,
-                     civico):
+                     civico,
+                     connection):
 
     try:
-        connection = database.get_connection()
         cursor = connection.cursor()
 
         mySQL_query_insert_head_office = """INSERT INTO sede(nome_sede,
