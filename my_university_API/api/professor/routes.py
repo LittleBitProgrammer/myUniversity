@@ -5,12 +5,10 @@
 ####################################################################
 
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api import professor
-from api.professor.database_functions import loginProfessor
+from api.professor.database_functions import loginProfessor, updatePassword
 from api.professor.models import *
 from api.database_config import DatabaseConnector
-from mysql.connector import Error
-import mysql.connector
+
 
 database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
 connection = database.get_connection()
@@ -32,15 +30,17 @@ class Login(Resource):
 
         return loginProfessor(args['matricola_docente'], args['password_docente'], connection), 201
 
-
-
-
-
 # ============================    password    ========================== #
-@professor.route('/password')
-class Password(Resource):
+@professor.route('/update_password')
+class UpdatePassword(Resource):
+    @professor.expect(update_password_professor)
     def post(self):
-        return {'password': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('nuova_password_docente', type=str, help='mat of professor')
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        parser.add_argument('password_docente', type=str, help='mat of professor')
+        args = parser.parse_args(strict=True)
+        updatePassword(args['nuova_password_docente'], args['matricola_docente'], args['password_docente'], connection)
 
 
 # ============================    get contatti    ========================== #

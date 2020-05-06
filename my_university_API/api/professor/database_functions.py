@@ -22,7 +22,6 @@ def loginProfessor(matricola_docente, password_docente, connection):
                                 WHERE docente.matricola_docente = %s
                                 AND docente.password_docente = %s"""
 
-
         professor_tuple = (matricola_docente, password_docente)
 
         cursor = connection.cursor(dictionary=True)
@@ -53,3 +52,24 @@ def loginProfessor(matricola_docente, password_docente, connection):
             cursor.close()
             print("MySQL connection is closed")
             return records
+
+def updatePassword(nuova_password_docente, matricola_docente, password_docente , connection):
+    try:
+        cursor = connection.cursor()
+        sql_update_password_Query = """ UPDATE docente 
+                                        SET password_docente = %s 
+                                        WHERE (matricola_docente = %s AND password_docente = %s)"""
+
+        professor_tuple = (nuova_password_docente, matricola_docente, password_docente)
+
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_update_password_Query, professor_tuple)
+        connection.commit()
+        print("Password Updated!")
+    except Error as e:
+        print("Error from MySQL", e)
+    finally:
+        if (connection.is_connected()):
+            connection.close()
+            cursor.close()
+            print("MySQL connection is closed")

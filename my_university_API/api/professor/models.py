@@ -23,3 +23,10 @@ login_professor = professor.model('login_professor', {
     'matricola_docente': fields.String,
     'password_docente': fields.String
 })
+
+update_password_professor = professor.model('update_password_professor', {
+    'nuova_password_docente': fields.String,
+    'matricola_docente': fields.String,
+    'password_docente': fields.String
+
+})
