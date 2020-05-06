@@ -6,9 +6,11 @@
 from api.secretary import secretary  # to use api
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
 from api.secretary.models import *
-import mysql.connector
+from api.database_config import DatabaseConnector
 from mysql.connector import Error
+import mysql.connector
 
+database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
 
 ####################################################################
 #                             function
@@ -27,10 +29,7 @@ def insertStudent(cf,
                   password_studente
                   ):
     try:
-        connection = mysql.connector.connect(host='localhost',
-                                             database='my_university_db',
-                                             user='root',
-                                             password='')
+        connection = database.get_connection()
         cursor = connection.cursor()
         print(cf,
                nome,
