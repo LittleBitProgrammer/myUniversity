@@ -18,11 +18,14 @@ Vediamo ora nel dettaglio le nostre API:
 
 #### API_Segreteria
 
-- POST Inserimento_sede(
-  nome_Sede: string,
-  orario_apertura: int,
-  orario_chiusura: int, 
-  numero_piani: int,  
+![test](https://raw.githubusercontent.com/robertove93/myUniversity/Developer/images/Schermata%202020-05-04%20alle%2020.12.26.png)
+
+```
+Inserimento_sede(
+  nome_Sede: string, 
+  orario_apertura: int, 
+  orario_chiusura: int,  
+  numero_piani: int,   
   cap: int,
   via_piazza: string,
   civico: string){
@@ -35,6 +38,7 @@ inserimento in SEDE con
   via_piazza: string,
   civico: string
 }
+```
 
 - GET
 reperimento_sedi() --> utilizza dictionary [schema tabella Sede join con Indirizzo_Sede]
