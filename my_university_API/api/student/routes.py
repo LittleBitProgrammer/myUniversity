@@ -43,7 +43,8 @@ def loginStudent(matricola_studente, password_studente):
     records = []
 
     try:
-
+        connects = mysql.connector
+        connects.connect()
         connection = mysql.connector.connect(host='localhost',
                                              database='my_university_db',
                                              user='root',
