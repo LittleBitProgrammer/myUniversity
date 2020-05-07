@@ -16,7 +16,8 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   delete_degree_course_model,
                                   insert_location_model,
                                   get_all_location_model,
-                                  insert_discipline_model)
+                                  insert_discipline_model,
+                                  get_all_discipline_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
@@ -30,7 +31,8 @@ from api.secretary.query import (insertStudent,  # to import query of db
                                  insertLocation,
                                  get_all_locations,
                                  deleteLocation,
-                                 insertDiscipline)
+                                 insertDiscipline,
+                                 get_all_discipline)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -251,13 +253,14 @@ class DelLocated(Resource):
 @secretary.route('/disciplina')
 class Discipline(Resource):
 
+    @secretary.marshal_with(get_all_discipline_model)
     def get(self):
-        return {'disciplina': '1'}
+        return get_all_discipline(connection.get_connection())
 
     @secretary.expect(insert_discipline_model)
     @secretary.marshal_with(insert_discipline_model)
     def post(self):
-        print('post richiamato')
+
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
@@ -267,7 +270,6 @@ class Discipline(Resource):
         parser.add_argument('semestre', type=int, help='nome sede universitaria')
         parser.add_argument('anno', type=int, help='nome sede universitaria')
         args = parser.parse_args(strict=True)
-        print('chiamati args')
 
         insertDiscipline(args['codice_corso'],
                          args['codice_disciplina'],
@@ -276,7 +278,6 @@ class Discipline(Resource):
                          args['semestre'],
                          args['anno'],
                          connection.get_connection())
-        print('funzione chiamata')
 
         return args, 250
 

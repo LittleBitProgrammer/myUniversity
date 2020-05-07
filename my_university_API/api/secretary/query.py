@@ -412,6 +412,33 @@ def insertDiscipline(codice_corso,
             print('MySQL connection is closed')
 
 
+# function to gets all location head office- degree course
+def get_all_discipline(connection):
+    discipline = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        mySQL_query_get_all_discipline = """SELECT corso_di_laurea.nome_corso, 
+                                            disciplina.nome_disciplina, 
+                                            disciplina.codice_disciplina, 
+                                            disciplina.cfu,disciplina.anno, 
+                                            disciplina.semestre 
+                                            FROM corso_di_laurea 
+                                            NATURAL JOIN disciplina 
+                                            ORDER BY corso_di_laurea.nome_corso ASC"""
+
+        cursor.execute(mySQL_query_get_all_discipline)
+        discipline = cursor.fetchall()
+
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+            return discipline
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,

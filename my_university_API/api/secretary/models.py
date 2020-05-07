@@ -95,3 +95,12 @@ insert_discipline_model = secretary.model('insert discipline', {
     'semestre': fields.Integer,
     'anno': fields.Integer
 })
+
+get_all_discipline_model = secretary.model('get all discipline model', {
+    'nome_corso': fields.String,
+    'nome_disciplina': fields.String,
+    'codice_disciplina': fields.String,
+    'cfu': fields.Integer,
+    'anno': fields.Integer,
+    'semestre': fields.Integer
+})
