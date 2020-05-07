@@ -97,3 +97,23 @@ get_lessons_model = professor.model('get_lessons_model',{
     'descrizione': fields.String,
     'capienza': fields.String
 })
+
+insert_avviso_model = professor.model('insert_avviso_model',{
+    'matricola_docente': fields.String,
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'data_avviso': fields.String,
+    'titolo_avviso': fields.String,
+    'corpo_avviso': fields.String
+})
+
+reperimento_avvisi_model = professor.model('reperimento_avvisi_model',{
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'data_avviso': fields.String,
+    'titolo_avviso': fields.String,
+    'corpo_avviso': fields.String,
+    'nome_disciplina': fields.String,
+    'semestre': fields.String,
+    'anno': fields.String
+})

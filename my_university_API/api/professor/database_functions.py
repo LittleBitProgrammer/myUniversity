@@ -65,7 +65,8 @@ def reperimento_insegnamenti_docente(matricola_docente, connection):
     records = []
     try:
         cursor = connection.cursor()
-        sql_select_Query = """SELECT 
+        sql_select_Query = """
+        SELECT 
         matricola_docente, codice_corso, codice_disciplina,
         nome_disciplina, cfu, semestre, anno, 
         nome_corso, durata_corso_laurea,
@@ -193,3 +194,66 @@ def eliminazione_lezione_docente(codice_corso, codice_disciplina,
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
+
+def inserimento_avviso_docente(matricola_docente,
+                               codice_corso,
+                               codice_disciplina,
+                               data_avviso,
+                               titolo_avviso,
+                               corpo_avviso,
+                               connection):
+    try:
+        cursor = connection.cursor()
+        sql_insert_new_Query = """INSERT INTO avviso 
+                                    (matricola_docente, 
+                                    codice_corso, 
+                                    codice_disciplina, 
+                                    data_avviso, 
+                                    titolo_avviso, 
+                                    corpo_avviso) 
+                                    VALUES (%s, %s, %s, %s, %s, %s);"""
+        new_tuple = (matricola_docente, codice_corso, codice_disciplina,
+                        data_avviso, titolo_avviso, corpo_avviso)
+        # print('matricola_docente', matricola_docente)
+        # print('codice_corso',codice_corso)
+        # print('codice_disciplina', codice_disciplina)
+        # print('data_avviso', data_avviso)
+        # print('titolo_avviso', titolo_avviso)
+        # print('corpo_avviso', corpo_avviso)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_insert_new_Query, new_tuple)
+        connection.commit()
+        print("Record inserted successfully into Avviso table")
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+
+def reperimento_avvisi_docente(matricola_docente, connection):
+    records = []
+    try:
+        cursor = connection.cursor()
+        sql_select_Query = """
+        SELECT codice_corso, codice_disciplina, 
+        data_avviso, titolo_avviso, corpo_avviso, 
+        nome_disciplina, semestre, anno 
+        FROM avviso NATURAL JOIN disciplina 
+        WHERE matricola_docente = %s 
+        ORDER BY data_avviso DESC;"""
+        professor_tuple = (matricola_docente,)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_select_Query, professor_tuple)
+        records = cursor.fetchall()
+        print(records)
+        print("fetchall success!")
+    except Error as e:
+        print("Error reading data from MySQL tables", e)
+    finally:
+        if (connection.is_connected()):
+            connection.close()
+            cursor.close()
+            print("MySQL connection is closed")
+            return records
