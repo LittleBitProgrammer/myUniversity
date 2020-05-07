@@ -65,4 +65,6 @@ insert_degree_course_model = secretary.model('insert degree course model', {
     'durata_corso_laurea': fields.Integer
 })
 
-
+delete_degree_course_model = secretary.model('delete degree course model', {
+    'codice_corso': fields.String
+})

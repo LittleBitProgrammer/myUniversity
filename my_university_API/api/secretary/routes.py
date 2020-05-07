@@ -12,7 +12,8 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   delete_head_office_model,
                                   insert_room_model,
                                   delete_room_model,
-                                  insert_degree_course_model)
+                                  insert_degree_course_model,
+                                  delete_degree_course_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
@@ -21,7 +22,8 @@ from api.secretary.query import (insertStudent,  # to import query of db
                                  insertRoom,
                                  deleteRoom,
                                  insertDegreeCourse,
-                                 get_all_degree_courses)
+                                 get_all_degree_courses,
+                                 deleteDegreeCourse)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -157,9 +159,9 @@ class DegreeCourse(Resource):
 
         # arguments
         parser = reqparse.RequestParser()
-        parser.add_argument('codice_corso', type=str, help='nome della sede universitaria')
-        parser.add_argument('nome_corso', type=str, help='numero piano dell\' aula universitaria')
-        parser.add_argument('durata_corso_laurea', type=int, help='numero aula universitaria')
+        parser.add_argument('codice_corso', type=str, help='codice corso universitario')
+        parser.add_argument('nome_corso', type=str, help='nome corso universitario')
+        parser.add_argument('durata_corso_laurea', type=int, help='durata corso laurea universitario')
         args = parser.parse_args(strict=True)
 
         insertDegreeCourse(args['codice_corso'], args['nome_corso'], args['durata_corso_laurea'], connection)
@@ -170,8 +172,17 @@ class DegreeCourse(Resource):
 @secretary.route('/cancella_corso_laurea')
 class DelDegreeCourse(Resource):
 
+    @secretary.expect(delete_degree_course_model)
+    @secretary.marshal_with(delete_degree_course_model)
     def post(self):
-        return {'corso laurea': '1'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice corso universitario')
+        args = parser.parse_args(strict=True)
+
+        deleteDegreeCourse(args['codice_corso'], connection)
+        return args, 250
 
 
 # ============================    locazione    ========================== #
