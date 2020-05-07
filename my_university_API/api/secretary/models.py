@@ -77,8 +77,14 @@ insert_location_model = secretary.model('insert location module', {
 get_all_location_model = secretary.model('get all location model', {
     'codice_corso': fields.String,
     'nome_corso': fields.String,
+    'durata_corso_laurea': fields.Integer,
     'nome_sede': fields.String,
-    'durata_corso_laurea': fields.Integer
+    'orario_apertura': fields.Integer,
+    'orario_chiusura': fields.Integer,
+    'numero_piani': fields.Integer,
+    'cap': fields.Integer,
+    'via_piazza': fields.String,
+    'civico': fields.String
 })
 
 insert_discipline_model = secretary.model('insert discipline', {

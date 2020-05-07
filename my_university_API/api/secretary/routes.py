@@ -37,7 +37,7 @@ from api.database_config import DatabaseConnector
 #                             object
 ####################################################################
 # instance of the database connection
-connection = DatabaseConnector('localhost', 'my_university_db', 'root', '').get_connection()
+connection = DatabaseConnector('localhost', 'my_university_db', 'root', '')
 
 
 ####################################################################
@@ -73,7 +73,7 @@ class HeadOffice(Resource):
                          args['cap'],
                          args['via_piazza'],
                          args['civico'],
-                         connection)
+                         connection.get_connection())
 
         return args, 250
 
@@ -92,7 +92,10 @@ class Contact(Resource):
         parser.add_argument('valore_contatto', type=str, help='valore contatto della sede universitaria')
         args = parser.parse_args(strict=True)
 
-        insertHeadOfficeContact(args['nome_sede'], args['tipo_contatto'], args['valore_contatto'], connection)
+        insertHeadOfficeContact(args['nome_sede'],
+                                args['tipo_contatto'],
+                                args['valore_contatto'],
+                                connection.get_connection())
 
         return args, 250
 
@@ -109,7 +112,7 @@ class DelHeadOffice(Resource):
         parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
         args = parser.parse_args(strict=True)
 
-        deleteHeadOffice(args['nome_sede'], connection)
+        deleteHeadOffice(args['nome_sede'], connection.get_connection())
         return args, 250
 
 
@@ -129,7 +132,12 @@ class Room(Resource):
         parser.add_argument('capienza', type=int, help='capienza dell\' aula universitaria')
         args = parser.parse_args(strict=True)
 
-        insertRoom(args['nome_sede'], args['numero_piano'], args['numero_aula'], args['capienza'], connection)
+        insertRoom(args['nome_sede'],
+                   args['numero_piano'],
+                   args['numero_aula'],
+                   args['capienza'],
+                   connection.get_connection())
+
         return args, 250
 
 
@@ -148,7 +156,11 @@ class DelRoom(Resource):
         parser.add_argument('numero_aula', type=int, help='numero aula universitaria')
         args = parser.parse_args(strict=True)
 
-        deleteRoom(args['nome_sede'], args['numero_piano'], args['numero_aula'], connection)
+        deleteRoom(args['nome_sede'],
+                   args['numero_piano'],
+                   args['numero_aula'],
+                   connection.get_connection())
+
         return args, 250
 
 
@@ -158,7 +170,7 @@ class DegreeCourse(Resource):
 
     @secretary.marshal_with(insert_degree_course_model)
     def get(self):
-        return get_all_degree_courses(connection), 250
+        return get_all_degree_courses(connection.get_connection()), 250
 
     @secretary.expect(insert_degree_course_model)
     @secretary.marshal_with(insert_degree_course_model)
@@ -171,7 +183,10 @@ class DegreeCourse(Resource):
         parser.add_argument('durata_corso_laurea', type=int, help='durata corso laurea universitario')
         args = parser.parse_args(strict=True)
 
-        insertDegreeCourse(args['codice_corso'], args['nome_corso'], args['durata_corso_laurea'], connection)
+        insertDegreeCourse(args['codice_corso'],
+                           args['nome_corso'],
+                           args['durata_corso_laurea'],
+                           connection.get_connection())
         return args, 250
 
 
@@ -188,7 +203,7 @@ class DelDegreeCourse(Resource):
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
         args = parser.parse_args(strict=True)
 
-        deleteDegreeCourse(args['codice_corso'], connection)
+        deleteDegreeCourse(args['codice_corso'], connection.get_connection())
         return args, 250
 
 
@@ -198,7 +213,7 @@ class Located(Resource):
 
     @secretary.marshal_with(get_all_location_model)
     def get(self):
-        return get_all_locations(connection), 250
+        return get_all_locations(connection.get_connection()), 250
 
     @secretary.expect(insert_location_model)
     @secretary.marshal_with(insert_location_model)
@@ -210,7 +225,7 @@ class Located(Resource):
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
         args = parser.parse_args(strict=True)
 
-        insertLocation(args['nome_sede'], args['codice_corso'], connection)
+        insertLocation(args['nome_sede'], args['codice_corso'], connection.get_connection())
         return args, 250
 
 
@@ -228,7 +243,7 @@ class DelLocated(Resource):
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
         args = parser.parse_args(strict=True)
 
-        deleteLocation(args['nome_sede'], args['codice_corso'], connection)
+        deleteLocation(args['nome_sede'], args['codice_corso'], connection.get_connection())
         return args, 250
 
 
@@ -260,7 +275,7 @@ class Discipline(Resource):
                          args['cfu'],
                          args['semestre'],
                          args['anno'],
-                         connection)
+                         connection.get_connection())
         print('funzione chiamata')
 
         return args, 250
