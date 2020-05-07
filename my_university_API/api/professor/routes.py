@@ -9,7 +9,9 @@ from api.professor.database_functions import (loginProfessor, updatePassword,
                                               reperimento_insegnamenti_docente,
                                               inserimento_lezione_docente,
                                               reperimento_lezione_docente,
-                                              eliminazione_lezione_docente
+                                              eliminazione_lezione_docente,
+                                              inserimento_avviso_docente,
+                                              reperimento_avvisi_docente
                                               )
 
 from api.professor.models import *
@@ -49,27 +51,6 @@ class UpdatePassword(Resource):
         updatePassword(args['nuova_password_docente'], args['matricola_docente'], args['password_docente'], connection)
 
 
-# ============================    get contatti    ========================== #
-@professor.route('/contatti')
-class GetContact(Resource):
-    def post(self):
-        return {'contatti': '1'}
-
-
-# ============================    delete contatto    ========================== #
-@professor.route('/contatto_docente')
-class DelContact(Resource):
-    def post(self):
-        return {'contatto': '1'}
-
-
-# ============================    assunzione    ========================== #
-@professor.route('/assunzioni')
-class Assumption(Resource):
-    def post(self):
-        return {'assunzioni': '1'}
-
-
 # ============================    insegnamento    ========================== #
 @professor.route('/reperimento_insegnamenti')
 class Teaching(Resource):
@@ -106,7 +87,6 @@ class InsertLesson(Resource):
                                     args['descrizione'], connection)
 
 
-
 # ============================    cancella lezione    ========================== #
 @professor.route('/cancella_lezione')
 class DelLesson(Resource):
@@ -138,24 +118,38 @@ class GetLessons(Resource):
 
 
 # ============================  avviso   ========================== #
-@professor.route('/avviso')
+@professor.route('/inserimento_avviso')
 class Alert(Resource):
+    @professor.expect(insert_avviso_model)
     def post(self):
-        return {'avviso': '1'}
-
-
-# ============================  cancella avviso   ========================== #
-@professor.route('/cancella_avviso')
-class DelAlert(Resource):
-    def post(self):
-        return {'avviso': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        parser.add_argument('codice_corso', type=str, help='codice_corso')
+        parser.add_argument('codice_disciplina', type=str, help='codice_disciplina')
+        parser.add_argument('data_avviso', type=str, help='data_inizio')
+        parser.add_argument('titolo_avviso', type=str, help='titolo')
+        parser.add_argument('corpo_avviso', type=str, help='descrizione')
+        args = parser.parse_args(strict=True)
+        inserimento_avviso_docente(args['matricola_docente'],
+                                   args['codice_corso'],
+                                   args['codice_disciplina'],
+                                   args['data_avviso'],
+                                   args['titolo_avviso'],
+                                   args['corpo_avviso'],
+                                   connection)
 
 
 # ============================  avvisi   ========================== #
-@professor.route('/avvisi')
-class Alerts(Resource):
+@professor.route('/reperimento_avvisi')
+class GetAlerts(Resource):
+    @professor.expect(freshman_professor)
+    @professor.marshal_with(reperimento_avvisi_model)
     def post(self):
-        return {'avvisi': '1'}
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        args = parser.parse_args(strict=True)
+        return reperimento_avvisi_docente(args['matricola_docente'], connection), 201
 
 
 # ============================  ricevimento   ========================== #
