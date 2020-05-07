@@ -8,11 +8,13 @@ from flask_restx import Resource, reqparse, fields  # to use Resource, that expo
 from api.secretary.models import (insert_student_model,  # to import models
                                   insert_headoffice_model,
                                   get_head_office_model,
-                                  insert_contact_model)
+                                  insert_contact_model,
+                                  delete_head_office_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
-                                 insertHeadOfficeContact)
+                                 insertHeadOfficeContact,
+                                 deleteHeadOffice)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -81,11 +83,21 @@ class Contact(Resource):
 
         return args, 250
 
+
 # ============================    cancella sede    ========================== #
 @secretary.route('/cancella_sede')
 class DelHeadOffice(Resource):
+    @secretary.expect(delete_head_office_model)
+    @secretary.marshal_with(delete_head_office_model)
     def post(self):
-        return {'sede': '1'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
+        args = parser.parse_args(strict=True)
+
+        deleteHeadOffice(args['nome_sede'], connection)
+        return args, 250
 
 
 # ============================    aula    ========================== #

@@ -42,4 +42,8 @@ insert_contact_model = secretary.model('insert contact model', {
     'valore_contatto': fields.String
 })
 
+delete_head_office_model = secretary.model('delete head office model', {
+    'nome_sede': fields.String
+})
+
 

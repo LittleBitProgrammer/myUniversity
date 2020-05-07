@@ -102,6 +102,49 @@ def insertHeadOfficeContact(nome_sede, tipo_contatto, valore_contatto, connectio
             connection.close()
             print("MySQL connection is closed")
 
+
+# function to delete sede from database
+def deleteHeadOffice(nome_sede, connection):
+    try:
+        cursor = connection.cursor()
+
+        mySQL_query_delete_head_office_contact = """DELETE FROM contatto_sede 
+                                                    WHERE nome_sede = %s"""
+        mySQL_query_delete_head_office_location = """DELETE FROM ospitazione 
+                                                     WHERE nome_sede = %s"""
+        mySQL_query_delete_head_office_room = """DELETE FROM aula 
+                                                WHERE nome_sede = %s"""
+        mySQL_query_delete_head_office_lesson = """DELETE FROM lezione 
+                                                   WHERE nome_sede = %s"""
+        mySQL_query_delete_head_office = """DELETE FROM sede 
+                                            WHERE nome_sede = %s"""
+
+        print(nome_sede)
+        head_office_tuple = (nome_sede,)
+        print(head_office_tuple)
+
+        cursor.execute(mySQL_query_delete_head_office_contact, head_office_tuple)
+        print('dopo contatto_sede')
+        cursor.execute(mySQL_query_delete_head_office_location, head_office_tuple)
+        print('dopo location')
+        cursor.execute(mySQL_query_delete_head_office_lesson, head_office_tuple)
+        print('dopo lezione')
+        cursor.execute(mySQL_query_delete_head_office_room, head_office_tuple)
+        print('dopo _aula')
+        cursor.execute(mySQL_query_delete_head_office, head_office_tuple)
+        print('dopo sede')
+
+        connection.commit()
+        print("Record deleted successfully")
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,
