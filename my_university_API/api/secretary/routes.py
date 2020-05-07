@@ -14,7 +14,8 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   delete_room_model,
                                   insert_degree_course_model,
                                   delete_degree_course_model,
-                                  insert_location_model)
+                                  insert_location_model,
+                                  get_all_location_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
@@ -25,7 +26,8 @@ from api.secretary.query import (insertStudent,  # to import query of db
                                  insertDegreeCourse,
                                  get_all_degree_courses,
                                  deleteDegreeCourse,
-                                 insertLocation)
+                                 insertLocation,
+                                 get_all_locations)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -191,8 +193,9 @@ class DelDegreeCourse(Resource):
 @secretary.route('/locazione')
 class Located(Resource):
 
+    @secretary.marshal_with(get_all_location_model)
     def get(self):
-        return {'locazione': '1'}
+        return get_all_locations(connection), 250
 
     @secretary.expect(insert_location_model)
     @secretary.marshal_with(insert_location_model)

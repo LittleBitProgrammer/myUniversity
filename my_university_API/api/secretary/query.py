@@ -317,6 +317,31 @@ def insertLocation(nome_sede, codice_corso, connection):
             print('MySQL connection is closed')
 
 
+# function to gets all location head office- degree course
+def get_all_locations(connection):
+    locations = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        mySQL_query_get_all_locations = """SELECT corso_di_laurea.codice_corso, 
+                                                   nome_corso, nome_sede, durata_corso_laurea 
+                                           FROM corso_di_laurea 
+                                           INNER JOIN ospitazione 
+                                           ON ospitazione.codice_corso = corso_di_laurea.codice_corso"""
+
+        cursor.execute(mySQL_query_get_all_locations)
+        locations = cursor.fetchall()
+
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+            return locations
+
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,
