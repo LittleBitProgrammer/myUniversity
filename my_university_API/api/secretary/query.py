@@ -323,11 +323,19 @@ def get_all_locations(connection):
 
     try:
         cursor = connection.cursor(dictionary=True)
-        mySQL_query_get_all_locations = """SELECT corso_di_laurea.codice_corso, 
-                                                   nome_corso, nome_sede, durata_corso_laurea 
+        mySQL_query_get_all_locations = """SELECT  corso_di_laurea.codice_corso, 
+                                                   corso_di_laurea.nome_corso, 
+                                                   corso_di_laurea.durata_corso_laurea,
+                                                   sede.nome_sede, 
+                                                   sede.orario_apertura,
+                                                   sede.orario_chiusura,
+                                                   sede.numero_piani,
+                                                   sede.cap,
+                                                   sede.via_piazza,
+                                                   sede.civico
                                            FROM corso_di_laurea 
-                                           INNER JOIN ospitazione 
-                                           ON ospitazione.codice_corso = corso_di_laurea.codice_corso"""
+                                           NATURAL JOIN ospitazione
+                                           NATURAL JOIN sede"""
 
         cursor.execute(mySQL_query_get_all_locations)
         locations = cursor.fetchall()

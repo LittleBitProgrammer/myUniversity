@@ -27,10 +27,10 @@ class DatabaseConnector(object):
         self.__database = database
         self.__user = user
         self.__password = password
-        self.connection = mysql.connector.connect(host=self.__host,
+
+    def get_connection(self):
+        database = mysql.connector.connect(host=self.__host,
                                                   database=self.__database,
                                                   user=self.__user,
                                                   password=self.__password)
-
-    def get_connection(self):
-        return self.connection
+        return database
