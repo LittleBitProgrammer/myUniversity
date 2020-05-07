@@ -342,6 +342,68 @@ def get_all_locations(connection):
             return locations
 
 
+# function to delete location inside database
+def deleteLocation(nome_sede,
+                   codice_corso,
+                   connection):
+    try:
+        cursor = connection.cursor()
+        mySQL_query_delete_location = """DELETE FROM ospitazione
+                                            WHERE nome_sede = %s
+                                            AND codice_corso = %s"""
+
+        delete_location_tuple = (nome_sede, codice_corso)
+        cursor.execute(mySQL_query_delete_location, delete_location_tuple)
+
+        connection.commit()
+    except Error as error:
+        print('failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
+def insertDiscipline(codice_corso,
+                     codice_disciplina,
+                     nome_disciplina,
+                     cfu,
+                     semestre,
+                     anno,
+                     connection):
+    print('prima del try')
+    try:
+        print('dentro il try')
+        cursor = connection.cursor()
+        print('prima di query')
+        mySQL_query_insert_discipline = """INSERT INTO disciplina(codice_corso, 
+                                                                   codice_disciplina, 
+                                                                   nome_disciplina, 
+                                                                   cfu,
+                                                                   semestre,
+                                                                   anno)
+                                        VALUES (%s, %s, %s, %s, %s, %s)"""
+
+        print('dopo di query')
+        discipline_tuple = (codice_corso, codice_disciplina, nome_disciplina, cfu, semestre, anno)
+
+        print('dopo tupla')
+
+        print(discipline_tuple)
+
+        cursor.execute(mySQL_query_insert_discipline, discipline_tuple)
+        print('dopo ex')
+        connection.commit()
+    except Error as error:
+        print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,

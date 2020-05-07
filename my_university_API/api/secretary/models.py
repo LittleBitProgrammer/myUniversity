@@ -80,3 +80,12 @@ get_all_location_model = secretary.model('get all location model', {
     'nome_sede': fields.String,
     'durata_corso_laurea': fields.Integer
 })
+
+insert_discipline_model = secretary.model('insert discipline', {
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_disciplina': fields.String,
+    'cfu': fields.Integer,
+    'semestre': fields.Integer,
+    'anno': fields.Integer
+})

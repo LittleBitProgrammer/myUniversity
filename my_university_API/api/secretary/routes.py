@@ -15,7 +15,8 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   insert_degree_course_model,
                                   delete_degree_course_model,
                                   insert_location_model,
-                                  get_all_location_model)
+                                  get_all_location_model,
+                                  insert_discipline_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
@@ -27,7 +28,9 @@ from api.secretary.query import (insertStudent,  # to import query of db
                                  get_all_degree_courses,
                                  deleteDegreeCourse,
                                  insertLocation,
-                                 get_all_locations)
+                                 get_all_locations,
+                                 deleteLocation,
+                                 insertDiscipline)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -215,8 +218,18 @@ class Located(Resource):
 @secretary.route('/cancella_locazione')
 class DelLocated(Resource):
 
+    @secretary.expect(insert_location_model)
+    @secretary.marshal_with(insert_location_model)
     def post(self):
-        return {'locazione': '1'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('nome_sede', type=str, help='nome sede universitaria')
+        parser.add_argument('codice_corso', type=str, help='codice corso universitario')
+        args = parser.parse_args(strict=True)
+
+        deleteLocation(args['nome_sede'], args['codice_corso'], connection)
+        return args, 250
 
 
 # ============================    disciplina    ========================== #
@@ -226,8 +239,31 @@ class Discipline(Resource):
     def get(self):
         return {'disciplina': '1'}
 
+    @secretary.expect(insert_discipline_model)
+    @secretary.marshal_with(insert_discipline_model)
     def post(self):
-        return {'disciplina': '2'}
+        print('post richiamato')
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice corso universitario')
+        parser.add_argument('codice_disciplina', type=str, help='nome sede universitaria')
+        parser.add_argument('nome_disciplina', type=str, help='nome sede universitaria')
+        parser.add_argument('cfu', type=int, help='nome sede universitaria')
+        parser.add_argument('semestre', type=int, help='nome sede universitaria')
+        parser.add_argument('anno', type=int, help='nome sede universitaria')
+        args = parser.parse_args(strict=True)
+        print('chiamati args')
+
+        insertDiscipline(args['codice_corso'],
+                         args['codice_disciplina'],
+                         args['nome_disciplina'],
+                         args['cfu'],
+                         args['semestre'],
+                         args['anno'],
+                         connection)
+        print('funzione chiamata')
+
+        return args, 250
 
 
 # ============================    cancella disciplina    ========================== #
