@@ -13,7 +13,8 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   insert_room_model,
                                   delete_room_model,
                                   insert_degree_course_model,
-                                  delete_degree_course_model)
+                                  delete_degree_course_model,
+                                  insert_location_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
@@ -23,7 +24,8 @@ from api.secretary.query import (insertStudent,  # to import query of db
                                  deleteRoom,
                                  insertDegreeCourse,
                                  get_all_degree_courses,
-                                 deleteDegreeCourse)
+                                 deleteDegreeCourse,
+                                 insertLocation)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -192,8 +194,18 @@ class Located(Resource):
     def get(self):
         return {'locazione': '1'}
 
+    @secretary.expect(insert_location_model)
+    @secretary.marshal_with(insert_location_model)
     def post(self):
-        return {'locazione': '2'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('nome_sede', type=str, help='nome sede universitaria')
+        parser.add_argument('codice_corso', type=str, help='codice corso universitario')
+        args = parser.parse_args(strict=True)
+
+        insertLocation(args['nome_sede'], args['codice_corso'], connection)
+        return args, 250
 
 
 # ============================    cancella locazione    ========================== #

@@ -296,6 +296,27 @@ def deleteDegreeCourse(codice_corso, connection):
             print('MySQL connection is closed')
 
 
+# function to insert located course-head office inside database
+def insertLocation(nome_sede, codice_corso, connection):
+    try:
+        cursor = connection.cursor()
+        mySQL_query_insert_degree_course = """INSERT INTO ospitazione (nome_sede, codice_corso) 
+                                              VALUES (%s, %s)"""
+
+        degree_course_tuple = (nome_sede, codice_corso)
+
+        cursor.execute(mySQL_query_insert_degree_course, degree_course_tuple)
+        connection.commit()
+
+    except Error as error:
+        print('failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,

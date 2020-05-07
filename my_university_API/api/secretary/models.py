@@ -68,3 +68,8 @@ insert_degree_course_model = secretary.model('insert degree course model', {
 delete_degree_course_model = secretary.model('delete degree course model', {
     'codice_corso': fields.String
 })
+
+insert_location_model = secretary.model('insert location module', {
+    'nome_sede': fields.String,
+    'codice_corso': fields.String
+})
