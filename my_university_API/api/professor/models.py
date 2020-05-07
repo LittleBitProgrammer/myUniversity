@@ -53,3 +53,47 @@ get_teachings_professor = professor.model('get_teachings_professor',{
     'via_piazza': fields.String,
     'civico': fields.String
 })
+
+insert_lesson_model = professor.model('insert_lesson_model',{
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_sede': fields.String,
+    'numero_piano': fields.String,
+    'numero_aula': fields.String,
+    'numero_lezione': fields.String,
+    'data_inizio': fields.String,
+    'numero_ore': fields.String,
+    'titolo': fields.String,
+    'descrizione': fields.String
+})
+
+delete_lesson_model = professor.model('delete_lesson_model',{
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_sede': fields.String,
+    'numero_piano': fields.String,
+    'numero_aula': fields.String,
+    'numero_lezione': fields.String
+})
+
+get_lessons_model = professor.model('get_lessons_model',{
+    'nome_sede': fields.String,
+    'numero_piano': fields.String,
+    'cap': fields.String,
+    'via_piazza': fields.String,
+    'civico': fields.String,
+    'numero_aula': fields.String,
+    'codice_corso': fields.String,
+    'nome_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_disciplina': fields.String,
+    'cfu': fields.String,
+    'anno': fields.String,
+    'semestre': fields.String,
+    'numero_lezione': fields.String,
+    'data_inizio': fields.String,
+    'numero_ore': fields.String,
+    'titolo': fields.String,
+    'descrizione': fields.String,
+    'capienza': fields.String
+})
