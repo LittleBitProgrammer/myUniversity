@@ -5,7 +5,7 @@
 ####################################################################
 
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api.professor.database_functions import loginProfessor, updatePassword
+from api.professor.database_functions import loginProfessor, updatePassword, reperimento_insegnamenti_docente
 from api.professor.models import *
 from api.database_config import DatabaseConnector
 
@@ -67,8 +67,14 @@ class Assumption(Resource):
 # ============================    insegnamento    ========================== #
 @professor.route('/insegnamenti')
 class Teaching(Resource):
+    @professor.expect(freshman_professor)
+    @professor.marshal_with(get_teachings_professor)
     def post(self):
-        return {'insegnamenti': '1'}
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        args = parser.parse_args(strict=True)
+        return reperimento_insegnamenti_docente(args['matricola_docente'], connection), 201
 
 
 # ============================    post lezione    ========================== #

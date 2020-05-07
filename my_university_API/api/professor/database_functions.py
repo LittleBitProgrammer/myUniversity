@@ -73,3 +73,36 @@ def updatePassword(nuova_password_docente, matricola_docente, password_docente ,
             connection.close()
             cursor.close()
             print("MySQL connection is closed")
+
+def reperimento_insegnamenti_docente(matricola_docente, connection):
+    records = []
+    try:
+        cursor = connection.cursor()
+        sql_select_Query = """SELECT 
+        matricola_docente, codice_corso, codice_disciplina,
+        nome_disciplina, cfu, semestre, anno, 
+        nome_corso, durata_corso_laurea,
+        nome_sede,
+        orario_apertura,orario_chiusura,numero_piani,cap,via_piazza,civico
+        FROM insegna
+        NATURAL JOIN disciplina
+        NATURAL JOIN corso_di_laurea
+        NATURAL JOIN ospitazione
+        NATURAL JOIN sede
+        WHERE matricola_docente = %s;"""
+        professor_tuple = (matricola_docente,)
+
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_select_Query, professor_tuple)
+        records = cursor.fetchall()
+        print(records)
+        print("fetchall success!")
+
+    except Error as e:
+        print("Error reading data from MySQL tables", e)
+    finally:
+        if (connection.is_connected()):
+            connection.close()
+            cursor.close()
+            print("MySQL connection is closed")
+            return records
