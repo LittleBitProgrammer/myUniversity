@@ -11,14 +11,17 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   insert_contact_model,
                                   delete_head_office_model,
                                   insert_room_model,
-                                  delete_room_model)
+                                  delete_room_model,
+                                  insert_degree_course_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
                                  insertHeadOfficeContact,
                                  deleteHeadOffice,
                                  insertRoom,
-                                 deleteRoom)
+                                 deleteRoom,
+                                 insertDegreeCourse,
+                                 get_all_degree_courses)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -38,10 +41,7 @@ class HeadOffice(Resource):
 
     @secretary.marshal_with(get_head_office_model)
     def get(self):
-        print('dentro get')
-        cacca = get_all_offices(connection)
-        print(cacca)
-        return cacca, 250
+        return get_all_offices(connection), 250
 
     @secretary.expect(insert_headoffice_model)
     @secretary.marshal_with(insert_headoffice_model)
@@ -147,11 +147,23 @@ class DelRoom(Resource):
 @secretary.route('/corso_laurea')
 class DegreeCourse(Resource):
 
+    @secretary.marshal_with(insert_degree_course_model)
     def get(self):
-        return {'corso laurea': '1'}
+        return get_all_degree_courses(connection), 250
 
+    @secretary.expect(insert_degree_course_model)
+    @secretary.marshal_with(insert_degree_course_model)
     def post(self):
-        return {'corso laurea': '2'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='nome della sede universitaria')
+        parser.add_argument('nome_corso', type=str, help='numero piano dell\' aula universitaria')
+        parser.add_argument('durata_corso_laurea', type=int, help='numero aula universitaria')
+        args = parser.parse_args(strict=True)
+
+        insertDegreeCourse(args['codice_corso'], args['nome_corso'], args['durata_corso_laurea'], connection)
+        return args, 250
 
 
 # ============================    cancella corso laurea    ========================== #

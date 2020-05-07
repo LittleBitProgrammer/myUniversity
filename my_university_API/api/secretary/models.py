@@ -59,4 +59,10 @@ delete_room_model = secretary.model('delete room model', {
     'numero_aula': fields.Integer
 })
 
+insert_degree_course_model = secretary.model('insert degree course model', {
+    'codice_corso': fields.String,
+    'nome_corso': fields.String,
+    'durata_corso_laurea': fields.Integer
+})
+
 

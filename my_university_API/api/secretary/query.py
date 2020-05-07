@@ -202,6 +202,51 @@ def deleteRoom(nome_sede,
             print('MySQL connection is closed')
 
 
+# function to insert degree course inside database
+def insertDegreeCourse(codice_corso, nome_corso, durata_corso_laurea, connection):
+    try:
+        cursor = connection.cursor()
+        mySQL_query_insert_degree_course = """INSERT INTO corso_di_laurea (codice_corso, nome_corso, durata_corso_laurea) 
+                                              VALUES (%s, %s, %s)"""
+
+        degree_course_tuple = (codice_corso, nome_corso, durata_corso_laurea)
+
+        cursor.execute(mySQL_query_insert_degree_course, degree_course_tuple)
+        connection.commit()
+
+    except Error as error:
+        print('failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
+# function to gets all degree course
+def get_all_degree_courses(connection):
+    degree_courses = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        mySQL_query_get_all_degree_courses = """SELECT codice_corso,
+                                                     nome_corso,
+                                                     durata_corso_laurea
+                                               FROM corso_di_laurea"""
+
+        cursor.execute(mySQL_query_get_all_degree_courses)
+        degree_courses = cursor.fetchall()
+
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+            return degree_courses
+
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,
