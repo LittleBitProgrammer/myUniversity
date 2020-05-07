@@ -2,11 +2,8 @@ from mysql.connector import Error
 
 def loginProfessor(matricola_docente, password_docente, connection):
     records = []
-
     try:
-
         cursor = connection.cursor()
-
         sql_select_Query = """SELECT persona.cf,
                                      persona.nome,
                                      persona.cognome, 
@@ -23,27 +20,19 @@ def loginProfessor(matricola_docente, password_docente, connection):
                                 AND docente.password_docente = %s"""
 
         professor_tuple = (matricola_docente, password_docente)
-
         cursor = connection.cursor(dictionary=True)
         cursor.execute(sql_select_Query, professor_tuple)
         records = cursor.fetchall()
-
         print(records)
-
         mysql_query_contacts = """SELECT tipo_contatto, valore_contatto
                                           FROM contatto_persona
                                           WHERE cf = %s"""
-
         record_tuple = (records[0]['cf'],)
         cursor.execute(mysql_query_contacts, record_tuple)
         contacts = cursor.fetchall()
-
         print(contacts)
-
         records[0]['contatti'] = contacts
-
         print("Fetching each row using column name")
-
     except Error as e:
         print("Error reading data from MySQL table", e)
     finally:
@@ -59,9 +48,7 @@ def updatePassword(nuova_password_docente, matricola_docente, password_docente ,
         sql_update_password_Query = """ UPDATE docente 
                                         SET password_docente = %s 
                                         WHERE (matricola_docente = %s AND password_docente = %s)"""
-
         professor_tuple = (nuova_password_docente, matricola_docente, password_docente)
-
         cursor = connection.cursor(dictionary=True)
         cursor.execute(sql_update_password_Query, professor_tuple)
         connection.commit()
@@ -91,13 +78,11 @@ def reperimento_insegnamenti_docente(matricola_docente, connection):
         NATURAL JOIN sede
         WHERE matricola_docente = %s;"""
         professor_tuple = (matricola_docente,)
-
         cursor = connection.cursor(dictionary=True)
         cursor.execute(sql_select_Query, professor_tuple)
         records = cursor.fetchall()
         print(records)
         print("fetchall success!")
-
     except Error as e:
         print("Error reading data from MySQL tables", e)
     finally:
@@ -106,3 +91,105 @@ def reperimento_insegnamenti_docente(matricola_docente, connection):
             cursor.close()
             print("MySQL connection is closed")
             return records
+
+def inserimento_lezione_docente(codice_corso, codice_disciplina,
+                                nome_sede, numero_piano, numero_aula,
+                                numero_lezione, data_inizio, numero_ore,
+                                titolo, descrizione, connection):
+    try:
+        cursor = connection.cursor()
+        sql_insert_lesson_Query = """INSERT INTO lezione 
+                                    (codice_corso, codice_disciplina, 
+                                    nome_sede, numero_piano, 
+                                    numero_aula, numero_lezione, 
+                                    data_inizio, numero_ore, titolo, 
+                                    descrizione) 
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+        lesson_tuple = (codice_corso, codice_disciplina,
+                        nome_sede, numero_piano, numero_aula,
+                        numero_lezione, data_inizio, numero_ore,
+                        titolo, descrizione)
+        # print('codice_corso',codice_corso)
+        # print('codice_disciplina', codice_disciplina)
+        # print('nome_sede', nome_sede)
+        # print('numero_piano', numero_piano)
+        # print('numero_aula', numero_aula)
+        # print('numero_lezione', numero_lezione)
+        # print('data_inizio', data_inizio)
+        # print('numero_ore', numero_ore)
+        # print('titolo', titolo)
+        # print('descrizione', descrizione)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_insert_lesson_Query, lesson_tuple)
+        connection.commit()
+        print("Record inserted successfully into Lezione table")
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+
+def reperimento_lezione_docente(matricola_docente, connection):
+    records = []
+    try:
+        cursor = connection.cursor()
+        sql_select_Query = """SELECT nome_sede, numero_piano, cap, via_piazza, civico, 
+                              numero_aula, codice_corso, nome_corso, codice_disciplina, 
+                              nome_disciplina, cfu, anno, semestre, numero_lezione, 
+                              data_inizio, numero_ore, titolo, descrizione, capienza 
+                              FROM insegna 
+                              NATURAL JOIN disciplina 
+                              NATURAL JOIN lezione 
+                              NATURAL JOIN corso_di_laurea
+                              NATURAL JOIN aula 
+                              NATURAL JOIN sede 
+                              WHERE matricola_docente = %s ORDER BY data_inizio"""
+        professor_tuple = (matricola_docente,)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_select_Query, professor_tuple)
+        records = cursor.fetchall()
+        print(records)
+        print("Fetching each row")
+    except Error as e:
+        print("Error reading data from MySQL table", e)
+    finally:
+        if (connection.is_connected()):
+            connection.close()
+            cursor.close()
+            print("MySQL connection is closed")
+            return records
+
+def eliminazione_lezione_docente(codice_corso, codice_disciplina,
+                                nome_sede, numero_piano, numero_aula,
+                                numero_lezione, connection):
+    try:
+        cursor = connection.cursor()
+        sql_insert_lesson_Query = """DELETE FROM lezione WHERE 
+                                    codice_corso = %s AND 
+                                    codice_disciplina = %s AND 
+                                    nome_sede = %s AND 
+                                    numero_piano = %s AND 
+                                    numero_aula = %s AND 
+                                    numero_lezione = %s;"""
+        lesson_tuple = (codice_corso, codice_disciplina,
+                        nome_sede, numero_piano, numero_aula,
+                        numero_lezione)
+        # print('codice_corso',codice_corso)
+        # print('codice_disciplina', codice_disciplina)
+        # print('nome_sede', nome_sede)
+        # print('numero_piano', numero_piano)
+        # print('numero_aula', numero_aula)
+        # print('numero_lezione', numero_lezione)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_insert_lesson_Query, lesson_tuple)
+        connection.commit()
+        print("Record delete successfully into Lezione table")
+    except Error as error:
+        print(f"Failed to delete into MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")

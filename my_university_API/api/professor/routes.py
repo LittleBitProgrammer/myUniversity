@@ -5,7 +5,13 @@
 ####################################################################
 
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api.professor.database_functions import loginProfessor, updatePassword, reperimento_insegnamenti_docente
+from api.professor.database_functions import (loginProfessor, updatePassword,
+                                              reperimento_insegnamenti_docente,
+                                              inserimento_lezione_docente,
+                                              reperimento_lezione_docente,
+                                              eliminazione_lezione_docente
+                                              )
+
 from api.professor.models import *
 from api.database_config import DatabaseConnector
 
@@ -65,7 +71,7 @@ class Assumption(Resource):
 
 
 # ============================    insegnamento    ========================== #
-@professor.route('/insegnamenti')
+@professor.route('/reperimento_insegnamenti')
 class Teaching(Resource):
     @professor.expect(freshman_professor)
     @professor.marshal_with(get_teachings_professor)
@@ -78,24 +84,57 @@ class Teaching(Resource):
 
 
 # ============================    post lezione    ========================== #
-@professor.route('/lezione')
-class Lesson(Resource):
+@professor.route('/inserimento_lezione')
+class InsertLesson(Resource):
+    @professor.expect(insert_lesson_model)
     def post(self):
-        return {'lezione': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice_corso')
+        parser.add_argument('codice_disciplina', type=str, help='codice_disciplina')
+        parser.add_argument('nome_sede', type=str, help='nome_sede')
+        parser.add_argument('numero_piano', type=str, help='numero_piano')
+        parser.add_argument('numero_aula', type=str, help='numero_aula')
+        parser.add_argument('numero_lezione', type=str, help='numero_lezione')
+        parser.add_argument('data_inizio', type=str, help='data_inizio')
+        parser.add_argument('numero_ore', type=str, help='numero_ore')
+        parser.add_argument('titolo', type=str, help='titolo')
+        parser.add_argument('descrizione', type=str, help='descrizione')
+        args = parser.parse_args(strict=True)
+        inserimento_lezione_docente(args['codice_corso'], args['codice_disciplina'], args['nome_sede'],
+                                    args['numero_piano'], args['numero_aula'], args['numero_lezione'],
+                                    args['data_inizio'], args['numero_ore'], args['titolo'],
+                                    args['descrizione'], connection)
+
 
 
 # ============================    cancella lezione    ========================== #
 @professor.route('/cancella_lezione')
 class DelLesson(Resource):
+    @professor.expect(delete_lesson_model)
     def post(self):
-        return {'lezione': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice_corso')
+        parser.add_argument('codice_disciplina', type=str, help='codice_disciplina')
+        parser.add_argument('nome_sede', type=str, help='nome_sede')
+        parser.add_argument('numero_piano', type=str, help='numero_piano')
+        parser.add_argument('numero_aula', type=str, help='numero_aula')
+        parser.add_argument('numero_lezione', type=str, help='numero_lezione')
+        args = parser.parse_args(strict=True)
+        eliminazione_lezione_docente(args['codice_corso'], args['codice_disciplina'], args['nome_sede'],
+                                    args['numero_piano'], args['numero_aula'], args['numero_lezione'],connection)
 
 
 # ============================   get lezioni    ========================== #
-@professor.route('/lezioni')
-class GetLesson(Resource):
+@professor.route('/reperimento_lezioni')
+class GetLessons(Resource):
+    @professor.expect(freshman_professor)
+    @professor.marshal_with(get_lessons_model)
     def post(self):
-        return {'lezioni': '1'}
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        args = parser.parse_args(strict=True)
+        return reperimento_lezione_docente(args['matricola_docente'], connection), 201
 
 
 # ============================  avviso   ========================== #
