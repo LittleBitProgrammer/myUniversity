@@ -46,4 +46,17 @@ delete_head_office_model = secretary.model('delete head office model', {
     'nome_sede': fields.String
 })
 
+insert_room_model = secretary.model('insert room model', {
+    'nome_sede': fields.String,
+    'numero_piano': fields.Integer,
+    'numero_aula': fields.Integer,
+    'capienza': fields.Integer
+})
+
+delete_room_model = secretary.model('delete room model', {
+    'nome_sede': fields.String,
+    'numero_piano': fields.Integer,
+    'numero_aula': fields.Integer
+})
+
 

@@ -9,12 +9,16 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   insert_headoffice_model,
                                   get_head_office_model,
                                   insert_contact_model,
-                                  delete_head_office_model)
+                                  delete_head_office_model,
+                                  insert_room_model,
+                                  delete_room_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
                                  insertHeadOfficeContact,
-                                 deleteHeadOffice)
+                                 deleteHeadOffice,
+                                 insertRoom,
+                                 deleteRoom)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -104,16 +108,39 @@ class DelHeadOffice(Resource):
 @secretary.route('/aula')
 class Room(Resource):
 
+    @secretary.expect(insert_room_model)
+    @secretary.marshal_with(insert_room_model)
     def post(self):
-        return {'aula': '1'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
+        parser.add_argument('numero_piano', type=int, help='numero piano dell\' aula universitaria')
+        parser.add_argument('numero_aula', type=int, help='numero aula universitaria')
+        parser.add_argument('capienza', type=int, help='capienza dell\' aula universitaria')
+        args = parser.parse_args(strict=True)
+
+        insertRoom(args['nome_sede'], args['numero_piano'], args['numero_aula'], args['capienza'], connection)
+        return args, 250
 
 
 # ============================   cancella aula    ========================== #
 @secretary.route('/cancella_aula')
 class DelRoom(Resource):
 
+    @secretary.expect(delete_room_model)
+    @secretary.marshal_with(delete_room_model)
     def post(self):
-        return {'aula': '1'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
+        parser.add_argument('numero_piano', type=int, help='numero piano dell\' aula universitaria')
+        parser.add_argument('numero_aula', type=int, help='numero aula universitaria')
+        args = parser.parse_args(strict=True)
+
+        deleteRoom(args['nome_sede'], args['numero_piano'], args['numero_aula'], connection)
+        return args, 250
 
 
 # ============================    corso laurea    ========================== #

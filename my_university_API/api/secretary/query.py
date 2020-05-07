@@ -18,7 +18,6 @@ def insertHeadOffice(nome_sede,
                      via_piazza,
                      civico,
                      connection):
-
     try:
         cursor = connection.cursor()
 
@@ -39,7 +38,7 @@ def insertHeadOffice(nome_sede,
     except Error as error:
         print(f"Failed to insert into MySQL table {error}")
     finally:
-        if (connection.is_connected()):
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
@@ -68,7 +67,7 @@ def get_all_offices(connection):
     except Error as error:
         print(f"Failed to insert into MySQL table {error}")
     finally:
-        if (connection.is_connected()):
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
@@ -97,7 +96,7 @@ def insertHeadOfficeContact(nome_sede, tipo_contatto, valore_contatto, connectio
     except Error as error:
         print(f"Failed to insert into MySQL table {error}")
     finally:
-        if (connection.is_connected()):
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
@@ -139,10 +138,68 @@ def deleteHeadOffice(nome_sede, connection):
     except Error as error:
         print(f"Failed to insert into MySQL table {error}")
     finally:
-        if (connection.is_connected()):
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
+
+
+# function to insert a room
+def insertRoom(nome_sede,
+               numero_piano,
+               numero_aula,
+               capienza,
+               connection):
+    try:
+        cursor = connection.cursor()
+        mySQL_query_insert_room = """INSERT INTO aula(nome_sede, 
+                                                      numero_piano, 
+                                                      numero_aula, 
+                                                      capienza)
+                                     VALUES (%s, %s, %s, %s)"""
+
+        room_tuple = (nome_sede, numero_piano, numero_aula, capienza)
+        cursor.execute(mySQL_query_insert_room, room_tuple)
+
+        connection.commit()
+    except Error as error:
+        print('failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
+# function to delete room inside database
+def deleteRoom(nome_sede,
+               numero_piano,
+               numero_aula,
+               connection):
+    try:
+        cursor = connection.cursor()
+        mySQL_query_delete_room_lesson = """DELETE FROM lezione
+                                            WHERE nome_sede = %s
+                                            AND numero_piano = %s 
+                                            AND numero_aula = %s
+                                           """
+        mySQL_query_delete_room = """DELETE FROM aula
+                                      WHERE nome_sede = %s
+                                      AND numero_piano = %s
+                                      AND numero_aula = %s"""
+
+        delete_room_tuple = (nome_sede, numero_piano, numero_aula)
+        cursor.execute(mySQL_query_delete_room_lesson, delete_room_tuple)
+        cursor.execute(mySQL_query_delete_room, delete_room_tuple)
+
+        connection.commit()
+    except Error as error:
+        print('failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
 
 
 # function to insert student inside database
@@ -158,17 +215,17 @@ def insertStudent(cf,
                   email_studente,
                   data_immatricolazione,
                   password_studente,
-                  connection ):
+                  connection):
     try:
         cursor = connection.cursor()
         print(cf,
-               nome,
-               cognome,
-               data_di_nascita,
-               luogo_di_nascita,
-               cap,
-               via_piazza,
-               civico)
+              nome,
+              cognome,
+              data_di_nascita,
+              luogo_di_nascita,
+              cap,
+              via_piazza,
+              civico)
         # query persona
         mySql_insert_persona = """INSERT INTO persona(cf, 
                                                        nome,
@@ -200,7 +257,7 @@ def insertStudent(cf,
     except Error as error:
         print(f"Failed to insert into MySQL table {error}")
     finally:
-        if (connection.is_connected()):
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
