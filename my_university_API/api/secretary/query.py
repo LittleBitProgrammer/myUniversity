@@ -32,7 +32,6 @@ def insertHeadOffice(nome_sede,
                                              VALUES(%s, %s, %s, %s, %s, %s, %s)"""
 
         head_office_tuple = (nome_sede, orario_apertura, orario_chiusura, numero_piani, cap, via_piazza, civico)
-        print(head_office_tuple)
         cursor.execute(mySQL_query_insert_head_office, head_office_tuple)
         connection.commit()
 
@@ -74,6 +73,34 @@ def get_all_offices(connection):
             connection.close()
             print("MySQL connection is closed")
             return head_offices
+
+
+# function to insert contact of an head office
+def insertHeadOfficeContact(nome_sede, tipo_contatto, valore_contatto, connection):
+    try:
+        cursor = connection.cursor()
+
+        mySQL_query_insert_contact = """INSERT INTO contatto(tipo_contatto,valore_contatto)
+                                        VALUES(%s,%s)"""
+        mySQL_query_insert_head_office_contact = """INSERT INTO contatto_sede(nome_sede, tipo_contatto, valore_contatto)
+                                                    VALUES(%s,%s,%s)"""
+
+        contact_tuple = (tipo_contatto, valore_contatto)
+        head_office_contact_tuple = (nome_sede, tipo_contatto, valore_contatto)
+
+        print('BEFORE')
+        cursor.execute(mySQL_query_insert_contact, contact_tuple)
+        print('next is head office contact')
+        cursor.execute(mySQL_query_insert_head_office_contact, head_office_contact_tuple)
+        print('AFTER')
+        connection.commit()
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
 
 # function to insert student inside database
 def insertStudent(cf,

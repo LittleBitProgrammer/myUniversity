@@ -7,10 +7,12 @@ from api.secretary import secretary  # to use api
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
 from api.secretary.models import (insert_student_model,  # to import models
                                   insert_headoffice_model,
-                                  get_head_office_model)
+                                  get_head_office_model,
+                                  insert_contact_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
-                                 get_all_offices)
+                                 get_all_offices,
+                                 insertHeadOfficeContact)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -60,6 +62,24 @@ class HeadOffice(Resource):
 
         return args, 250
 
+
+# ============================    aggiungi contatto  ========================== #
+@secretary.route('/contatto_sede')
+class Contact(Resource):
+
+    @secretary.expect(insert_contact_model)
+    @secretary.marshal_with(insert_contact_model)
+    def post(self):
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
+        parser.add_argument('tipo_contatto', type=str, help='tipo contatto della sede universitaria')
+        parser.add_argument('valore_contatto', type=str, help='valore contatto della sede universitaria')
+        args = parser.parse_args(strict=True)
+
+        insertHeadOfficeContact(args['nome_sede'], args['tipo_contatto'], args['valore_contatto'], connection)
+
+        return args, 250
 
 # ============================    cancella sede    ========================== #
 @secretary.route('/cancella_sede')

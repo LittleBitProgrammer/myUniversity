@@ -36,4 +36,10 @@ get_head_office_model = secretary.inherit('get_head_office_model', insert_headof
     'contatti': fields.List(fields.Nested(nested_contact_head_office_model))
 })
 
+insert_contact_model = secretary.model('insert contact model', {
+    'nome_sede': fields.String,
+    'tipo_contatto': fields.String,
+    'valore_contatto': fields.String
+})
+
 
