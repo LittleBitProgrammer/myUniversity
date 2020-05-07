@@ -46,6 +46,35 @@ def insertHeadOffice(nome_sede,
             print("MySQL connection is closed")
 
 
+# function to gets all head offices
+def get_all_offices(connection):
+    head_offices = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        mySQL_query_get_all_head_offices = """SELECT sede.nome_sede,
+                                                     orario_apertura,
+                                                     orario_chiusura, 
+                                                     numero_piani, cap, 
+                                                     via_piazza, civico, 
+                                                     tipo_contatto, 
+                                                     valore_contatto 
+                                                     FROM sede 
+                                                     LEFT JOIN contatto_sede 
+                                                     ON sede.nome_sede = contatto_sede.nome_sede"""
+
+        cursor.execute(mySQL_query_get_all_head_offices)
+        head_offices = cursor.fetchall()
+
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+            return head_offices
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,

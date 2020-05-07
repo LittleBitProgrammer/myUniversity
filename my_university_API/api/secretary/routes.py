@@ -5,8 +5,12 @@
 ####################################################################
 from api.secretary import secretary  # to use api
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api.secretary.models import insert_student_model, insert_headoffice_model  # to import models
-from api.secretary.query import insertStudent, insertHeadOffice  # to import query of db
+from api.secretary.models import (insert_student_model,  # to import models
+                                  insert_headoffice_model,
+                                  get_head_office_model)
+from api.secretary.query import (insertStudent,  # to import query of db
+                                 insertHeadOffice,
+                                 get_all_offices)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -24,8 +28,12 @@ connection = DatabaseConnector('localhost', 'my_university_db', 'root', '').get_
 @secretary.route('/sede')
 class HeadOffice(Resource):
 
+    @secretary.marshal_with(get_head_office_model)
     def get(self):
-        return {'sede': '1'}
+        print('dentro get')
+        cacca = get_all_offices(connection)
+        print(cacca)
+        return cacca, 250
 
     @secretary.expect(insert_headoffice_model)
     @secretary.marshal_with(insert_headoffice_model)
