@@ -440,7 +440,7 @@ def get_all_discipline(connection):
             return discipline
 
 
-# function to delete room inside database
+# function to delete discipline inside database
 def deleteDiscipline(codice_corso, codice_disciplina, connection):
 
     try:
@@ -484,6 +484,101 @@ def deleteDiscipline(codice_corso, codice_disciplina, connection):
             print('MySQL connection is closed')
 
 
+# function to insert teacher inside database
+def insertTeacher(cf,
+                  nome,
+                  cognome,
+                  data_di_nascita,
+                  luogo_di_nascita,
+                  cap,
+                  via_piazza,
+                  civico,
+                  matricola_docente,
+                  email_docente,
+                  password_docente,
+                  connection):
+    try:
+        cursor = connection.cursor()
+
+        # query persona
+        mySql_insert_person = """INSERT INTO persona(cf, 
+                                                       nome,
+                                                       cognome, 
+                                                       data_di_nascita,
+                                                       luogo_di_nascita,
+                                                       cap,
+                                                       via_piazza,
+                                                       civico)  
+                                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s) """
+
+        # student query
+        mySql_insert_teacher = """INSERT INTO docente(matricola_docente, 
+                                                       cf,
+                                                       email_docente,
+                                                       password_docente) 
+                                    VALUES (%s, %s, %s, %s) """
+
+        # tuple of person and student
+        person_tuple = (cf, nome, cognome, data_di_nascita, luogo_di_nascita, cap, via_piazza, civico)
+        teacher_tuple = (matricola_docente, cf, email_docente, password_docente)
+
+        cursor.execute(mySql_insert_person, person_tuple)
+        cursor.execute(mySql_insert_teacher, teacher_tuple)
+
+        connection.commit()
+        print("Record inserted successfully into Person and Student table")
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+
+
+# function to gets all teachers
+def get_all_teachers(connection):
+    teachers = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        mySQL_query_get_all_teachers = """SELECT docente.matricola_docente, 
+                                                   persona.nome,
+                                                   persona.cognome,
+                                                   docente.email_docente,
+                                                   docente.cf,
+                                                   persona.data_di_nascita,
+                                                   persona.luogo_di_nascita,
+                                                   persona.cap,
+                                                   persona.via_piazza,
+                                                   persona.civico,
+                                                   contatto_persona.tipo_contatto,
+                                                   contatto_persona.valore_contatto
+                                             FROM docente
+                                             NATURAL JOIN persona
+                                             LEFT JOIN contatto_persona
+                                             ON contatto_persona.cf = persona.cf"""
+
+        cursor.execute(mySQL_query_get_all_teachers)
+        teachers = cursor.fetchall()
+
+
+        i = 0
+        for teacher in teachers:
+            print('=================================')
+            print(teacher['valore_contatto'])
+            print('=================================')
+
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+            return teachers
+
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,
@@ -500,14 +595,7 @@ def insertStudent(cf,
                   connection):
     try:
         cursor = connection.cursor()
-        print(cf,
-              nome,
-              cognome,
-              data_di_nascita,
-              luogo_di_nascita,
-              cap,
-              via_piazza,
-              civico)
+
         # query persona
         mySql_insert_persona = """INSERT INTO persona(cf, 
                                                        nome,

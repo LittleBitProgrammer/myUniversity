@@ -32,7 +32,7 @@ nested_contact_head_office_model = secretary.model('nested contact head office m
     'valore_contatto': fields.String
 })
 
-get_head_office_model = secretary.inherit('get_head_office_model', insert_headoffice_model,{
+get_head_office_model = secretary.inherit('get_head_office_model', insert_headoffice_model, {
     'contatti': fields.List(fields.Nested(nested_contact_head_office_model))
 })
 
@@ -108,4 +108,39 @@ get_all_discipline_model = secretary.model('get all discipline model', {
 delete_discipline_model = secretary.model('delete discipline module', {
     'codice_corso': fields.String,
     'codice_disciplina': fields.String
+})
+
+insert_teacher_model = secretary.model('insert teacher model', {
+    'cf': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String,
+    'data_di_nascita': fields.String,
+    'luogo_di_nascita': fields.String,
+    'cap': fields.Integer,
+    'via_piazza': fields.String,
+    'civico': fields.String,
+    'matricola_docente': fields.String,
+    'email_docente': fields.String,
+    'password_docente': fields.String
+})
+
+nested_contact_teacher_model = secretary.model('nested contact teacher model', {
+    'tipo_contatto': fields.String,
+    'valore_contatto': fields.String
+})
+
+get_all_teacher_model = secretary.model('get all teacher model', {
+    'matricola_docente': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String,
+    'email_docente': fields.String,
+    'cf': fields.String,
+    'data_di_nascita': fields.String,
+    'luogo_di_nascita': fields.String,
+    'cap': fields.Integer,
+    'via_piazza': fields.String,
+    'civico': fields.String,
+    'tipo_contatto': fields.String,
+    'valore_contatto': fields.String,
+    'contatti': fields.List(fields.Nested(nested_contact_teacher_model))
 })

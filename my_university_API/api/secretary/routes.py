@@ -4,7 +4,7 @@
 #                             import
 ####################################################################
 from api.secretary import secretary  # to use api
-from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
+from flask_restx import Resource, reqparse  # to use Resource, that expose http request method
 from api.secretary.models import (insert_student_model,  # to import models
                                   insert_headoffice_model,
                                   get_head_office_model,
@@ -18,7 +18,9 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   get_all_location_model,
                                   insert_discipline_model,
                                   get_all_discipline_model,
-                                  delete_discipline_model)
+                                  delete_discipline_model,
+                                  insert_teacher_model,
+                                  get_all_teacher_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
@@ -34,7 +36,9 @@ from api.secretary.query import (insertStudent,  # to import query of db
                                  deleteLocation,
                                  insertDiscipline,
                                  get_all_discipline,
-                                 deleteDiscipline)
+                                 deleteDiscipline,
+                                 insertTeacher,
+                                 get_all_teachers)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -54,7 +58,8 @@ class HeadOffice(Resource):
 
     @secretary.marshal_with(get_head_office_model)
     def get(self):
-        return get_all_offices(connection), 250
+        print(get_all_offices(connection.get_connection()))
+        return get_all_offices(connection.get_connection()), 250
 
     @secretary.expect(insert_headoffice_model)
     @secretary.marshal_with(insert_headoffice_model)
@@ -306,11 +311,44 @@ class DelDiscipline(Resource):
 @secretary.route('/docente')
 class Professor(Resource):
 
+    @secretary.marshal_with(get_all_teacher_model)
     def get(self):
-        return {'docente': '1'}
+        print(get_all_teachers(connection.get_connection()))
+        return get_all_teachers(connection.get_connection()), 250
 
+    @secretary.expect(insert_teacher_model)
+    @secretary.marshal_with(insert_teacher_model)
     def post(self):
-        return {'docente': '2'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('cf', type=str, help='cf del docente')
+        parser.add_argument('nome', type=str, help='nome del docente')
+        parser.add_argument('cognome', type=str, help='cognome del docente')
+        parser.add_argument('data_di_nascita', type=str, help='data di nascita del docente')
+        parser.add_argument('luogo_di_nascita', type=str, help='luogo di nascita del docente')
+        parser.add_argument('cap', type=int, help='cap del docente')
+        parser.add_argument('via_piazza', type=str, help='indirizzo del docente')
+        parser.add_argument('civico', type=str, help='civico del docente')
+        parser.add_argument('matricola_docente', type=str, help='matricola del docente')
+        parser.add_argument('email_docente', type=str, help='email del docente')
+        parser.add_argument('password_docente', type=str, help='password del docente')
+        args = parser.parse_args(strict=True)
+
+        insertTeacher(args['cf'],
+                      args['nome'],
+                      args['cognome'],
+                      args['data_di_nascita'],
+                      args['luogo_di_nascita'],
+                      args['cap'],
+                      args['via_piazza'],
+                      args['civico'],
+                      args['matricola_docente'],
+                      args['email_docente'],
+                      args['password_docente'],
+                      connection.get_connection())
+
+        return args, 250
 
 
 # ============================    cancella docente    ========================== #
@@ -319,17 +357,6 @@ class DelProfessor(Resource):
 
     def post(self):
         return {'docente': '1'}
-
-
-# ============================    assunzione    ========================== #
-@secretary.route('/assunzione')
-class Assumption(Resource):
-
-    def get(self):
-        return {'assunzione': '1'}
-
-    def post(self):
-        return {'assunzione': '2'}
 
 
 # ============================    studente    ========================== #
