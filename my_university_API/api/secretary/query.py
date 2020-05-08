@@ -584,7 +584,6 @@ def get_all_teachers(connection):
 
 # function to delete teacher inside database
 def deleteTeacher(cf, matricola_docente, connection):
-
     try:
 
         cursor = connection.cursor(dictionary=True)
@@ -699,3 +698,188 @@ def insertStudent(cf,
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
+
+
+# function to gets all students
+def get_all_students(connection):
+    students = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        mySQL_query_get_all_students = """SELECT studente.matricola_studente, 
+                                                   persona.nome,
+                                                   persona.cognome,
+                                                   studente.email_studente,
+                                                   studente.data_immatricolazione,
+                                                   studente.cf,
+                                                   persona.data_di_nascita,
+                                                   persona.luogo_di_nascita,
+                                                   persona.cap,
+                                                   persona.via_piazza,
+                                                   persona.civico
+                                             FROM studente
+                                             NATURAL JOIN persona"""
+
+        mySQL_query_get_all_contact = """SELECT tipo_contatto, valore_contatto 
+                                         FROM contatto_persona 
+                                         WHERE cf = %s"""
+
+        cursor.execute(mySQL_query_get_all_students)
+        students = cursor.fetchall()
+        print(students)
+
+        for student in students:
+            cursor.execute(mySQL_query_get_all_contact, (student['cf'],))
+            student['contatti'] = cursor.fetchall()
+
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+            return students
+
+
+# function to delete teach inside database
+def deleteTeach(matricola_docente, codice_corso, codice_disciplina, connection):
+    try:
+
+        cursor = connection.cursor(dictionary=True)
+
+        mySQL_query_delete_teach = """DELETE FROM insegna
+                                      WHERE matricola_docente = %s
+                                      AND codice_corso = %s
+                                      AND codice_disciplina = %s"""
+
+        delete_teach_tuple = (matricola_docente, codice_corso, codice_disciplina)
+
+        cursor.execute(mySQL_query_delete_teach, delete_teach_tuple)  # 1
+
+        connection.commit()
+    except Error as error:
+        print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
+def insertTeach(matricola_docente, codice_corso, codice_disciplina, connection):
+    try:
+        cursor = connection.cursor()
+
+        mySQL_query_insert_teach = """INSERT INTO insegna(matricola_docente, codice_corso, codice_disciplina) 
+                                           VALUES (%s, %s, %s)"""
+
+        teach_tuple = (matricola_docente, codice_corso, codice_disciplina)
+        cursor.execute(mySQL_query_insert_teach, teach_tuple)
+
+        connection.commit()
+    except Error as error:
+        print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
+# function to delete teacher inside database
+def deleteStudent(cf, matricola_studente, connection):
+    try:
+
+        cursor = connection.cursor(dictionary=True)
+
+        mySQL_query_delete_teacher_contacts = """DELETE FROM contatto_persona
+                                                 WHERE cf = %s"""
+        mySQL_query_delete_student_person = """DELETE FROM persona
+                                               WHERE cf = %s"""
+        mySQL_query_delete_student = """DELETE FROM studente
+                                         WHERE matricola_studente = %s"""
+        mySQL_query_delete_contact = """DELETE FROM contatto
+                                        WHERE tipo_contatto = %s
+                                        AND  valore_contatto = %s"""
+        mySQL_query_select_contact = """SELECT tipo_contatto, valore_contatto
+                                        FROM contatto_persona
+                                        WHERE cf = %s"""
+        mySQL_query_delete_student_receipt_request = """DELETE FROM richiesta_ricevimento
+                                                        WHERE matricola_studente = %s"""
+        mySQL_query_delete_student_newsletter = """DELETE FROM iscrizione_newsletter 
+                                                   WHERE matricola_studente = %s"""
+        mySQL_query_delete_student_followed_discipline = """DELETE FROM disciplina_seguita 
+                                                            WHERE matricola_studente = %s"""
+        mySQL_query_delete_student_is_in = """DELETE FROM appartiene 
+                                                   WHERE matricola_studente = %s"""
+
+        delete_student_tuple = (matricola_studente,)
+
+        cursor.execute(mySQL_query_delete_student_is_in, delete_student_tuple)
+        cursor.execute(mySQL_query_select_contact, (cf,))
+
+        contacts = cursor.fetchall()
+        cursor.execute(mySQL_query_delete_teacher_contacts, (cf,))
+
+        for contact in contacts:
+            cursor.execute(mySQL_query_delete_contact, (contact['tipo_contatto'], contact['valore_contatto']))  # 7
+
+        cursor.execute(mySQL_query_delete_student_receipt_request, delete_student_tuple)
+        cursor.execute(mySQL_query_delete_student_followed_discipline, delete_student_tuple)
+        cursor.execute(mySQL_query_delete_student_newsletter, delete_student_tuple)
+
+        cursor.execute(mySQL_query_delete_student, delete_student_tuple)  # 8
+        cursor.execute(mySQL_query_delete_student_person, (cf,))  # 9
+
+        connection.commit()
+    except Error as error:
+        print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
+# function to gets all teaching
+def get_all_teachings(connection):
+    teachings = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        mySQL_query_get_all_teachings = """SELECT docente.matricola_docente, 
+                                                  persona.nome, 
+                                                  persona.cognome, 
+                                                  docente.email_docente, 
+                                                  corso_di_laurea.nome_corso, 
+                                                  disciplina.codice_disciplina, 
+                                                  disciplina.nome_disciplina, 
+                                                  disciplina.cfu, 
+                                                  disciplina.anno, 
+                                                  disciplina.semestre, 
+                                                  sede.nome_sede,
+                                                  sede.via_piazza,
+                                                  sede.civico,
+                                                  sede.orario_apertura,
+                                                  sede.orario_chiusura
+                                            FROM persona 
+                                            INNER JOIN docente ON persona.cf = docente.cf
+                                            INNER JOIN insegna ON docente.matricola_docente = insegna.matricola_docente
+                                            INNER JOIN disciplina ON insegna.codice_corso = disciplina.codice_corso and insegna.codice_disciplina = disciplina.codice_disciplina
+                                            INNER JOIN corso_di_laurea ON disciplina.codice_corso = corso_di_laurea.codice_corso
+                                            INNER JOIN ospitazione ON corso_di_laurea.codice_corso = ospitazione.codice_corso
+                                            INNER JOIN sede ON ospitazione.nome_sede = sede.nome_sede
+                                            ORDER BY docente.matricola_docente ASC"""
+
+        cursor.execute(mySQL_query_get_all_teachings)
+        teachings = cursor.fetchall()
+
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+            return teachings

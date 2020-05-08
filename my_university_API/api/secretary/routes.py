@@ -21,7 +21,11 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   delete_discipline_model,
                                   insert_teacher_model,
                                   get_all_teacher_model,
-                                  delete_teacher_model)
+                                  delete_teacher_model,
+                                  get_all_student_model,
+                                  delete_teach_model,
+                                  delete_student_model,
+                                  get_all_teachings_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
@@ -40,7 +44,12 @@ from api.secretary.query import (insertStudent,  # to import query of db
                                  deleteDiscipline,
                                  insertTeacher,
                                  get_all_teachers,
-                                 deleteTeacher)
+                                 deleteTeacher,
+                                 get_all_students,
+                                 deleteTeach,
+                                 insertTeach,
+                                 deleteStudent,
+                                 get_all_teachings)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -117,7 +126,6 @@ class DelHeadOffice(Resource):
     @secretary.expect(delete_head_office_model)
     @secretary.marshal_with(delete_head_office_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
@@ -134,7 +142,6 @@ class Room(Resource):
     @secretary.expect(insert_room_model)
     @secretary.marshal_with(insert_room_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
@@ -159,7 +166,6 @@ class DelRoom(Resource):
     @secretary.expect(delete_room_model)
     @secretary.marshal_with(delete_room_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('nome_sede', type=str, help='nome della sede universitaria')
@@ -186,7 +192,6 @@ class DegreeCourse(Resource):
     @secretary.expect(insert_degree_course_model)
     @secretary.marshal_with(insert_degree_course_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
@@ -208,7 +213,6 @@ class DelDegreeCourse(Resource):
     @secretary.expect(delete_degree_course_model)
     @secretary.marshal_with(delete_degree_course_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
@@ -229,7 +233,6 @@ class Located(Resource):
     @secretary.expect(insert_location_model)
     @secretary.marshal_with(insert_location_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('nome_sede', type=str, help='nome sede universitaria')
@@ -247,7 +250,6 @@ class DelLocated(Resource):
     @secretary.expect(insert_location_model)
     @secretary.marshal_with(insert_location_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('nome_sede', type=str, help='nome sede universitaria')
@@ -269,7 +271,6 @@ class Discipline(Resource):
     @secretary.expect(insert_discipline_model)
     @secretary.marshal_with(insert_discipline_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
@@ -298,7 +299,6 @@ class DelDiscipline(Resource):
     @secretary.expect(delete_discipline_model)
     @secretary.marshal_with(delete_discipline_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
@@ -315,13 +315,12 @@ class Professor(Resource):
 
     @secretary.marshal_with(get_all_teacher_model)
     def get(self):
-        #print(get_all_teachers(connection.get_connection()))
+        # print(get_all_teachers(connection.get_connection()))
         return get_all_teachers(connection.get_connection()), 250
 
     @secretary.expect(insert_teacher_model)
     @secretary.marshal_with(insert_teacher_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('cf', type=str, help='cf del docente')
@@ -360,7 +359,6 @@ class DelProfessor(Resource):
     @secretary.expect(delete_teacher_model)
     @secretary.marshal_with(delete_teacher_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('cf', type=str, help='cf del docente')
@@ -375,13 +373,13 @@ class DelProfessor(Resource):
 @secretary.route('/studente')
 class Student(Resource):
 
+    @secretary.marshal_with(get_all_student_model)
     def get(self):
-        return {'studente': '1'}
+        return get_all_students(connection.get_connection())
 
     @secretary.expect(insert_student_model)
     @secretary.marshal_with(insert_student_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('cf', type=str, help='cf dello studente')
@@ -421,26 +419,62 @@ class Student(Resource):
 @secretary.route('/cancella_studente')
 class DelStudent(Resource):
 
+    @secretary.expect(delete_student_model)
+    @secretary.marshal_with(delete_student_model)
     def post(self):
-        return {'studente': '2'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('cf', type=str, help='cf dello studente')
+        parser.add_argument('matricola_studente', type=str, help='matricola studente universitario')
+        args = parser.parse_args(strict=True)
+
+        deleteStudent(args['cf'], args['matricola_studente'], connection.get_connection())
+        return args, 250
 
 
 # ============================    insegnamento    ========================== #
 @secretary.route('/insegnamento')
 class Teaching(Resource):
 
+    @secretary.marshal_with(get_all_teachings_model)
     def get(self):
-        return {'insegnamento': '1'}
+        return get_all_teachings(connection.get_connection()), 250
 
+    @secretary.expect(delete_teach_model)
+    @secretary.marshal_with(delete_teach_model)
     def post(self):
-        return {'insegnamento': '2'}
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='matricola del docente')
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        args = parser.parse_args(strict=True)
+
+        insertTeach(args['matricola_docente'],
+                    args['codice_corso'],
+                    args['codice_disciplina'],
+                    connection.get_connection())
+
+        return args, 250
 
 
 # ============================    cancella insegnamento    ========================== #
 @secretary.route('/cancella_insegnamento')
 class DelTeaching(Resource):
 
+    @secretary.expect(delete_teach_model)
+    @secretary.marshal_with(delete_teach_model)
     def post(self):
-        return {'insegnamento': '1'}
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='matricola del docente')
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        args = parser.parse_args(strict=True)
 
-
+        deleteTeach(args['matricola_docente'],
+                    args['codice_corso'],
+                    args['codice_disciplina'],
+                    connection.get_connection())
+        return args, 250

@@ -12,7 +12,7 @@ insert_student_model = secretary.model('insert student model', {
     'cognome': fields.String,
     'data_di_nascita': fields.String,
     'luogo_di_nascita': fields.String,
-    'cap': fields.String,
+    'cap': fields.Integer,
     'via_piazza': fields.String,
     'civico': fields.String,
     'matricola_studente': fields.String,
@@ -141,4 +141,48 @@ get_all_teacher_model = secretary.model('get all teacher model', {
 delete_teacher_model = secretary.model('delete teacher model', {
     'cf': fields.String,
     'matricola_docente': fields.String
+})
+
+get_all_student_model = secretary.model('get all student model', {
+    'matricola_studente': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String,
+    'email_studente': fields.String,
+    'data_immatricolazione': fields.String,
+    'cf': fields.String,
+    'data_di_nascita': fields.String,
+    'luogo_di_nascita': fields.String,
+    'cap': fields.Integer,
+    'via_piazza': fields.String,
+    'civico': fields.String,
+    'contatti': fields.List(fields.Nested(nested_contact_model))
+})
+
+delete_teach_model = secretary.model('delete teach model', {
+    'matricola_docente': fields.String,
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String
+})
+
+delete_student_model = secretary.model('delete student model', {
+    'cf': fields.String,
+    'matricola_studente': fields.String
+})
+
+get_all_teachings_model = secretary.model('get all teachings model', {
+    'matricola_docente': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String,
+    'email_docente': fields.String,
+    'nome_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_disciplina': fields.String,
+    'cfu': fields.Integer,
+    'anno': fields.Integer,
+    'semestre': fields.Integer,
+    'nome_sede': fields.String,
+    'via_piazza': fields.String,
+    'civico': fields.String,
+    'orario_apertura': fields.Integer,
+    'orario_chiusura': fields.Integer
 })
