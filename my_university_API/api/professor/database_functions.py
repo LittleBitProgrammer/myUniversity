@@ -257,3 +257,153 @@ def reperimento_avvisi_docente(matricola_docente, connection):
             cursor.close()
             print("MySQL connection is closed")
             return records
+
+def inserimento_ricevimento(matricola_docente,
+                               data_ricevimento,
+                               ore_ricevimento,
+                               connection):
+    try:
+        cursor = connection.cursor()
+        sql_insert_new_Query = """INSERT INTO ricevimento 
+                                    (matricola_docente,
+                                    data_ricevimento, 
+                                    ore_ricevimento) 
+                                    VALUES (%s, %s, %s);"""
+        new_tuple = (matricola_docente, data_ricevimento, ore_ricevimento)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_insert_new_Query, new_tuple)
+        connection.commit()
+        print("Record inserted successfully into Ricevimento table")
+    except Error as error:
+        print(f"Failed to insert into MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+
+def delete_ricevimento(matricola_docente,
+                        data_ricevimento,
+                        connection):
+    try:
+        new_tuple = (matricola_docente, data_ricevimento)
+        cursor = connection.cursor()
+        sql_delete_richiesta_ricevimento_Query = """DELETE FROM richiesta_ricevimento 
+                                  WHERE matricola_docente = %s AND data_ricevimento = %s;"""
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_delete_richiesta_ricevimento_Query, new_tuple)
+        sql_delete_ricevimento_Query = """DELETE FROM ricevimento 
+                                  WHERE matricola_docente = %s AND data_ricevimento = %s;"""
+        new_tuple = (matricola_docente, data_ricevimento)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_delete_ricevimento_Query, new_tuple)
+        connection.commit()
+        print("Record deleted successfully from Ricevimento table")
+    except Error as error:
+        print(f"Failed to delete from MySQL table {error}")
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
+
+def reperimento_info_ricevimenti(matricola_docente, connection):
+    records = []
+    try:
+        cursor = connection.cursor()
+        sql_select_ricevimento = """SELECT data_ricevimento,
+                                           ore_ricevimento
+                                    FROM ricevimento
+                                    WHERE matricola_docente = %s"""
+        print("matricola_docente : ", matricola_docente)
+        professor_tuple = (matricola_docente,)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_select_ricevimento, professor_tuple)
+        records = cursor.fetchall()
+
+        print(records)
+        sql_query_richiesta_ricevimento_info = """
+                                             SELECT 
+                                             richiesta_ricevimento.matricola_studente, 
+                                             persona.nome, persona.cognome, studente.email_studente,
+                                             richiesta_ricevimento.motivazione_ricevimento,
+                                             richiesta_ricevimento.ora_inizio,
+                                             richiesta_ricevimento.durata
+                                             FROM richiesta_ricevimento
+                                             INNER JOIN studente ON richiesta_ricevimento.matricola_studente = studente.matricola_studente
+                                             INNER JOIN persona ON studente.cf = persona.cf
+                                             WHERE richiesta_ricevimento.matricola_docente = %s AND richiesta_ricevimento.data_ricevimento = %s"""
+
+        i = 0
+        while i < len(records):
+            record_tuple_info = (matricola_docente, records[i]['data_ricevimento'])
+            cursor.execute(sql_query_richiesta_ricevimento_info, record_tuple_info)
+            richiesta_records = cursor.fetchall()
+            records[i]['prenotazioni'] = richiesta_records
+
+            i += 1
+
+        i = 0
+        while i < len(records):
+            sql_select_contatti_studente = """SELECT tipo_contatto,
+                                                valore_contatto
+                                                FROM contatto_persona
+                                                WHERE cf = (SELECT cf FROM persona NATURAL JOIN studente WHERE matricola_studente = %s)"""
+
+            j = 0
+            print("num_prenotazioni x ricevimento", len(records[i]["prenotazioni"]))
+            while j < len(records[i]["prenotazioni"]):
+
+
+                record_tuple_info_mat_stud = (records[i]["prenotazioni"][j]["matricola_studente"],)
+                cursor.execute(sql_select_contatti_studente, record_tuple_info_mat_stud)
+                contatti_stud = cursor.fetchall()
+                print(contatti_stud)
+                records[i]["prenotazioni"][j]["contatti"] = contatti_stud
+                j += 1
+
+            i += 1
+
+
+        print("Fetching each row using column name")
+    except Error as e:
+        print("Error reading data from MySQL table", e)
+    finally:
+        if (connection.is_connected()):
+            connection.close()
+            cursor.close()
+            print("MySQL connection is closed")
+            return records
+
+def update_richiesta_ricevimento(matricola_docente,
+                                 data_ricevimento,
+                                 matricola_studente,
+                                 ora_inizio,
+                                 durata,
+                                 connection):
+    try:
+        cursor = connection.cursor()
+        sql_update_richiesta_ricevimento_Query = """ UPDATE richiesta_ricevimento 
+                                        SET 
+                                        ora_inizio = %s ,
+                                        durata = %s 
+                                        WHERE matricola_docente = %s AND data_ricevimento = %s AND matricola_studente = %s """
+
+        print('ora_inizio', ora_inizio)
+        print('durata', durata)
+        print('matricola_docente', matricola_docente)
+        print('data_ricevimento', data_ricevimento)
+        print('matricola_studente', matricola_studente)
+
+        update_tuple = (ora_inizio, durata, matricola_docente, data_ricevimento, matricola_studente)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql_update_richiesta_ricevimento_Query, update_tuple)
+        connection.commit()
+        print("Updated!")
+    except Error as e:
+        print("Error from MySQL", e)
+    finally:
+        if (connection.is_connected()):
+            connection.close()
+            cursor.close()
+            print("MySQL connection is closed")
