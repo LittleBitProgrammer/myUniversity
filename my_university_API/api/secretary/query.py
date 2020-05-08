@@ -569,7 +569,6 @@ def get_all_teachers(connection):
         teachers = cursor.fetchall()
 
         for teacher in teachers:
-            print(teacher['cf'])
             cursor.execute(mySQL_query_get_all_contact, (teacher['cf'],))
             teacher['contatti'] = cursor.fetchall()
 
@@ -596,6 +595,7 @@ def insertStudent(cf,
                   email_studente,
                   data_immatricolazione,
                   password_studente,
+                  codice_corso,
                   connection):
     try:
         cursor = connection.cursor()
@@ -612,19 +612,26 @@ def insertStudent(cf,
                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s) """
 
         # student query
-        mySql_insert_studente = """ INSERT INTO studente(matricola_studente, 
+        mySql_insert_studente = """INSERT INTO studente(matricola_studente, 
                                                        cf,
                                                        email_studente,
                                                        data_immatricolazione,
                                                        password_studente) 
                                     VALUES (%s, %s, %s, %s, %s) """
 
+        # is in query
+        mySql_insert_is_in = """INSERT INTO appartiene(codice_corso,
+                                                       matricola_studente) 
+                                            VALUES (%s, %s)"""
+
         # tuple of person and student
         person_tuple = (cf, nome, cognome, data_di_nascita, luogo_di_nascita, cap, via_piazza, civico)
         student_tuple = (matricola_studente, cf, email_studente, data_immatricolazione, password_studente)
+        is_in_tuple = (codice_corso, matricola_studente)
 
         cursor.execute(mySql_insert_persona, person_tuple)
         cursor.execute(mySql_insert_studente, student_tuple)
+        cursor.execute(mySql_insert_is_in, is_in_tuple)
 
         connection.commit()
         print("Record inserted successfully into Person and Student table")

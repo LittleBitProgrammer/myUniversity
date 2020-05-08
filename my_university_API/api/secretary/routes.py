@@ -372,18 +372,19 @@ class Student(Resource):
 
         # arguments
         parser = reqparse.RequestParser()
-        parser.add_argument('cf', type=str, help='cf of student')
-        parser.add_argument('nome', type=str, help='first name of student')
-        parser.add_argument('cognome', type=str, help='last name of student')
-        parser.add_argument('data_di_nascita', type=str, help='bd of student')
-        parser.add_argument('luogo_di_nascita', type=str, help='cf of student')
-        parser.add_argument('cap', type=str, help='first name of student')
-        parser.add_argument('via_piazza', type=str, help='last name of student')
-        parser.add_argument('civico', type=str, help='bd of student')
-        parser.add_argument('matricola_studente', type=str, help='bd of student')
-        parser.add_argument('email_studente', type=str, help='cf of student')
-        parser.add_argument('data_immatricolazione', type=str, help='first name of student')
-        parser.add_argument('password_studente', type=str, help='bd of student')
+        parser.add_argument('cf', type=str, help='cf dello studente')
+        parser.add_argument('nome', type=str, help='nome dello studente')
+        parser.add_argument('cognome', type=str, help='cognome dello studente')
+        parser.add_argument('data_di_nascita', type=str, help='data di nascita dello studente')
+        parser.add_argument('luogo_di_nascita', type=str, help='luogo di nascita dello studente')
+        parser.add_argument('cap', type=str, help='cap dello studente')
+        parser.add_argument('via_piazza', type=str, help='via piazza dello studente')
+        parser.add_argument('civico', type=str, help='civico dello studente')
+        parser.add_argument('matricola_studente', type=str, help='matricola studente dello studente')
+        parser.add_argument('email_studente', type=str, help='email dello studente')
+        parser.add_argument('data_immatricolazione', type=str, help='data immatricolazione dello studente')
+        parser.add_argument('password_studente', type=str, help='password dello studente')
+        parser.add_argument('codice_corso', type=str, help='codice corso dello studente')
         args = parser.parse_args(strict=True)
 
         insertStudent(args['cf'],
@@ -398,7 +399,8 @@ class Student(Resource):
                       args['email_studente'],
                       args['data_immatricolazione'],
                       args['password_studente'],
-                      connection)
+                      args['codice_corso'],
+                      connection.get_connection())
 
         return args, 201
 

@@ -18,7 +18,8 @@ insert_student_model = secretary.model('insert student model', {
     'matricola_studente': fields.String,
     'email_studente': fields.String,
     'data_immatricolazione': fields.String,
-    'password_studente': fields.String
+    'password_studente': fields.String,
+    'codice_corso': fields.String
 })
 
 insert_headoffice_model = secretary.model('insert head office model', {
