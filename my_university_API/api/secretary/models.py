@@ -137,3 +137,8 @@ get_all_teacher_model = secretary.model('get all teacher model', {
     'civico': fields.String,
     'contatti': fields.List(fields.Nested(nested_contact_model))
 })
+
+delete_teacher_model = secretary.model('delete teacher model', {
+    'cf': fields.String,
+    'matricola_docente': fields.String
+})

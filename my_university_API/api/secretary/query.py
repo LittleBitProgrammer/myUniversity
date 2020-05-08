@@ -582,6 +582,63 @@ def get_all_teachers(connection):
             return teachers
 
 
+# function to delete teacher inside database
+def deleteTeacher(cf, matricola_docente, connection):
+
+    try:
+
+        cursor = connection.cursor(dictionary=True)
+
+        mySQL_query_delete_teacher_contacts = """DELETE FROM contatto_persona
+                                                 WHERE cf = %s"""
+        mySQL_query_delete_teacher_person = """DELETE FROM persona
+                                               WHERE cf = %s"""
+        mySQL_query_delete_teacher_teach = """DELETE FROM insegna
+                                              WHERE matricola_docente = %s"""
+        mySQL_query_delete_teacher_alert = """DELETE FROM avviso
+                                              WHERE matricola_docente = %s"""
+        mySQL_query_delete_teacher_receipt = """DELETE FROM ricevimento
+                                                WHERE matricola_docente = %s"""
+        mySQL_query_delete_teacher = """DELETE FROM docente
+                                        WHERE matricola_docente = %s"""
+        mySQL_query_delete_contact = """DELETE FROM contatto
+                                        WHERE tipo_contatto = %s
+                                        AND  valore_contatto = %s"""
+        mySQL_query_select_contact = """SELECT tipo_contatto, valore_contatto
+                                        FROM contatto_persona
+                                        WHERE cf = %s"""
+        mySQL_query_delete_teacher_receipt_request = """DELETE FROM richiesta_ricevimento
+                                                        WHERE matricola_docente = %s"""
+
+        delete_teacher_tuple = (matricola_docente,)
+
+        cursor.execute(mySQL_query_delete_teacher_alert, delete_teacher_tuple)  # 1
+        cursor.execute(mySQL_query_delete_teacher_teach, delete_teacher_tuple)  # 2
+        cursor.execute(mySQL_query_delete_teacher_receipt_request, delete_teacher_tuple)  # 3
+        cursor.execute(mySQL_query_delete_teacher_receipt, delete_teacher_tuple)  # 4
+        cursor.execute(mySQL_query_select_contact, (cf,))  # 5
+
+        contacts = cursor.fetchall()
+        print(contacts)
+
+        cursor.execute(mySQL_query_delete_teacher_contacts, (cf,))  # 5
+
+        for contact in contacts:
+            cursor.execute(mySQL_query_delete_contact, (contact['tipo_contatto'], contact['valore_contatto']))  # 7
+
+        cursor.execute(mySQL_query_delete_teacher, delete_teacher_tuple)  # 8
+        cursor.execute(mySQL_query_delete_teacher_person, (cf,))  # 9
+
+        connection.commit()
+    except Error as error:
+        print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,
