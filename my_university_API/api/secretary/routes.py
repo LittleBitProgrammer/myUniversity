@@ -313,7 +313,7 @@ class Professor(Resource):
 
     @secretary.marshal_with(get_all_teacher_model)
     def get(self):
-        print(get_all_teachers(connection.get_connection()))
+        #print(get_all_teachers(connection.get_connection()))
         return get_all_teachers(connection.get_connection()), 250
 
     @secretary.expect(insert_teacher_model)
