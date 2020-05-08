@@ -439,6 +439,51 @@ def get_all_discipline(connection):
             print("MySQL connection is closed")
             return discipline
 
+
+# function to delete room inside database
+def deleteDiscipline(codice_corso, codice_disciplina, connection):
+
+    try:
+        cursor = connection.cursor()
+
+        mySQL_query_delete_lesson = """DELETE FROM lezione
+                                       WHERE codice_corso = %s
+                                       AND codice_disciplina = %s"""
+        mySQL_query_delete_alert = """DELETE FROM avviso
+                                      WHERE codice_corso = %s
+                                      AND codice_disciplina = %s"""
+        mySQL_query_delete_teaching = """DELETE FROM insegna
+                                      WHERE codice_corso = %s
+                                      AND codice_disciplina = %s"""
+        mySQL_query_delete_followed_discipline = """DELETE FROM disciplina_seguita
+                                                    WHERE codice_corso = %s
+                                                    AND codice_disciplina = %s"""
+        mySQL_query_delete_newletter_subscription = """DELETE FROM iscrizione_newsletter
+                                                       WHERE codice_corso = %s
+                                                       AND codice_disciplina = %s"""
+        mySQL_query_delete_discipline= """DELETE FROM disciplina
+                                          WHERE codice_corso = %s
+                                          AND codice_disciplina = %s"""
+
+        delete_degree_course_tuple = (codice_corso, codice_disciplina)
+
+        cursor.execute(mySQL_query_delete_lesson, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_alert, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_teaching, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_followed_discipline, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_newletter_subscription, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_discipline, delete_degree_course_tuple)
+
+        connection.commit()
+    except Error as error:
+        print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+
 # function to insert student inside database
 def insertStudent(cf,
                   nome,

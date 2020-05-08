@@ -104,3 +104,8 @@ get_all_discipline_model = secretary.model('get all discipline model', {
     'anno': fields.Integer,
     'semestre': fields.Integer
 })
+
+delete_discipline_model = secretary.model('delete discipline module', {
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String
+})

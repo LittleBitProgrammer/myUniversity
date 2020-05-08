@@ -17,7 +17,8 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   insert_location_model,
                                   get_all_location_model,
                                   insert_discipline_model,
-                                  get_all_discipline_model)
+                                  get_all_discipline_model,
+                                  delete_discipline_model)
 from api.secretary.query import (insertStudent,  # to import query of db
                                  insertHeadOffice,
                                  get_all_offices,
@@ -32,7 +33,8 @@ from api.secretary.query import (insertStudent,  # to import query of db
                                  get_all_locations,
                                  deleteLocation,
                                  insertDiscipline,
-                                 get_all_discipline)
+                                 get_all_discipline,
+                                 deleteDiscipline)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -286,8 +288,18 @@ class Discipline(Resource):
 @secretary.route('/cancella_disciplina')
 class DelDiscipline(Resource):
 
+    @secretary.expect(delete_discipline_model)
+    @secretary.marshal_with(delete_discipline_model)
     def post(self):
-        return {'disciplina': '1'}
+
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice corso universitario')
+        parser.add_argument('codice_disciplina', type=str, help='codice disciplina universitaria')
+        args = parser.parse_args(strict=True)
+
+        deleteDiscipline(args['codice_corso'], args['codice_disciplina'], connection.get_connection())
+        return args, 250
 
 
 # ============================    docente    ========================== #
