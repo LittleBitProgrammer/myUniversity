@@ -1,39 +1,13 @@
-# This file contain all routes of student
+# This file contain all routes of student (This file is for Roberto)
 
 ####################################################################
 #                             import
 ####################################################################
 from api.student import student  # to use api
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-import mysql.connector
 from mysql.connector import Error
-
-####################################################################
-#                             model
-####################################################################
-contact_person = student.model('contact_person', {
-    'tipo_contatto': fields.String,
-    'valore_contatto': fields.String
-})
-
-student_model = student.model('student_model', {
-    'cf': fields.String,
-    'nome': fields.String,
-    'cognome': fields.String,
-    'data_di_nascita': fields.String,
-    'luogo_di_nascita': fields.String,
-    'cap': fields.String,
-    'via_piazza': fields.String,
-    'civico': fields.String,
-    'matricola_studente': fields.String,
-    'email_studente': fields.String,
-    'data_immatricolazione': fields.String,
-    'contatti': fields.List(fields.Nested(contact_person))})
-
-login_student = student.model('login_student', {
-    'matricola_studente': fields.String,
-    'password_studente': fields.String
-})
+from api.student.models import student_model,login_student_model
+import mysql.connector
 
 
 ####################################################################
@@ -109,7 +83,7 @@ def loginStudent(matricola_studente, password_studente):
 @student.route('/login')
 class Login(Resource):
 
-    @student.expect(login_student)
+    @student.expect(login_student_model)
     @student.marshal_with(student_model)
     def post(self):
         # arguments
@@ -137,22 +111,6 @@ class GetContact(Resource):
         return {'contatti': '1'}
 
 
-# ============================    richiesta ricevimento   ========================== #
-@student.route('/richiesta_ricevimento')
-class RequestReceipt(Resource):
-
-    def post(self):
-        return {'richiesta_ricevimento': '1'}
-
-
-# ============================    cancella ricevimento   ========================== #
-@student.route('/cancella_richiesta_ricevimento')
-class DelRequestReceipt(Resource):
-
-    def post(self):
-        return {'richiesta_ricevimento': '1'}
-
-
 # ============================    get discipline   ========================== #
 @student.route('/discipline')
 class Discipline(Resource):
@@ -175,22 +133,6 @@ class UnfollowDiscipline(Resource):
 
     def post(self):
         return {'segui disciplina': '1'}
-
-
-# ============================    iscrizione_newletter   ========================== #
-@student.route('/iscrizione')
-class SubmitNewsletter(Resource):
-
-    def post(self):
-        return {'iscrizione newsletter': '1'}
-
-
-# ============================    avvisi   ========================== #
-@student.route('/avvisi')
-class SubmitNewsletter(Resource):
-
-    def post(self):
-        return {'iscrizione newsletter': '1'}
 
 
 # ============================    calendario   ========================== #

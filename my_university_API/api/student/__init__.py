@@ -13,4 +13,4 @@ student = Namespace('student', description='Student related operations')
 ####################################################################
 #                        circular imports
 ####################################################################
-from api.student import routes
+from api.student import routes, routes_charlie
