@@ -11,7 +11,11 @@ from api.professor.database_functions import (loginProfessor, updatePassword,
                                               reperimento_lezione_docente,
                                               eliminazione_lezione_docente,
                                               inserimento_avviso_docente,
-                                              reperimento_avvisi_docente
+                                              reperimento_avvisi_docente,
+                                              inserimento_ricevimento,
+                                              delete_ricevimento,
+                                              reperimento_info_ricevimenti,
+                                              update_richiesta_ricevimento
                                               )
 
 from api.professor.models import *
@@ -153,31 +157,64 @@ class GetAlerts(Resource):
 
 
 # ============================  ricevimento   ========================== #
-@professor.route('/ricevimento')
-class Receipt(Resource):
+@professor.route('/inserimento_ricevimento')
+class InsertReceipt(Resource):
+    @professor.expect(insert_ricevimento_model)
     def post(self):
-        return {'ricevimento': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        parser.add_argument('data_ricevimento', type=str, help='data_ricevimento')
+        parser.add_argument('ore_ricevimento', type=str, help='ore_ricevimento')
+        args = parser.parse_args(strict=True)
+        inserimento_ricevimento(args['matricola_docente'], args['data_ricevimento'], args['ore_ricevimento'], connection)
 
 
 # ============================  update ricevimento   ========================== #
-@professor.route('/aggiorna_ricevimento')
-class UPReceipt(Resource):
+@professor.route('/aggiorna_richiesta_ricevimento')
+class UpdateRichiestaRicevimento(Resource):
+    @professor.expect(update_richiesta_ricevimento_model)
     def post(self):
-        return {'ricevimento': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='matricola_docente')
+        parser.add_argument('data_ricevimento', type=str, help='data_ricevimento')
+        parser.add_argument('matricola_studente', type=str, help='matricola_studente')
+        parser.add_argument('ora_inizio', type=str, help='ora_inizio')
+        parser.add_argument('durata', type=str, help='durata')
+        args = parser.parse_args(strict=True)
+        update_richiesta_ricevimento(args['matricola_docente'],
+                                     args['data_ricevimento'],
+                                     args['matricola_studente'],
+                                     args['ora_inizio'],
+                                     args['durata'],
+                                     connection)
+
+
 
 
 # ============================  cancella ricevimento   ========================== #
 @professor.route('/cancella_ricevimento')
 class DelReceipt(Resource):
+    @professor.expect(delete_ricevimento_model)
     def post(self):
-        return {'ricevimento': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        parser.add_argument('data_ricevimento', type=str, help='data_ricevimento')
+        args = parser.parse_args(strict=True)
+        delete_ricevimento(args['matricola_docente'],
+                           args['data_ricevimento'],
+                           connection)
 
 
 # ============================ richiesta ricevimento   ========================== #
-@professor.route('/ricevimenti')
+@professor.route('/reperimento_ricevimenti')
 class Receipts(Resource):
+    @professor.expect(freshman_professor)
+    @professor.marshal_with(reperimento_ricevimenti_info)
     def post(self):
-        return {'ricevimenti': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        args = parser.parse_args(strict=True)
+        return reperimento_info_ricevimenti(args['matricola_docente'],connection), 201
 
 
 # ============================    calendario   ========================== #

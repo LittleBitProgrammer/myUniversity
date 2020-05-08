@@ -117,3 +117,39 @@ reperimento_avvisi_model = professor.model('reperimento_avvisi_model',{
     'semestre': fields.String,
     'anno': fields.String
 })
+
+insert_ricevimento_model = professor.model('insert_ricevimento_model',{
+    'matricola_docente': fields.String,
+    'data_ricevimento': fields.String,
+    'ore_ricevimento': fields.String
+})
+
+delete_ricevimento_model = professor.model('delete_ricevimento_model',{
+    'matricola_docente': fields.String,
+    'data_ricevimento': fields.String
+})
+
+richiesta_ricevimento_info = professor.model('richiesta_ricevimento_info', {
+    'matricola_studente': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String,
+    'email_studente': fields.String,
+    'motivazione_ricevimento': fields.String,
+    'ora_inizio': fields.String,
+    'durata': fields.String,
+    'contatti': fields.List(fields.Nested(contact_person))
+})
+
+reperimento_ricevimenti_info = professor.model('reperimento_ricevimenti_info', {
+    'data_ricevimento': fields.String,
+    'ore_ricevimento': fields.String,
+    'prenotazioni': fields.List(fields.Nested(richiesta_ricevimento_info))
+})
+
+update_richiesta_ricevimento_model = professor.model('update_richiesta_ricevimento',{
+    'matricola_docente': fields.String,
+    'data_ricevimento': fields.String,
+    'matricola_studente': fields.String,
+    'ora_inizio': fields.String,
+    'durata': fields.String
+})
