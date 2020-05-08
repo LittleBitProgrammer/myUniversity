@@ -50,19 +50,26 @@ def get_all_offices(connection):
 
     try:
         cursor = connection.cursor(dictionary=True)
-        mySQL_query_get_all_head_offices = """SELECT sede.nome_sede,
+        mySQL_query_get_all_head_offices = """SELECT nome_sede,
                                                      orario_apertura,
                                                      orario_chiusura, 
-                                                     numero_piani, cap, 
-                                                     via_piazza, civico, 
-                                                     tipo_contatto, 
-                                                     valore_contatto 
-                                                     FROM sede 
-                                                     LEFT JOIN contatto_sede 
-                                                     ON sede.nome_sede = contatto_sede.nome_sede"""
+                                                     numero_piani,
+                                                     cap, 
+                                                     via_piazza, 
+                                                     civico
+                                                     FROM sede"""
+
+        mySQL_query_get_all_contact = """SELECT tipo_contatto, valore_contatto 
+                                                         FROM contatto_sede
+                                                         WHERE nome_sede = %s"""
 
         cursor.execute(mySQL_query_get_all_head_offices)
         head_offices = cursor.fetchall()
+
+        for head_office in head_offices:
+            print(head_office['nome_sede'])
+            cursor.execute(mySQL_query_get_all_contact, (head_office['nome_sede'],))
+            head_office['contatti'] = cursor.fetchall()
 
     except Error as error:
         print(f"Failed to insert into MySQL table {error}")
@@ -442,7 +449,6 @@ def get_all_discipline(connection):
 
 # function to delete discipline inside database
 def deleteDiscipline(codice_corso, codice_disciplina, connection):
-
     try:
         cursor = connection.cursor()
 
@@ -461,7 +467,7 @@ def deleteDiscipline(codice_corso, codice_disciplina, connection):
         mySQL_query_delete_newletter_subscription = """DELETE FROM iscrizione_newsletter
                                                        WHERE codice_corso = %s
                                                        AND codice_disciplina = %s"""
-        mySQL_query_delete_discipline= """DELETE FROM disciplina
+        mySQL_query_delete_discipline = """DELETE FROM disciplina
                                           WHERE codice_corso = %s
                                           AND codice_disciplina = %s"""
 
@@ -551,23 +557,21 @@ def get_all_teachers(connection):
                                                    persona.luogo_di_nascita,
                                                    persona.cap,
                                                    persona.via_piazza,
-                                                   persona.civico,
-                                                   contatto_persona.tipo_contatto,
-                                                   contatto_persona.valore_contatto
+                                                   persona.civico
                                              FROM docente
-                                             NATURAL JOIN persona
-                                             LEFT JOIN contatto_persona
-                                             ON contatto_persona.cf = persona.cf"""
+                                             NATURAL JOIN persona"""
+
+        mySQL_query_get_all_contact = """SELECT tipo_contatto, valore_contatto 
+                                         FROM contatto_persona 
+                                         WHERE cf = %s"""
 
         cursor.execute(mySQL_query_get_all_teachers)
         teachers = cursor.fetchall()
 
-
-        i = 0
         for teacher in teachers:
-            print('=================================')
-            print(teacher['valore_contatto'])
-            print('=================================')
+            print(teacher['cf'])
+            cursor.execute(mySQL_query_get_all_contact, (teacher['cf'],))
+            teacher['contatti'] = cursor.fetchall()
 
     except Error as error:
         print(f"Failed to insert into MySQL table {error}")

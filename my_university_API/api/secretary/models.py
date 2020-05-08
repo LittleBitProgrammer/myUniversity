@@ -1,6 +1,11 @@
 from api.secretary import secretary
 from flask_restx import fields
 
+nested_contact_model = secretary.model('nested contact teacher model', {
+    'tipo_contatto': fields.String,
+    'valore_contatto': fields.String
+})
+
 insert_student_model = secretary.model('insert student model', {
     'cf': fields.String,
     'nome': fields.String,
@@ -26,14 +31,8 @@ insert_headoffice_model = secretary.model('insert head office model', {
     'civico': fields.String
 })
 
-nested_contact_head_office_model = secretary.model('nested contact head office model', {
-    'nome_sede': fields.String,
-    'tipo_contatto': fields.String,
-    'valore_contatto': fields.String
-})
-
 get_head_office_model = secretary.inherit('get_head_office_model', insert_headoffice_model, {
-    'contatti': fields.List(fields.Nested(nested_contact_head_office_model))
+    'contatti': fields.List(fields.Nested(nested_contact_model))
 })
 
 insert_contact_model = secretary.model('insert contact model', {
@@ -124,11 +123,6 @@ insert_teacher_model = secretary.model('insert teacher model', {
     'password_docente': fields.String
 })
 
-nested_contact_teacher_model = secretary.model('nested contact teacher model', {
-    'tipo_contatto': fields.String,
-    'valore_contatto': fields.String
-})
-
 get_all_teacher_model = secretary.model('get all teacher model', {
     'matricola_docente': fields.String,
     'nome': fields.String,
@@ -140,7 +134,5 @@ get_all_teacher_model = secretary.model('get all teacher model', {
     'cap': fields.Integer,
     'via_piazza': fields.String,
     'civico': fields.String,
-    'tipo_contatto': fields.String,
-    'valore_contatto': fields.String,
-    'contatti': fields.List(fields.Nested(nested_contact_teacher_model))
+    'contatti': fields.List(fields.Nested(nested_contact_model))
 })
