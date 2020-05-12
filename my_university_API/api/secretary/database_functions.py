@@ -3,7 +3,7 @@
 ####################################################################
 #                             import
 ####################################################################
-from mysql.connector import Error
+from mysql.connector import Error  # to use error
 from api.secretary.query import (mySQL_query_insert_head_office,
                                  mySQL_query_get_all_head_offices,
                                  mySQL_query_get_all_head_office_contacts,

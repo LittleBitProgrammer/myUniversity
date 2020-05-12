@@ -3,6 +3,8 @@
 ####################################################################
 #                             DB_functions
 ####################################################################
+
+# ========================== query to insert head office (insertHeadOffice) ==========================
 mySQL_query_insert_head_office = """INSERT INTO sede(nome_sede,
                                                      orario_apertura,
                                                      orario_chiusura,
@@ -12,6 +14,7 @@ mySQL_query_insert_head_office = """INSERT INTO sede(nome_sede,
                                                      civico)
                                     VALUES(%s, %s, %s, %s, %s, %s, %s)"""
 
+# ========================== query to get all head offices (get_all_offices) ==========================
 mySQL_query_get_all_head_offices = """SELECT nome_sede,
                                              orario_apertura,
                                              orario_chiusura, 
@@ -24,6 +27,8 @@ mySQL_query_get_all_head_offices = """SELECT nome_sede,
 mySQL_query_get_all_head_office_contacts = """SELECT tipo_contatto, valore_contatto 
                                               FROM contatto_sede
                                               WHERE nome_sede = %s"""
+
+# ========================== query to insert head office ==========================
 
 mySQL_query_insert_contact = """INSERT INTO contatto(tipo_contatto,valore_contatto)
                                 VALUES(%s,%s)"""
