@@ -28,14 +28,14 @@ mySQL_query_get_all_head_office_contacts = """SELECT tipo_contatto, valore_conta
                                               FROM contatto_sede
                                               WHERE nome_sede = %s"""
 
-# ========================== query to insert head office ==========================
-
+# ========================== query to insert head office contact (insertHeadOfficeContact) ==========================
 mySQL_query_insert_contact = """INSERT INTO contatto(tipo_contatto,valore_contatto)
                                 VALUES(%s,%s)"""
 
 mySQL_query_insert_head_office_contact = """INSERT INTO contatto_sede(nome_sede, tipo_contatto, valore_contatto)
                                             VALUES(%s,%s,%s)"""
 
+# ========================== query to delete head office (deleteHeadOffice) ==========================
 mySQL_query_delete_head_office_contact = """DELETE FROM contatto_sede 
                                             WHERE nome_sede = %s"""
 
@@ -51,12 +51,14 @@ mySQL_query_delete_head_office_lesson = """DELETE FROM lezione
 mySQL_query_delete_head_office = """DELETE FROM sede 
                                     WHERE nome_sede = %s"""
 
+# ========================== query to insert room (insertRoom) ==========================
 mySQL_query_insert_room = """INSERT INTO aula(nome_sede, 
                                               numero_piano, 
                                               numero_aula, 
                                               capienza)
                              VALUES (%s, %s, %s, %s)"""
 
+# ========================== query to delete room (deleteRoom) ==========================
 mySQL_query_delete_room_lesson = """DELETE FROM lezione
                                     WHERE nome_sede = %s
                                     AND numero_piano = %s 
@@ -67,47 +69,52 @@ mySQL_query_delete_room = """DELETE FROM aula
                              AND numero_piano = %s
                              AND numero_aula = %s"""
 
+# ========================== query to insert degree course (insertDegreeCourse) ==========================
 mySQL_query_insert_degree_course = """INSERT INTO corso_di_laurea (codice_corso, nome_corso, durata_corso_laurea) 
                                       VALUES (%s, %s, %s)"""
 
+# ========================== query to get all degree courses (get_all_degree_courses) ==========================
 mySQL_query_get_all_degree_courses = """SELECT codice_corso,
                                                nome_corso,
                                                durata_corso_laurea
                                         FROM corso_di_laurea"""
 
+# ========================== query to delete degree course (deleteDegreeCourse) ==========================
 mySQL_query_delete_degree_course_location = """DELETE FROM ospitazione
-                                 WHERE codice_corso = %s"""
+                                               WHERE codice_corso = %s"""
 
-mySQL_query_delete_is_in = """DELETE FROM appartiene
-                              WHERE codice_corso = %s"""
-
-mySQL_query_delete_work = """DELETE FROM lavora
-                             WHERE codice_corso = %s"""
-
-mySQL_query_delete_lesson = """DELETE FROM lezione
-                               WHERE codice_corso = %s"""
-
-mySQL_query_delete_degree_course_discipline = """DELETE FROM disciplina
-                                   WHERE codice_corso = %s"""
-
-mySQL_query_delete_alert = """DELETE FROM avviso
-                              WHERE codice_corso = %s"""
-
-mySQL_query_delete_teaching = """DELETE FROM insegna
-                                 WHERE codice_corso = %s"""
-
-mySQL_query_delete_followed_discipline = """DELETE FROM disciplina_seguita
+mySQL_query_delete_degree_course_is_in = """DELETE FROM appartiene
                                             WHERE codice_corso = %s"""
 
-mySQL_query_delete_newletter_subscription = """DELETE FROM iscrizione_newsletter
+mySQL_query_delete_degree_course_work = """DELETE FROM lavora
+                                           WHERE codice_corso = %s"""
+
+mySQL_query_delete_degree_course_lesson = """DELETE FROM lezione
+                                             WHERE codice_corso = %s"""
+
+mySQL_query_delete_degree_course_discipline = """DELETE FROM disciplina
+                                                 WHERE codice_corso = %s"""
+
+mySQL_query_delete_degree_course_alert = """DELETE FROM avviso
+                                            WHERE codice_corso = %s"""
+
+mySQL_query_delete_degree_course_teaching = """DELETE FROM insegna
                                                WHERE codice_corso = %s"""
+
+mySQL_query_delete_degree_course_followed_discipline = """DELETE FROM disciplina_seguita
+                                                          WHERE codice_corso = %s"""
+
+mySQL_query_delete_degree_course_newletter_subscription = """DELETE FROM iscrizione_newsletter
+                                                             WHERE codice_corso = %s"""
 
 mySQL_query_delete_degree_course = """DELETE FROM corso_di_laurea
                                       WHERE codice_corso = %s"""
 
+# ========================== query to insert location (insertLocation) ==========================
 mySQL_query_insert_location = """INSERT INTO ospitazione (nome_sede, codice_corso) 
                                  VALUES (%s, %s)"""
 
+# ========================== query to get all location(get_all_location) ==========================
 mySQL_query_get_all_locations = """SELECT  corso_di_laurea.codice_corso, 
                                            corso_di_laurea.nome_corso, 
                                            corso_di_laurea.durata_corso_laurea,
@@ -122,10 +129,12 @@ mySQL_query_get_all_locations = """SELECT  corso_di_laurea.codice_corso,
                                    NATURAL JOIN ospitazione
                                    NATURAL JOIN sede"""
 
+# ========================== query to delete all location(deleteLocation) ==========================
 mySQL_query_delete_location = """DELETE FROM ospitazione
                                  WHERE nome_sede = %s
                                  AND codice_corso = %s"""
 
+# ========================== query to insert disciplina(insertDisciplina) ==========================
 mySQL_query_insert_discipline = """INSERT INTO disciplina(codice_corso, 
                                                           codice_disciplina, 
                                                           nome_disciplina, 
@@ -134,6 +143,7 @@ mySQL_query_insert_discipline = """INSERT INTO disciplina(codice_corso,
                                                           anno)
                                    VALUES (%s, %s, %s, %s, %s, %s)"""
 
+# ========================== query to get all discipline(get_all_discipline) ==========================
 mySQL_query_get_all_discipline = """SELECT corso_di_laurea.nome_corso, 
                                            disciplina.nome_disciplina, 
                                            disciplina.codice_disciplina, 
@@ -143,6 +153,7 @@ mySQL_query_get_all_discipline = """SELECT corso_di_laurea.nome_corso,
                                     NATURAL JOIN disciplina 
                                     ORDER BY corso_di_laurea.nome_corso"""
 
+# ========================== query to delete discipline(deleteDiscipline) ==========================
 mySQL_query_delete_discipline_lesson = """DELETE FROM lezione
                                           WHERE codice_corso = %s
                                           AND codice_disciplina = %s"""
@@ -167,6 +178,7 @@ mySQL_query_delete_discipline = """DELETE FROM disciplina
                                    WHERE codice_corso = %s
                                    AND codice_disciplina = %s"""
 
+# ========================== query to insert teacher(insertTeacher) ==========================
 mySql_insert_person = """INSERT INTO persona(cf, 
                                              nome,
                                              cognome, 
@@ -183,6 +195,7 @@ mySql_insert_teacher = """INSERT INTO docente(matricola_docente,
                                               password_docente) 
                           VALUES (%s, %s, %s, %s) """
 
+# ========================== query to get all teachers(get_all_teachers) ==========================
 mySQL_query_get_all_teachers = """SELECT docente.matricola_docente, 
                                          persona.nome,
                                          persona.cognome,
@@ -200,6 +213,7 @@ mySQL_query_get_all_person_contacts = """SELECT tipo_contatto, valore_contatto
                                          FROM contatto_persona 
                                          WHERE cf = %s"""
 
+# ========================== query to delete teacher(deleteTeacher) ==========================
 mySQL_query_delete_person_contacts = """DELETE FROM contatto_persona
                                          WHERE cf = %s"""
 
@@ -229,26 +243,18 @@ mySQL_query_select_contact = """SELECT tipo_contatto, valore_contatto
 mySQL_query_delete_teacher_receipt_request = """DELETE FROM richiesta_ricevimento
                                                 WHERE matricola_docente = %s"""
 
-mySql_insert_persona = """INSERT INTO persona(cf, 
-                                              nome,
-                                              cognome, 
-                                              data_di_nascita,
-                                              luogo_di_nascita,
-                                              cap,
-                                              via_piazza,
-                                              civico)  
-                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s) """
-
-mySql_insert_studente = """INSERT INTO studente(matricola_studente, 
+# ========================== query to insert student(insertStudent) ==========================
+mySql_insert_student = """INSERT INTO studente(matricola_studente, 
                                                 cf,
                                                 email_studente,
                                                 data_immatricolazione,
                                                 password_studente) 
                            VALUES (%s, %s, %s, %s, %s) """
 
-mySql_insert_is_in = """INSERT INTO appartiene(codice_corso, matricola_studente) 
-                        VALUES (%s, %s)"""
+mySql_insert_student_is_in = """INSERT INTO appartiene(codice_corso, matricola_studente) 
+                                VALUES (%s, %s)"""
 
+# ========================== query to get all students(get_all_students) ==========================
 mySQL_query_get_all_students = """SELECT studente.matricola_studente, 
                                          persona.nome,
                                          persona.cognome,
@@ -267,15 +273,17 @@ mySQL_query_get_all_contact = """SELECT tipo_contatto, valore_contatto
                                  FROM contatto_persona 
                                  WHERE cf = %s"""
 
+# ========================== query to delete teach(deleteTesch) ==========================
 mySQL_query_delete_teach = """DELETE FROM insegna
                               WHERE matricola_docente = %s
                               AND codice_corso = %s
                               AND codice_disciplina = %s"""
 
+# ========================== query to insert teach(insertTesch) ==========================
 mySQL_query_insert_teach = """INSERT INTO insegna(matricola_docente, codice_corso, codice_disciplina) 
                               VALUES (%s, %s, %s)"""
-# ===================
 
+# ========================== query to delete student(deleteSudent) ==========================
 mySQL_query_delete_student_person = """DELETE FROM persona
                                        WHERE cf = %s"""
 
@@ -294,6 +302,7 @@ mySQL_query_delete_student_followed_discipline = """DELETE FROM disciplina_segui
 mySQL_query_delete_student_is_in = """DELETE FROM appartiene 
                                            WHERE matricola_studente = %s"""
 
+# ========================== query to get all teaching(get_all_teachings) ==========================
 mySQL_query_get_all_teachings = """SELECT docente.matricola_docente, 
                                           persona.nome, 
                                           persona.cognome, 

@@ -19,16 +19,16 @@ from api.secretary.query import (mySQL_query_insert_head_office,
                                  mySQL_query_delete_room,
                                  mySQL_query_insert_degree_course,
                                  mySQL_query_get_all_degree_courses,
-                                 mySQL_query_delete_alert,
+                                 mySQL_query_delete_degree_course_alert,
                                  mySQL_query_delete_degree_course,
                                  mySQL_query_delete_degree_course_discipline,
-                                 mySQL_query_delete_followed_discipline,
-                                 mySQL_query_delete_is_in,
-                                 mySQL_query_delete_lesson,
+                                 mySQL_query_delete_degree_course_followed_discipline,
+                                 mySQL_query_delete_degree_course_is_in,
+                                 mySQL_query_delete_degree_course_lesson,
                                  mySQL_query_delete_degree_course_location,
-                                 mySQL_query_delete_newletter_subscription,
-                                 mySQL_query_delete_teaching,
-                                 mySQL_query_delete_work,
+                                 mySQL_query_delete_degree_course_newletter_subscription,
+                                 mySQL_query_delete_degree_course_teaching,
+                                 mySQL_query_delete_degree_course_work,
                                  mySQL_query_insert_location,
                                  mySQL_query_get_all_locations,
                                  mySQL_query_delete_location,
@@ -53,9 +53,8 @@ from api.secretary.query import (mySQL_query_insert_head_office,
                                  mySQL_query_delete_teacher_receipt_request,
                                  mySQL_query_delete_teacher_teach,
                                  mySQL_query_select_contact,
-                                 mySql_insert_is_in,
-                                 mySql_insert_studente,
-                                 mySql_insert_persona,
+                                 mySql_insert_student_is_in,
+                                 mySql_insert_student,
                                  mySQL_query_get_all_contact,
                                  mySQL_query_get_all_students,
                                  mySQL_query_delete_teach,
@@ -257,13 +256,13 @@ def deleteDegreeCourse(codice_corso, connection):
         delete_degree_course_tuple = (codice_corso,)
 
         cursor.execute(mySQL_query_delete_degree_course_location, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_is_in, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_work, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_lesson, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_alert, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_teaching, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_followed_discipline, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_newletter_subscription, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_degree_course_is_in, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_degree_course_work, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_degree_course_lesson, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_degree_course_alert, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_degree_course_teaching, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_degree_course_followed_discipline, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_degree_course_newletter_subscription, delete_degree_course_tuple)
         cursor.execute(mySQL_query_delete_degree_course_discipline, delete_degree_course_tuple)
         cursor.execute(mySQL_query_delete_degree_course, delete_degree_course_tuple)
 
@@ -518,9 +517,9 @@ def insertStudent(cf,
         student_tuple = (matricola_studente, cf, email_studente, data_immatricolazione, password_studente)
         is_in_tuple = (codice_corso, matricola_studente)
 
-        cursor.execute(mySql_insert_persona, person_tuple)
-        cursor.execute(mySql_insert_studente, student_tuple)
-        cursor.execute(mySql_insert_is_in, is_in_tuple)
+        cursor.execute(mySql_insert_person, person_tuple)
+        cursor.execute(mySql_insert_student, student_tuple)
+        cursor.execute(mySql_insert_student_is_in, is_in_tuple)
 
         connection.commit()
         print("Record inserted successfully into Person and Student table")
