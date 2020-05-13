@@ -28,3 +28,6 @@ mysql_query_update_password = """UPDATE studente
                                  SET password_studente = %s 
                                  WHERE (matricola_studente = %s 
                                  AND password_studente = %s)"""
+
+mysql_query_follow_discipline = """INSERT INTO disciplina_seguita(codice_corso, codice_disciplina, matricola_studente)
+                                   VALUES(%s, %s, %s)"""

@@ -7,10 +7,12 @@ from api.student import student  # to use api
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
 from api.database_config import DatabaseConnector
 from api.student.database_functions import (loginStudent,
-                                            updatePassword)
+                                            updatePassword,
+                                            followDiscipline)
 from api.student.models import (student_model,
                                 login_student_model,
-                                update_password_student_model)
+                                update_password_student_model,
+                                follow_discipline_model)
 
 
 ####################################################################
@@ -57,14 +59,6 @@ class Password(Resource):
                        connection.get_connection())
 
 
-# ============================    get contatto   ========================== #
-@student.route('/contatti')
-class GetContact(Resource):
-
-    def post(self):
-        return {'contatti': '1'}
-
-
 # ============================    get discipline   ========================== #
 @student.route('/discipline')
 class Discipline(Resource):
@@ -77,8 +71,22 @@ class Discipline(Resource):
 @student.route('/follow_disciplina')
 class FollowDiscipline(Resource):
 
+    @student.expect(follow_discipline_model)
+    @student.marshal_with(follow_discipline_model)
     def post(self):
-        return {'segui disciplina': '1'}
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        parser.add_argument('matricola_studente', type=str, help='codice della matricola studente universitaria')
+        args = parser.parse_args(strict=True)
+
+        followDiscipline(args['codice_corso'],
+                         args['codice_disciplina'],
+                         args['matricola_studente'],
+                         connection.get_connection())
+
+        return args, 250
 
 
 # ============================    unfollow disciplina   ========================== #

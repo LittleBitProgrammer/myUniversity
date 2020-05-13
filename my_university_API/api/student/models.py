@@ -38,3 +38,9 @@ update_password_student_model = student.model('update password student model', {
     'matricola_studente': fields.String,
     'password_studente': fields.String
 })
+
+follow_discipline_model = student.model('follow discipline module', {
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'matricola_studente': fields.String
+})
