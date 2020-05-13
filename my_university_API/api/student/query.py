@@ -20,14 +20,46 @@ mySQL_query_login_studente = """SELECT persona.cf,
                                 WHERE studente.matricola_studente = %s
                                 AND studente.password_studente = %s"""
 
-mysql_query_get_student_contacts = """SELECT tipo_contatto, valore_contatto
+mySQL_query_get_student_contacts = """SELECT tipo_contatto, valore_contatto
                                       FROM contatto_persona
                                       WHERE cf = %s"""
 
-mysql_query_update_password = """UPDATE studente 
+mySQL_query_update_password = """UPDATE studente 
                                  SET password_studente = %s 
                                  WHERE (matricola_studente = %s 
                                  AND password_studente = %s)"""
 
-mysql_query_follow_discipline = """INSERT INTO disciplina_seguita(codice_corso, codice_disciplina, matricola_studente)
+mySQL_query_follow_discipline = """INSERT INTO disciplina_seguita(codice_corso, codice_disciplina, matricola_studente)
                                    VALUES(%s, %s, %s)"""
+
+mySQL_query_delete_follow_discipline = """DELETE FROM disciplina_seguita
+                                          WHERE codice_corso = %s
+                                          AND codice_disciplina = %s
+                                          AND matricola_studente = %s"""
+
+mySQL_query_get_calendar = """SELECT disciplina_seguita.codice_corso,
+                                     corso_di_laurea.nome_corso,
+                                     doc.matricola_docente,
+                                     doc.nome,
+                                     doc.cognome,
+                                     disciplina_seguita.codice_disciplina,
+                                     disciplina.nome_disciplina,
+                                     lezione.nome_sede,
+                                     lezione.numero_piano,
+                                     lezione.numero_aula,
+                                     lezione.numero_ore,
+                                     lezione.data_inizio,
+                                     lezione.titolo,
+                                     lezione.descrizione
+                               FROM studente
+                               NATURAL JOIN disciplina_seguita
+                               NATURAL JOIN disciplina
+                               NATURAL JOIN corso_di_laurea
+                               NATURAL JOIN lezione
+                               NATURAL JOIN aula
+                               NATURAL JOIN sede
+                               INNER JOIN (SELECT *  FROM persona
+                                           NATURAL JOIN docente
+                                           NATURAL JOIN insegna) AS doc
+                               ON disciplina.codice_disciplina = doc.codice_disciplina
+                               WHERE studente.matricola_studente = %s"""

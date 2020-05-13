@@ -8,11 +8,16 @@ from flask_restx import Resource, reqparse, fields  # to use Resource, that expo
 from api.database_config import DatabaseConnector
 from api.student.database_functions import (loginStudent,
                                             updatePassword,
-                                            followDiscipline)
+                                            followDiscipline,
+                                            unFollowDiscipline,
+                                            getCalendar)
+
 from api.student.models import (student_model,
                                 login_student_model,
                                 update_password_student_model,
-                                follow_discipline_model)
+                                follow_discipline_model,
+                                calendar_model,
+                                get_calendar_student_model)
 
 
 ####################################################################
@@ -93,13 +98,33 @@ class FollowDiscipline(Resource):
 @student.route('/unfollow_disciplina')
 class UnfollowDiscipline(Resource):
 
+    @student.expect(follow_discipline_model)
+    @student.marshal_with(follow_discipline_model)
     def post(self):
-        return {'segui disciplina': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        parser.add_argument('matricola_studente', type=str, help='codice della matricola studente universitaria')
+        args = parser.parse_args(strict=True)
+
+        unFollowDiscipline(args['codice_corso'],
+                           args['codice_disciplina'],
+                           args['matricola_studente'],
+                           connection.get_connection())
+
+        return args, 250
 
 
 # ============================    calendario   ========================== #
 @student.route('/calendario')
 class Calendario(Resource):
 
+    @student.expect(get_calendar_student_model)
+    @student.marshal_with(calendar_model)
     def post(self):
-        return {'iscrizione newsletter': '1'}
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_studente', type=str, help='codice della matricola studente universitaria')
+        args = parser.parse_args(strict=True)
+
+        return getCalendar(args['matricola_studente'], connection.get_connection())

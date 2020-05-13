@@ -44,3 +44,24 @@ follow_discipline_model = student.model('follow discipline module', {
     'codice_disciplina': fields.String,
     'matricola_studente': fields.String
 })
+
+get_calendar_student_model = student.model('get_calendar_student_model', {
+    'matricola_studente': fields.String
+})
+
+calendar_model = student.model('calendar model', {
+    'codice_corso': fields.String,
+    'nome_corso': fields.String,
+    'matricola_docente': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_disciplina': fields.String,
+    'nome_sede': fields.String,
+    'numero_piano': fields.Integer,
+    'numero_aula': fields.Integer,
+    'numero_ore': fields.Integer,
+    'data_inizio': fields.String,
+    'titolo': fields.String,
+    'descrizione': fields.String
+})
