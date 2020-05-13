@@ -9,7 +9,7 @@ from flask_restx import fields  # to use Resource, that expose http request meth
 ####################################################################
 #                             model
 ####################################################################
-contact_person = student.model('contact_person', {
+contact_person_model = student.model('contact_person', {
     'tipo_contatto': fields.String,
     'valore_contatto': fields.String
 })
@@ -26,7 +26,7 @@ student_model = student.model('student_model', {
     'matricola_studente': fields.String,
     'email_studente': fields.String,
     'data_immatricolazione': fields.String,
-    'contatti': fields.List(fields.Nested(contact_person))})
+    'contatti': fields.List(fields.Nested(contact_person_model))})
 
 login_student_model = student.model('login_student', {
     'matricola_studente': fields.String,
