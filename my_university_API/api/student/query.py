@@ -23,3 +23,8 @@ mySQL_query_login_studente = """SELECT persona.cf,
 mysql_query_get_student_contacts = """SELECT tipo_contatto, valore_contatto
                                       FROM contatto_persona
                                       WHERE cf = %s"""
+
+mysql_query_update_password = """UPDATE studente 
+                                 SET password_studente = %s 
+                                 WHERE (matricola_studente = %s 
+                                 AND password_studente = %s)"""
