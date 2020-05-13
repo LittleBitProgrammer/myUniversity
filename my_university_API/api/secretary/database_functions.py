@@ -393,14 +393,14 @@ def deleteDiscipline(codice_corso, codice_disciplina, connection):
     try:
         cursor = connection.cursor()
 
-        delete_degree_course_tuple = (codice_corso, codice_disciplina)
+        delete_discipline_tuple = (codice_corso, codice_disciplina)
 
-        cursor.execute(mySQL_query_delete_discipline_lesson, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_discipline_alert, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_discipline_teaching, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_discipline_followed_discipline, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_discipline_newletter_subscription, delete_degree_course_tuple)
-        cursor.execute(mySQL_query_delete_discipline, delete_degree_course_tuple)
+        cursor.execute(mySQL_query_delete_discipline_lesson, delete_discipline_tuple)
+        cursor.execute(mySQL_query_delete_discipline_alert, delete_discipline_tuple)
+        cursor.execute(mySQL_query_delete_discipline_teaching, delete_discipline_tuple)
+        cursor.execute(mySQL_query_delete_discipline_followed_discipline, delete_discipline_tuple)
+        cursor.execute(mySQL_query_delete_discipline_newletter_subscription, delete_discipline_tuple)
+        cursor.execute(mySQL_query_delete_discipline, delete_discipline_tuple)
 
         connection.commit()
     except Error as error:
