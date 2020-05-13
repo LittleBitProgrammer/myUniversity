@@ -71,6 +71,16 @@ from api.secretary.query import (mySQL_query_insert_head_office,
 ####################################################################
 #                             DB_functions
 ####################################################################
+
+####################################################################
+#                             Convenzioni:
+#   Per le POST
+#       def *operazione**Nometabella* (*input*, connection):
+#
+#   Per le GET
+#       def get_all_*nome_tabella* (*input*, connection):
+####################################################################
+
 # function to insert head office inside database
 def insertHeadOffice(nome_sede,
                      orario_apertura,

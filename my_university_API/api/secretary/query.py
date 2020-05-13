@@ -1,7 +1,15 @@
-# This file contain all query of the database
+# This file contain all secretary query of the database
 
 ####################################################################
-#                             DB_functions
+#                             Query
+####################################################################
+
+####################################################################
+#                             Convenzioni:
+#   mySQL_query_*operazione*_*nome_tabella* = """ *query da svolgere* """
+#
+#   se si dovesse sforare ed andare oltre la linea margine impostata da python
+#   bisogna andare a capo
 ####################################################################
 
 # ========================== query to insert head office (insertHeadOffice) ==========================
