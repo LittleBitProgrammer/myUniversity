@@ -16,7 +16,7 @@ from api.student.query import (mySQL_query_login_studente,
 #                             DB_functions
 ####################################################################
 
-# function tomlogin the studente
+# function to login the studente
 def loginStudent(matricola_studente, password_studente, connection):
     students = []
 
