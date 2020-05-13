@@ -28,7 +28,7 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   get_all_teachings_model)
 from api.secretary.database_functions import (insertStudent,  # to import query of db
                                               insertHeadOffice,
-                                              get_all_offices,
+                                              get_all_head_offices,
                                               insertHeadOfficeContact,
                                               deleteHeadOffice,
                                               insertRoom,
@@ -69,8 +69,8 @@ class HeadOffice(Resource):
 
     @secretary.marshal_with(get_head_office_model)
     def get(self):
-        print(get_all_offices(connection.get_connection()))
-        return get_all_offices(connection.get_connection()), 250
+        print(get_all_head_offices(connection.get_connection()))
+        return get_all_head_offices(connection.get_connection()), 250
 
     @secretary.expect(insert_headoffice_model)
     @secretary.marshal_with(insert_headoffice_model)

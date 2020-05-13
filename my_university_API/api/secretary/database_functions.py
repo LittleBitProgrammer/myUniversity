@@ -108,7 +108,7 @@ def insertHeadOffice(nome_sede,
 
 
 # function to gets all head offices
-def get_all_offices(connection):
+def get_all_head_offices(connection):
     head_offices = []
 
     try:
