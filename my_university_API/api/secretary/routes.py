@@ -274,11 +274,11 @@ class Discipline(Resource):
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
-        parser.add_argument('codice_disciplina', type=str, help='nome sede universitaria')
-        parser.add_argument('nome_disciplina', type=str, help='nome sede universitaria')
-        parser.add_argument('cfu', type=int, help='nome sede universitaria')
-        parser.add_argument('semestre', type=int, help='nome sede universitaria')
-        parser.add_argument('anno', type=int, help='nome sede universitaria')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        parser.add_argument('nome_disciplina', type=str, help='nome della disciplina universitaria')
+        parser.add_argument('cfu', type=int, help='numero di cfu della disciplina universitaria')
+        parser.add_argument('semestre', type=int, help='semestre della disciplina universitaria')
+        parser.add_argument('anno', type=int, help='anna della disciplina universitaria')
         args = parser.parse_args(strict=True)
 
         insertDiscipline(args['codice_corso'],
@@ -394,7 +394,7 @@ class Student(Resource):
         parser.add_argument('email_studente', type=str, help='email dello studente')
         parser.add_argument('data_immatricolazione', type=str, help='data immatricolazione dello studente')
         parser.add_argument('password_studente', type=str, help='password dello studente')
-        parser.add_argument('codice_corso', type=str, help='codice corso dello studente')
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
         args = parser.parse_args(strict=True)
 
         insertStudent(args['cf'],
