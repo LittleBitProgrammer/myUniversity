@@ -37,6 +37,7 @@ class Login(Resource):
     @student.expect(login_student_model)
     @student.marshal_with(student_model)
     def post(self):
+
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('matricola_studente', type=str, help='matricola dello studente universitario')

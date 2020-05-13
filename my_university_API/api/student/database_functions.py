@@ -21,10 +21,8 @@ def loginStudent(matricola_studente, password_studente, connection):
     students = []
 
     try:
-        cursor = connection.cursor()
-
-        student_tuple = (matricola_studente, password_studente)
         cursor = connection.cursor(dictionary=True)
+        student_tuple = (matricola_studente, password_studente)
         cursor.execute(mySQL_query_login_studente, student_tuple)
         students = cursor.fetchall()
 
