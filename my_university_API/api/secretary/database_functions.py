@@ -291,9 +291,9 @@ def insertLocation(nome_sede, codice_corso, connection):
     try:
         cursor = connection.cursor()
 
-        degree_course_tuple = (nome_sede, codice_corso)
+        location_tuple = (nome_sede, codice_corso)
 
-        cursor.execute(mySQL_query_insert_location, degree_course_tuple)
+        cursor.execute(mySQL_query_insert_location, location_tuple)
         connection.commit()
 
     except Error as error:
