@@ -26,30 +26,30 @@ from api.secretary.models import (insert_student_model,  # to import models
                                   delete_teach_model,
                                   delete_student_model,
                                   get_all_teachings_model)
-from api.secretary.query import (insertStudent,  # to import query of db
-                                 insertHeadOffice,
-                                 get_all_offices,
-                                 insertHeadOfficeContact,
-                                 deleteHeadOffice,
-                                 insertRoom,
-                                 deleteRoom,
-                                 insertDegreeCourse,
-                                 get_all_degree_courses,
-                                 deleteDegreeCourse,
-                                 insertLocation,
-                                 get_all_locations,
-                                 deleteLocation,
-                                 insertDiscipline,
-                                 get_all_discipline,
-                                 deleteDiscipline,
-                                 insertTeacher,
-                                 get_all_teachers,
-                                 deleteTeacher,
-                                 get_all_students,
-                                 deleteTeach,
-                                 insertTeach,
-                                 deleteStudent,
-                                 get_all_teachings)
+from api.secretary.database_functions import (insertStudent,  # to import query of db
+                                              insertHeadOffice,
+                                              get_all_head_offices,
+                                              insertHeadOfficeContact,
+                                              deleteHeadOffice,
+                                              insertRoom,
+                                              deleteRoom,
+                                              insertDegreeCourse,
+                                              get_all_degree_courses,
+                                              deleteDegreeCourse,
+                                              insertLocation,
+                                              get_all_locations,
+                                              deleteLocation,
+                                              insertDiscipline,
+                                              get_all_discipline,
+                                              deleteDiscipline,
+                                              insertTeacher,
+                                              get_all_teachers,
+                                              deleteTeacher,
+                                              get_all_students,
+                                              deleteTeach,
+                                              insertTeach,
+                                              deleteStudent,
+                                              get_all_teachings)
 from api.database_config import DatabaseConnector
 
 ####################################################################
@@ -69,8 +69,8 @@ class HeadOffice(Resource):
 
     @secretary.marshal_with(get_head_office_model)
     def get(self):
-        print(get_all_offices(connection.get_connection()))
-        return get_all_offices(connection.get_connection()), 250
+        print(get_all_head_offices(connection.get_connection()))
+        return get_all_head_offices(connection.get_connection()), 250
 
     @secretary.expect(insert_headoffice_model)
     @secretary.marshal_with(insert_headoffice_model)
@@ -274,11 +274,11 @@ class Discipline(Resource):
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('codice_corso', type=str, help='codice corso universitario')
-        parser.add_argument('codice_disciplina', type=str, help='nome sede universitaria')
-        parser.add_argument('nome_disciplina', type=str, help='nome sede universitaria')
-        parser.add_argument('cfu', type=int, help='nome sede universitaria')
-        parser.add_argument('semestre', type=int, help='nome sede universitaria')
-        parser.add_argument('anno', type=int, help='nome sede universitaria')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        parser.add_argument('nome_disciplina', type=str, help='nome della disciplina universitaria')
+        parser.add_argument('cfu', type=int, help='numero di cfu della disciplina universitaria')
+        parser.add_argument('semestre', type=int, help='semestre della disciplina universitaria')
+        parser.add_argument('anno', type=int, help='anna della disciplina universitaria')
         args = parser.parse_args(strict=True)
 
         insertDiscipline(args['codice_corso'],
@@ -394,7 +394,7 @@ class Student(Resource):
         parser.add_argument('email_studente', type=str, help='email dello studente')
         parser.add_argument('data_immatricolazione', type=str, help='data immatricolazione dello studente')
         parser.add_argument('password_studente', type=str, help='password dello studente')
-        parser.add_argument('codice_corso', type=str, help='codice corso dello studente')
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
         args = parser.parse_args(strict=True)
 
         insertStudent(args['cf'],

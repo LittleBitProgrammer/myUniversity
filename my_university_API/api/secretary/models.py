@@ -1,6 +1,14 @@
 from api.secretary import secretary
 from flask_restx import fields
 
+####################################################################
+#                             Convenzioni:
+#   *nome_model*_model = secretary.model('*nome model* model',{
+#       'chiave': fields.*tipo*
+#        ...
+#    })
+####################################################################
+
 nested_contact_model = secretary.model('nested contact teacher model', {
     'tipo_contatto': fields.String,
     'valore_contatto': fields.String
