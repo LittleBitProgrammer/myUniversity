@@ -74,6 +74,7 @@ student_model = student.model('student model', {
     'matricola_studente': fields.String,
     'email_studente': fields.String,
     'data_immatricolazione': fields.String,
+    'anno_in_corso': fields.Integer,
     'contatti': fields.List(fields.Nested(contact_person_model))})
 
 login_student_model = student.model('login student model', {

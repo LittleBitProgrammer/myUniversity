@@ -9,7 +9,6 @@ from config import Config  # to use the Config class
 from api.secretary import secretary  # to use secretary namespace
 from api.professor import professor  # to use professor namespace
 from api.student import student  # to use student namespace
-from api.global_op import global_op as universal  # to use global_operation namespace
 
 ####################################################################
 #                           api_variables
@@ -56,7 +55,6 @@ api = Api(app,
 api.add_namespace(secretary)
 api.add_namespace(professor)
 api.add_namespace(student)
-api.add_namespace(universal)
 
 ####################################################################
 #                        circular imports

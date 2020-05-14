@@ -894,3 +894,24 @@ def get_all_teachings(connection):
             connection.close()
             print("MySQL connection is closed")
             return teachings
+
+
+def updateAnnoInCorso(anno_in_corso, matricola_studente, connection):
+    try:
+        mySQL_query_update_year = """UPDATE studente 
+                                     SET anno_in_corso = %s 
+                                     WHERE matricola_studente = %s"""
+
+        student_tuple = (anno_in_corso, matricola_studente)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(mySQL_query_update_year, student_tuple)
+        connection.commit()
+
+        print('Year Updated!')
+    except Error as error:
+        print(f'Error from MySQL: {error}')
+    finally:
+        if connection.is_connected():
+            connection.close()
+            cursor.close()
+            print('MySQL connection is closed')

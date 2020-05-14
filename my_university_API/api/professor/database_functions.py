@@ -1,5 +1,14 @@
-from mysql.connector import Error
+# This file contain all database functions of the secretary
 
+####################################################################
+#                             import
+####################################################################
+from mysql.connector import Error  # to use error
+
+
+####################################################################
+#                             DB_functions
+####################################################################
 def loginProfessor(matricola_docente, password_docente, connection):
     records = []
     try:

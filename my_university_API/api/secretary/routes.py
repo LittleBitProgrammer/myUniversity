@@ -378,7 +378,6 @@ class DelStudent(Resource):
     @secretary.expect(delete_student_model)
     @secretary.marshal_with(delete_student_model)
     def post(self):
-
         # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('cf', type=str, help='cf dello studente')
@@ -433,4 +432,21 @@ class DelTeaching(Resource):
                     args['codice_corso'],
                     args['codice_disciplina'],
                     connection.get_connection())
+        return args, 250
+
+
+# =================
+@secretary.route('/aggiorna_anno_in_corso')
+class UpdateYearStudent(Resource):
+
+    @secretary.expect(update_anno_in_corso_studente_model)
+    @secretary.marshal_with(update_anno_in_corso_studente_model)
+    def post(self):
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('anno_in_corso', type=str, help='anno in corso dello studente')
+        parser.add_argument('matricola_studente', type=str, help='matricola studente universitario')
+        args = parser.parse_args(strict=True)
+
+        updateAnnoInCorso(args['anno_in_corso'], args['matricola_studente'], connection.get_connection())
         return args, 250

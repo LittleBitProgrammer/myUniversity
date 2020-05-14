@@ -188,7 +188,8 @@ def loginStudent(matricola_studente, password_studente, connection):
                                                persona.civico, 
                                                studente.matricola_studente,
                                                studente.email_studente, 
-                                               studente.data_immatricolazione
+                                               studente.data_immatricolazione,
+                                               studente.anno_in_corso
                                         FROM persona INNER JOIN studente 
                                         ON persona.cf = studente.cf 
                                         WHERE studente.matricola_studente = %s

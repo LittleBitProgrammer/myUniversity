@@ -195,3 +195,8 @@ get_all_teachings_model = secretary.model('get all teachings model', {
     'orario_apertura': fields.Integer,
     'orario_chiusura': fields.Integer
 })
+
+update_anno_in_corso_studente_model = secretary.model('update anno in corso studente model', {
+    'matricola_studente': fields.String,
+    'anno_in_corso': fields.Integer
+})

@@ -4,7 +4,6 @@
 #                             import
 ####################################################################
 import mysql.connector  # to use the connector of mySQL
-from mysql.connector import Error  # error handle mySQL errors
 
 
 ####################################################################
