@@ -157,6 +157,7 @@ get_all_student_model = secretary.model('get all student model', {
     'cognome': fields.String,
     'email_studente': fields.String,
     'data_immatricolazione': fields.String,
+    'anno_in_corso': fields.Integer,
     'cf': fields.String,
     'data_di_nascita': fields.String,
     'luogo_di_nascita': fields.String,
