@@ -5,25 +5,12 @@
 ####################################################################
 
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api.professor.database_functions import (loginProfessor, updatePassword,
-                                              reperimento_insegnamenti_docente,
-                                              inserimento_lezione_docente,
-                                              reperimento_lezione_docente,
-                                              eliminazione_lezione_docente,
-                                              inserimento_avviso_docente,
-                                              reperimento_avvisi_docente,
-                                              inserimento_ricevimento,
-                                              delete_ricevimento,
-                                              reperimento_info_ricevimenti,
-                                              update_richiesta_ricevimento
-                                              )
-
+from api.professor.database_functions import *
 from api.professor.models import *
 from api.database_config import DatabaseConnector
 
-
 database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
-connection = database.get_connection()
+
 
 ####################################################################
 #                             routing
@@ -40,7 +27,7 @@ class Login(Resource):
         parser.add_argument('password_docente', type=str, help='mat of professor')
         args = parser.parse_args(strict=True)
 
-        return loginProfessor(args['matricola_docente'], args['password_docente'], connection), 201
+        return loginProfessor(args['matricola_docente'], args['password_docente'], database.get_connection()), 201
 
 # ============================    password    ========================== #
 @professor.route('/update_password')
@@ -52,7 +39,7 @@ class UpdatePassword(Resource):
         parser.add_argument('matricola_docente', type=str, help='mat of professor')
         parser.add_argument('password_docente', type=str, help='mat of professor')
         args = parser.parse_args(strict=True)
-        updatePassword(args['nuova_password_docente'], args['matricola_docente'], args['password_docente'], connection)
+        updatePassword(args['nuova_password_docente'], args['matricola_docente'], args['password_docente'], database.get_connection())
 
 
 # ============================    insegnamento    ========================== #
@@ -65,7 +52,7 @@ class Teaching(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('matricola_docente', type=str, help='mat of professor')
         args = parser.parse_args(strict=True)
-        return reperimento_insegnamenti_docente(args['matricola_docente'], connection), 201
+        return reperimento_insegnamenti_docente(args['matricola_docente'], database.get_connection()), 201
 
 
 # ============================    post lezione    ========================== #
@@ -88,7 +75,7 @@ class InsertLesson(Resource):
         inserimento_lezione_docente(args['codice_corso'], args['codice_disciplina'], args['nome_sede'],
                                     args['numero_piano'], args['numero_aula'], args['numero_lezione'],
                                     args['data_inizio'], args['numero_ore'], args['titolo'],
-                                    args['descrizione'], connection)
+                                    args['descrizione'], database.get_connection())
 
 
 # ============================    cancella lezione    ========================== #
@@ -105,7 +92,7 @@ class DelLesson(Resource):
         parser.add_argument('numero_lezione', type=str, help='numero_lezione')
         args = parser.parse_args(strict=True)
         eliminazione_lezione_docente(args['codice_corso'], args['codice_disciplina'], args['nome_sede'],
-                                    args['numero_piano'], args['numero_aula'], args['numero_lezione'],connection)
+                                    args['numero_piano'], args['numero_aula'], args['numero_lezione'],database.get_connection())
 
 
 # ============================   get lezioni    ========================== #
@@ -118,7 +105,7 @@ class GetLessons(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('matricola_docente', type=str, help='mat of professor')
         args = parser.parse_args(strict=True)
-        return reperimento_lezione_docente(args['matricola_docente'], connection), 201
+        return reperimento_lezione_docente(args['matricola_docente'], database.get_connection()), 201
 
 
 # ============================  avviso   ========================== #
@@ -140,7 +127,7 @@ class Alert(Resource):
                                    args['data_avviso'],
                                    args['titolo_avviso'],
                                    args['corpo_avviso'],
-                                   connection)
+                                   database.get_connection())
 
 
 # ============================  avvisi   ========================== #
@@ -153,7 +140,7 @@ class GetAlerts(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('matricola_docente', type=str, help='mat of professor')
         args = parser.parse_args(strict=True)
-        return reperimento_avvisi_docente(args['matricola_docente'], connection), 201
+        return reperimento_avvisi_docente(args['matricola_docente'], database.get_connection()), 201
 
 
 # ============================  ricevimento   ========================== #
@@ -166,7 +153,7 @@ class InsertReceipt(Resource):
         parser.add_argument('data_ricevimento', type=str, help='data_ricevimento')
         parser.add_argument('ore_ricevimento', type=str, help='ore_ricevimento')
         args = parser.parse_args(strict=True)
-        inserimento_ricevimento(args['matricola_docente'], args['data_ricevimento'], args['ore_ricevimento'], connection)
+        inserimento_ricevimento(args['matricola_docente'], args['data_ricevimento'], args['ore_ricevimento'], database.get_connection())
 
 
 # ============================  update ricevimento   ========================== #
@@ -186,7 +173,7 @@ class UpdateRichiestaRicevimento(Resource):
                                      args['matricola_studente'],
                                      args['ora_inizio'],
                                      args['durata'],
-                                     connection)
+                                     database.get_connection())
 
 
 
@@ -202,7 +189,7 @@ class DelReceipt(Resource):
         args = parser.parse_args(strict=True)
         delete_ricevimento(args['matricola_docente'],
                            args['data_ricevimento'],
-                           connection)
+                           database.get_connection())
 
 
 # ============================ richiesta ricevimento   ========================== #
@@ -214,12 +201,4 @@ class Receipts(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('matricola_docente', type=str, help='mat of professor')
         args = parser.parse_args(strict=True)
-        return reperimento_info_ricevimenti(args['matricola_docente'],connection), 201
-
-
-# ============================    calendario   ========================== #
-@professor.route('/calendario')
-class Calendario(Resource):
-
-    def post(self):
-        return {'iscrizione newsletter': '1'}
+        return reperimento_info_ricevimenti(args['matricola_docente'], database.get_connection()), 201
