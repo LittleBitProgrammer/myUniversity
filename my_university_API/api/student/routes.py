@@ -1,156 +1,123 @@
-# This file contain all routes of student
+# This file contain all routes of student (This file is for Charlie)
 
 ####################################################################
 #                             import
 ####################################################################
-from api.student import student  # to use api
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-import mysql.connector
-from mysql.connector import Error
-
-####################################################################
-#                             model
-####################################################################
-contact_person = student.model('contact_person', {
-    'tipo_contatto': fields.String,
-    'valore_contatto': fields.String
-})
-
-student_model = student.model('student_model', {
-    'cf': fields.String,
-    'nome': fields.String,
-    'cognome': fields.String,
-    'data_di_nascita': fields.String,
-    'luogo_di_nascita': fields.String,
-    'cap': fields.String,
-    'via_piazza': fields.String,
-    'civico': fields.String,
-    'matricola_studente': fields.String,
-    'email_studente': fields.String,
-    'data_immatricolazione': fields.String,
-    'contatti': fields.List(fields.Nested(contact_person))})
-
-login_student = student.model('login_student', {
-    'matricola_studente': fields.String,
-    'password_studente': fields.String
-})
+from api.database_config import DatabaseConnector
+from api.student.models import *
+from api.student.database_functions import *
 
 
-####################################################################
-#                             function
-####################################################################
-def loginStudent(matricola_studente, password_studente):
-    records = []
+database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
 
-    try:
-        connects = mysql.connector
-        connects.connect()
-        connection = mysql.connector.connect(host='localhost',
-                                             database='my_university_db',
-                                             user='root',
-                                             password='')
-        cursor = connection.cursor()
-
-        sql_select_Query = """SELECT persona.cf,
-                                     persona.nome,
-                                     persona.cognome, 
-                                     persona.data_di_nascita, 
-                                     persona.luogo_di_nascita, 
-                                     persona.cap, 
-                                     persona.via_piazza, 
-                                     persona.civico, 
-                                     studente.matricola_studente,
-                                     studente.email_studente, 
-                                     studente.data_immatricolazione
-                                FROM persona INNER JOIN studente 
-                                ON persona.cf = studente.cf 
-                                WHERE studente.matricola_studente = %s
-                                AND studente.password_studente = %s"""
+# ============================    richiesta ricevimento   ========================== #
+@student.route('/richiesta_ricevimento')
+class InsertRichiestaRicevimento(Resource):
+    @student.expect(insert_richiesta_ricevimento_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='matricola_docente')
+        parser.add_argument('data_ricevimento', type=str, help='data_ricevimento')
+        parser.add_argument('matricola_studente', type=str, help='matricola_studente')
+        parser.add_argument('motivazione_ricevimento', type=str, help='motivazione_ricevimento')
+        args = parser.parse_args(strict=True)
+        insert_richiesta_ricevimento(args['matricola_docente'],
+                                     args['data_ricevimento'],
+                                     args['matricola_studente'],
+                                     args['motivazione_ricevimento'],
+                                     database.get_connection())
 
 
-        student_tuple = (matricola_studente, password_studente)
+# ============================    cancella ricevimento   ========================== #
+@student.route('/cancella_richiesta_ricevimento')
+class DelRequestReceipt(Resource):
+    @student.expect(delete_richiesta_ricevimento_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='matricola_docente')
+        parser.add_argument('data_ricevimento', type=str, help='data_ricevimento')
+        parser.add_argument('matricola_studente', type=str, help='matricola_studente')
+        args = parser.parse_args(strict=True)
+        delete_richiesta_ricevimento(args['matricola_docente'],
+                                     args['data_ricevimento'],
+                                     args['matricola_studente'],
+                                     database.get_connection())
 
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute(sql_select_Query, student_tuple)
-        records = cursor.fetchall()
+# ============================    iscrizione_newletter   ========================== #
+@student.route('/iscrizione_newsletter')
+class IscrizioneNewsletter(Resource):
+    @student.expect(insert_iscrizione_newsletter_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice_corso')
+        parser.add_argument('codice_disciplina', type=str, help='codice_disciplina')
+        parser.add_argument('matricola_studente', type=str, help='matricola_studente')
+        parser.add_argument('data_iscrizione', type=str, help='data_iscrizione')
+        args = parser.parse_args(strict=True)
+        insert_iscrizione_newsletter(args['codice_corso'],
+                                     args['codice_disciplina'],
+                                     args['matricola_studente'],
+                                     args['data_iscrizione'],
+                                     database.get_connection())
+
+# ============================    avvisi   ========================== #
+@student.route('/avvisi')
+class SubmitNewsletter(Resource):
+    @student.expect(freshman_student)
+    @student.marshal_with(get_news_student_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_studente', type=str, help='matricola_studente')
+        args = parser.parse_args(strict=True)
+        return reperimento_news_studente(args['matricola_studente'], database.get_connection()), 201
 
 
-        print('prima del for')
-        print(records)
-
-        mysql_query_contacts = """SELECT tipo_contatto, valore_contatto
-                                          FROM contatto_persona
-                                          WHERE cf = %s"""
-
-        record_tuple = (records[0]['cf'],)
-        cursor.execute(mysql_query_contacts, record_tuple)
-        contacts = cursor.fetchall()
-
-        print(contacts)
-
-        records[0]['contatti'] = contacts
-
-        print("Fetching each row using column name")
-
-    except Error as e:
-        print("Error reading data from MySQL table", e)
-    finally:
-        if (connection.is_connected()):
-            connection.close()
-            cursor.close()
-            print("MySQL connection is closed")
-            return records
+# ============================    lista prenotazioni ricevimento   ========================== #
+@student.route('/lista_prenotazioni_ricevimento')
+class ListaPrenotazioniRIcevimento(Resource):
+    @student.expect(freshman_student)
+    @student.marshal_with(get_prenotazioni_ricevimento_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_studente', type=str, help='matricola_studente')
+        args = parser.parse_args(strict=True)
+        return reperimento_prenotazioni_ricevimento_studente(args['matricola_studente'], database.get_connection()), 201
 
 
-####################################################################
-#                             routing
-####################################################################
 # ============================    studente    ========================== #
 @student.route('/login')
 class Login(Resource):
 
-    @student.expect(login_student)
+    @student.expect(login_student_model)
     @student.marshal_with(student_model)
     def post(self):
+
         # arguments
         parser = reqparse.RequestParser()
-        parser.add_argument('matricola_studente', type=str, help='bd of student')
-        parser.add_argument('password_studente', type=str, help='bd of student')
+        parser.add_argument('matricola_studente', type=str, help='matricola dello studente universitario')
+        parser.add_argument('password_studente', type=str, help='password dello studente universitario')
         args = parser.parse_args(strict=True)
 
-        return loginStudent(args['matricola_studente'], args['password_studente']), 201
+        return loginStudent(args['matricola_studente'], args['password_studente'], database.get_connection()), 250
 
 
 # ============================    update password    ========================== #
 @student.route('/password')
 class Password(Resource):
 
+    @student.expect(update_password_student_model)
     def post(self):
-        return {'password': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('nuova_password_studente', type=str, help='nuova password dello studente universitario')
+        parser.add_argument('matricola_studente', type=str, help='matricola dello studente universitario')
+        parser.add_argument('password_studente', type=str, help='password dello studente universitario')
+        args = parser.parse_args(strict=True)
 
-
-# ============================    get contatto   ========================== #
-@student.route('/contatti')
-class GetContact(Resource):
-
-    def post(self):
-        return {'contatti': '1'}
-
-
-# ============================    richiesta ricevimento   ========================== #
-@student.route('/richiesta_ricevimento')
-class RequestReceipt(Resource):
-
-    def post(self):
-        return {'richiesta_ricevimento': '1'}
-
-
-# ============================    cancella ricevimento   ========================== #
-@student.route('/cancella_richiesta_ricevimento')
-class DelRequestReceipt(Resource):
-
-    def post(self):
-        return {'richiesta_ricevimento': '1'}
+        updatePassword(args['nuova_password_studente'],
+                       args['matricola_studente'],
+                       args['password_studente'],
+                       database.get_connection())
 
 
 # ============================    get discipline   ========================== #
@@ -165,37 +132,55 @@ class Discipline(Resource):
 @student.route('/follow_disciplina')
 class FollowDiscipline(Resource):
 
+    @student.expect(follow_discipline_model)
+    @student.marshal_with(follow_discipline_model)
     def post(self):
-        return {'segui disciplina': '1'}
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        parser.add_argument('matricola_studente', type=str, help='codice della matricola studente universitaria')
+        args = parser.parse_args(strict=True)
+
+        followDiscipline(args['codice_corso'],
+                         args['codice_disciplina'],
+                         args['matricola_studente'],
+                         database.get_connection())
+
+        return args, 250
 
 
 # ============================    unfollow disciplina   ========================== #
 @student.route('/unfollow_disciplina')
 class UnfollowDiscipline(Resource):
 
+    @student.expect(follow_discipline_model)
+    @student.marshal_with(follow_discipline_model)
     def post(self):
-        return {'segui disciplina': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        parser.add_argument('matricola_studente', type=str, help='codice della matricola studente universitaria')
+        args = parser.parse_args(strict=True)
 
+        unFollowDiscipline(args['codice_corso'],
+                           args['codice_disciplina'],
+                           args['matricola_studente'],
+                           database.get_connection())
 
-# ============================    iscrizione_newletter   ========================== #
-@student.route('/iscrizione')
-class SubmitNewsletter(Resource):
-
-    def post(self):
-        return {'iscrizione newsletter': '1'}
-
-
-# ============================    avvisi   ========================== #
-@student.route('/avvisi')
-class SubmitNewsletter(Resource):
-
-    def post(self):
-        return {'iscrizione newsletter': '1'}
+        return args, 250
 
 
 # ============================    calendario   ========================== #
 @student.route('/calendario')
 class Calendario(Resource):
 
+    @student.expect(get_calendar_student_model)
+    @student.marshal_with(calendar_model)
     def post(self):
-        return {'iscrizione newsletter': '1'}
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_studente', type=str, help='codice della matricola studente universitaria')
+        args = parser.parse_args(strict=True)
+
+        return getCalendar(args['matricola_studente'], database.get_connection())

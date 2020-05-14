@@ -3,53 +3,9 @@
 ####################################################################
 #                             import
 ####################################################################
-from api.secretary import secretary  # to use api
 from flask_restx import Resource, reqparse  # to use Resource, that expose http request method
-from api.secretary.models import (insert_student_model,  # to import models
-                                  insert_headoffice_model,
-                                  get_head_office_model,
-                                  insert_contact_model,
-                                  delete_head_office_model,
-                                  insert_room_model,
-                                  delete_room_model,
-                                  insert_degree_course_model,
-                                  delete_degree_course_model,
-                                  insert_location_model,
-                                  get_all_location_model,
-                                  insert_discipline_model,
-                                  get_all_discipline_model,
-                                  delete_discipline_model,
-                                  insert_teacher_model,
-                                  get_all_teacher_model,
-                                  delete_teacher_model,
-                                  get_all_student_model,
-                                  delete_teach_model,
-                                  delete_student_model,
-                                  get_all_teachings_model)
-from api.secretary.database_functions import (insertStudent,  # to import query of db
-                                              insertHeadOffice,
-                                              get_all_head_offices,
-                                              insertHeadOfficeContact,
-                                              deleteHeadOffice,
-                                              insertRoom,
-                                              deleteRoom,
-                                              insertDegreeCourse,
-                                              get_all_degree_courses,
-                                              deleteDegreeCourse,
-                                              insertLocation,
-                                              get_all_locations,
-                                              deleteLocation,
-                                              insertDiscipline,
-                                              get_all_discipline,
-                                              deleteDiscipline,
-                                              insertTeacher,
-                                              get_all_teachers,
-                                              deleteTeacher,
-                                              get_all_students,
-                                              deleteTeach,
-                                              insertTeach,
-                                              deleteStudent,
-                                              get_all_teachings)
+from api.secretary.database_functions import *
+from api.secretary.models import *
 from api.database_config import DatabaseConnector
 
 ####################################################################
