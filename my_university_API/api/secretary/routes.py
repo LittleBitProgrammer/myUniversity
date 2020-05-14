@@ -12,6 +12,7 @@ import mysql.connector
 
 database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
 
+
 ####################################################################
 #                             function
 ####################################################################

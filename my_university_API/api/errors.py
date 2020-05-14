@@ -60,7 +60,7 @@ class ServerError(BaseError):
         BaseError.__init__(self)
         self.code = 500
         self.message = message
-        self.status = 'SERVER_ERROR'
+        self.status = 'PARTHENOPE SERVER_ERROR'
 
 
 @api.errorhandler(NotFoundError)

@@ -63,3 +63,43 @@ mySQL_query_get_calendar = """SELECT disciplina_seguita.codice_corso,
                                            NATURAL JOIN insegna) AS doc
                                ON disciplina.codice_disciplina = doc.codice_disciplina
                                WHERE studente.matricola_studente = %s"""
+
+#TODO:// create route to get all discipline
+ciao ="""select * from ((SELECT corso_di_laurea.codice_corso, 
+corso_di_laurea.nome_corso, 
+disciplina.codice_disciplina, 
+disciplina.nome_disciplina, 
+disciplina.anno as anno, 
+disciplina.semestre as semestre, 
+disciplina.cfu as cfu
+FROM disciplina 
+INNER JOIN corso_di_laurea 
+ON corso_di_laurea.codice_corso = disciplina.codice_corso
+INNER JOIN appartiene 
+ON appartiene.codice_corso = corso_di_laurea.codice_corso 
+INNER JOIN studente 
+ON studente.matricola_studente = appartiene.matricola_studente 
+WHERE (SELECT studente.anno_in_corso FROM studente WHERE studente.matricola_studente = '0124001871') >= disciplina.anno 
+AND disciplina.semestre = 1 
+) AS t1)
+UNION
+(
+SELECT corso_di_laurea.codice_corso, 
+corso_di_laurea.nome_corso, 
+disciplina.codice_disciplina, 
+disciplina.nome_disciplina, 
+disciplina.anno as anno, 
+disciplina.semestre as semestre, 
+disciplina.cfu as cfu
+FROM disciplina 
+INNER JOIN corso_di_laurea ON corso_di_laurea.codice_corso = disciplina.codice_corso 
+INNER JOIN appartiene ON appartiene.codice_corso = corso_di_laurea.codice_corso 
+INNER JOIN studente ON studente.matricola_studente = appartiene.matricola_studente 
+WHERE (SELECT studente.anno_in_corso from studente where studente.matricola_studente = '0124001871') >= disciplina.anno 
+AND disciplina.semestre = 2 
+AND (SELECT MONTH(SYSDATE())>= 3 from dual) 
+AND (SELECT MONTH(SYSDATE())<= 9 from dual) 
+
+)
+
+ORDER BY anno DESC, semestre DESC, cfu ASC"""
