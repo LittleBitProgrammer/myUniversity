@@ -1,6 +1,10 @@
 //import lib
 import React, {Component} from 'react';
+// ROUTER
 import {BrowserRouter} from 'react-router-dom';
+// NAVBAR
+import Navitem from './navabar/Navitem';
+import Toggler from './navabar/Toggler';
 
 //create a component 
 class App extends Component {
@@ -10,18 +14,14 @@ class App extends Component {
                 <BrowserRouter>
                     <nav className="navbar navbar-expand-lg  navbar-dark bg-primary">
                         <a className="navbar-brand" href="/">Navbar</a>
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
+                        <Toggler/>
 
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav mr-auto">
-                                <li className="nav-item active">
-                                    <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/">Link</a>
-                                </li>
+                                <Navitem path='/' name='News' exact='true'/>
+                                <Navitem path='/calendario' name='Calendario'/>
+                                <Navitem path='/ricevimento' name='Ricevimento'/>
+                                <Navitem path='/chat' name='Chat'/>
                             </ul>
                         </div>
                     </nav>
