@@ -1,32 +1,51 @@
 //import lib
 import React, {Component} from 'react';
+// ROUTER
 import {BrowserRouter} from 'react-router-dom';
+// NAVBAR
+import Navigation from './navabar/Navigation';
+import Navitem from './navabar/Navitem';
+import NavLeft from './navabar/NavLeft';
+import NavRight from './navabar/NavRight';
+//ROUTES
+import Routes from './routes/Routes';
+//BOOTSTRAP
+import RoundImage from './bootstrap/RoundImage';
+// IMG
+import myUniversityLogo from '../img//svg//graduation-hat.svg';
+import Container from './bootstrap/Container';
 
 //create a component 
 class App extends Component {
     render(){
         return (
-            <diV>
+            <div>
                 <BrowserRouter>
-                    <nav className="navbar navbar-expand-lg  navbar-dark bg-primary">
-                        <a className="navbar-brand" href="/">Navbar</a>
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav mr-auto">
-                                <li className="nav-item active">
-                                    <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/">Link</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
+                    <Navigation 
+                      className='navbar navbar-expand-lg navbar-dark bg-primary fixed-top' 
+                      brandName='myUniversity' 
+                      logoPath={myUniversityLogo}>
+                        <NavRight>
+                            <Navitem path='/profilo'>
+                                <RoundImage 
+                                  path='https://www.lascimmiapensa.com/wp-content/uploads/2019/03/Al-Bano-1.jpg' 
+                                  altText='profile image'
+                                  width='45px'
+                                  height='45px'/>
+                            </Navitem>
+                        </NavRight>
+                        <NavLeft>
+                            <Navitem path='/' name='News' exact={true}/>
+                            <Navitem path='/calendario' name='Calendario'/>
+                            <Navitem path='/ricevimento' name='Ricevimento'/>
+                            <Navitem path='/chat' name='Chat'/>
+                        </NavLeft>
+                    </Navigation>
+                    <Container>
+                        <Routes/>
+                    </Container>
                 </BrowserRouter>
-            </diV>
+            </div>
         );
     }
 }
