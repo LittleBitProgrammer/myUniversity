@@ -153,3 +153,18 @@ update_richiesta_ricevimento_model = professor.model('update_richiesta_ricevimen
     'ora_inizio': fields.String,
     'durata': fields.String
 })
+
+
+lista_studenti_iscritti_corso_piu_newsletter_per_chat_model = professor.model('lista_studenti_iscritti_corso_piu_newsletter_per_chat_model',{
+    'cf': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String,
+    'matricola_studente': fields.String,
+    'email_studente': fields.String,
+    'anno_in_corso': fields.String,
+    'codice_corso': fields.String,
+    'nome_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_disciplina': fields.String,
+    'contatti': fields.List(fields.Nested(contact_person))
+})
