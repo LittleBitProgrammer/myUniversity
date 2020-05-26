@@ -5,6 +5,8 @@ import {BrowserRouter} from 'react-router-dom';
 // NAVBAR
 import Navigation from './navabar/Navigation';
 import Navitem from './navabar/Navitem';
+//ROUTES
+import Routes from './routes/Routes';
 
 //create a component 
 class App extends Component {
@@ -12,12 +14,13 @@ class App extends Component {
         return (
             <diV>
                 <BrowserRouter>
-                    <Navigation className='navbar navbar-expand-lg  navbar-dark bg-primary' brandName='myUniversity'>
-                        <Navitem path='/' name='News' exact='true'/>
+                    <Navigation className='navbar navbar-expand-lg  navbar-dark bg-primary fixed-top' brandName='myUniversity'>
+                        <Navitem path='/' name='News' exact={true}/>
                         <Navitem path='/calendario' name='Calendario'/>
                         <Navitem path='/ricevimento' name='Ricevimento'/>
                         <Navitem path='/chat' name='Chat'/>
                     </Navigation>
+                    <Routes/>
                 </BrowserRouter>
             </diV>
         );

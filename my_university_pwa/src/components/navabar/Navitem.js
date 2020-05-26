@@ -5,12 +5,12 @@ import {NavLink} from 'react-router-dom'
 //create a component
 const Navitem = ({path, name, exact}) => {
     return (
-        <li className="nav-item active">
+        <li className="nav-item" data-toggle='collapse' data-target='.navbar-collapse.show'>
             <NavLink 
               className="nav-link" 
               to={path} 
-              activeClassName='active'
-              exact={exact}>
+              exact={exact}
+              activeClassName='active'>
               {name}
               <span className="sr-only">(current)</span>
             </NavLink>
@@ -20,7 +20,7 @@ const Navitem = ({path, name, exact}) => {
 
 Navitem.defaultProps = {
     name: 'undefined',
-    exact: 'false'
+    exact: false
 }
 
 // export a component
