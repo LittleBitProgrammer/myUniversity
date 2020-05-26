@@ -1,7 +1,7 @@
 //import lib
 import React, {Component} from 'react';
 // ROUTER
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, Redirect} from 'react-router-dom';
 // NAVBAR
 import Navigation from './navabar/Navigation';
 import Navitem from './navabar/Navitem';
@@ -19,21 +19,22 @@ import Container from './bootstrap/Container';
 
 //create a component 
 class App extends Component {
-    render(){
-        return (
-            <div>
-                <BrowserRouter>
+
+    viewLoad( isloaded ){
+        if(isloaded){
+            return(
+                <div>
                     <Navigation 
-                      className='navbar navbar-expand-lg navbar-dark bg-primary fixed-top' 
-                      brandName='myUniversity' 
-                      logoPath={myUniversityLogo}>
+                        className='navbar navbar-expand-lg navbar-dark bg-primary fixed-top' 
+                        brandName='myUniversity' 
+                        logoPath={myUniversityLogo}>
                         <NavRight>
                             <Navitem path='/profilo'>
                                 <RoundImage 
-                                  path='https://www.lascimmiapensa.com/wp-content/uploads/2019/03/Al-Bano-1.jpg' 
-                                  altText='profile image'
-                                  width='45px'
-                                  height='45px'/>
+                                    path='https://www.lascimmiapensa.com/wp-content/uploads/2019/03/Al-Bano-1.jpg' 
+                                    altText='profile image'
+                                    width='45px'
+                                    height='45px'/>
                             </Navitem>
                         </NavRight>
                         <NavLeft>
@@ -46,7 +47,28 @@ class App extends Component {
                     <Container>
                         <Routes/>
                     </Container>
-                    <BottomBar firstYear='2020' lastYear='2020' authors={['Carlo Lomello','Francesco Mabilia','Vecchio Roberto']}/>
+                    <BottomBar 
+                        firstYear='2020' 
+                        lastYear='2020' 
+                        authors={['Carlo Lomello','Francesco Mabilia','Vecchio Roberto']}/>
+                </div>
+            )
+        }else{
+        return(
+            <div>
+                <Redirect to={{pathname: "/login"}}/>
+                <Container>
+                    <Routes/>
+                </Container>
+            </div>);
+        }
+    }
+
+    render(){
+        return (
+            <div>
+                <BrowserRouter>
+                    {this.viewLoad(false)}
                 </BrowserRouter>
             </div>
         );
