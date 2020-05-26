@@ -114,3 +114,14 @@ calendar_model = student.model('calendar model', {
     'titolo': fields.String,
     'descrizione': fields.String
 })
+
+lista_docenti_iscritti_corso_piu_newsletter_per_chat_model = student.model('lista_docenti_iscritti_corso_piu_newsletter_per_chat_model',{
+    'cf': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String,
+    'matricola_docente': fields.String,
+    'email_docente': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_disciplina': fields.String,
+    'contatti': fields.List(fields.Nested(contact_person_model))
+})

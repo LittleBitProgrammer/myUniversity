@@ -203,6 +203,7 @@ class Receipts(Resource):
         args = parser.parse_args(strict=True)
         return reperimento_info_ricevimenti(args['matricola_docente'], database.get_connection()), 201
 
+
 # ============================ reperimento contatti studenti  ========================== #
 @professor.route('/reperimento_lista_studenti_iscritti_corso_piu_newsletter_per_chat')
 class Receipts(Resource):

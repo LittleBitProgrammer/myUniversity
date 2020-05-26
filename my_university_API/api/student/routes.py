@@ -184,3 +184,15 @@ class Calendario(Resource):
         args = parser.parse_args(strict=True)
 
         return getCalendar(args['matricola_studente'], database.get_connection())
+
+
+# ============================ reperimento contatti docenti  ========================== #
+@student.route('/reperimento_lista_docenti_iscrizione_corso_piu_newsletter_per_chat')
+class Receipts(Resource):
+    @student.expect(freshman_student)
+    @student.marshal_with(lista_docenti_iscritti_corso_piu_newsletter_per_chat_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_studente', type=str, help='mat of student')
+        args = parser.parse_args(strict=True)
+        return reperimentoInfoDocentiCorsiENewsletter(args['matricola_studente'], database.get_connection()), 201
