@@ -115,7 +115,7 @@ calendar_model = student.model('calendar model', {
     'descrizione': fields.String
 })
 
-lista_docenti_iscritti_corso_piu_newsletter_per_chat_model = student.model('lista_docenti_iscritti_corso_piu_newsletter_per_chat_model',{
+lista_docenti_iscritti_corso_piu_newsletter_per_chat_model = student.model('lista_docenti_iscritti_corso_piu_newsletter_per_chat_model', {
     'cf': fields.String,
     'nome': fields.String,
     'cognome': fields.String,
@@ -124,4 +124,14 @@ lista_docenti_iscritti_corso_piu_newsletter_per_chat_model = student.model('list
     'codice_disciplina': fields.String,
     'nome_disciplina': fields.String,
     'contatti': fields.List(fields.Nested(contact_person_model))
+})
+
+
+lista_ricevimenti_prenotabili_model = student.model('get_lista_possibili_ricevimenti_model', {
+    'data_ricevimento': fields.String,
+    'ore_ricevimento': fields.String,
+    'matricola_docente': fields.String,
+    'email_docente': fields.String,
+    'nome': fields.String,
+    'cognome': fields.String
 })

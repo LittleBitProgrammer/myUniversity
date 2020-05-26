@@ -206,7 +206,7 @@ class Receipts(Resource):
 
 # ============================ reperimento contatti studenti  ========================== #
 @professor.route('/reperimento_lista_studenti_iscritti_corso_piu_newsletter_per_chat')
-class Receipts(Resource):
+class ListaStudentiPerChat(Resource):
     @professor.expect(freshman_professor)
     @professor.marshal_with(lista_studenti_iscritti_corso_piu_newsletter_per_chat_model)
     def post(self):
