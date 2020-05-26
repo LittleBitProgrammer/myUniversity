@@ -1,14 +1,8 @@
 //import lib
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 //NAVBAR
 import Toggler from './Toggler';
 import Brand from './Brand';
-import NavLeft from './NavLeft';
-import NavRight from './NavRight';
-//BOOTSTRAP
-import RoundImage from '../bootstrap/RoundImage';
-import Navitem from './Navitem';
 
 
 // create a component 

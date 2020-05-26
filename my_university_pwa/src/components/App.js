@@ -7,6 +7,8 @@ import Navigation from './navabar/Navigation';
 import Navitem from './navabar/Navitem';
 import NavLeft from './navabar/NavLeft';
 import NavRight from './navabar/NavRight';
+//BOTTOMBAR
+import BottomBar from './BottomBar';
 //ROUTES
 import Routes from './routes/Routes';
 //BOOTSTRAP
@@ -44,6 +46,7 @@ class App extends Component {
                     <Container>
                         <Routes/>
                     </Container>
+                    <BottomBar firstYear='2020' lastYear='2020' authors={['Carlo Lomello','Francesco Mabilia','Vecchio Roberto']}/>
                 </BrowserRouter>
             </div>
         );
