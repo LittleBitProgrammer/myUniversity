@@ -592,6 +592,9 @@ def deleteTeacher(cf, matricola_docente, connection):
         mySQL_query_delete_teacher_teach = """DELETE FROM insegna
                                               WHERE matricola_docente = %s"""
 
+        mySQL_query_delete_teacher_lavora = """DELETE FROM lavora
+                                                      WHERE matricola_docente = %s"""
+
         mySQL_query_delete_teacher_alert = """DELETE FROM avviso
                                               WHERE matricola_docente = %s"""
 
@@ -617,6 +620,7 @@ def deleteTeacher(cf, matricola_docente, connection):
 
         delete_teacher_tuple = (matricola_docente,)
 
+        cursor.execute(mySQL_query_delete_teacher_lavora, delete_teacher_tuple) #0
         cursor.execute(mySQL_query_delete_teacher_alert, delete_teacher_tuple)  # 1
         cursor.execute(mySQL_query_delete_teacher_teach, delete_teacher_tuple)  # 2
         cursor.execute(mySQL_query_delete_teacher_receipt_request, delete_teacher_tuple)  # 3
@@ -932,6 +936,28 @@ def insertLavora(codice_corso,
         connection.commit()
     except Error as error:
         print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
+
+# function to delete lavora inside database
+def deleteLavora(codice_corso,
+                   matricola_docente,
+                   connection):
+    try:
+        cursor = connection.cursor()
+        mySQL_query_delete_lavora = """DELETE FROM lavora
+                                         WHERE codice_corso = %s
+                                         AND matricola_docente = %s"""
+
+        delete_location_tuple = (codice_corso, matricola_docente)
+        cursor.execute(mySQL_query_delete_lavora, delete_location_tuple)
+
+        connection.commit()
+    except Error as error:
+        print(f'failed to delete into mySQL table {error}')
     finally:
         if connection.is_connected():
             cursor.close()
