@@ -1,19 +1,30 @@
 //import lib
 import React from 'react';
-import {NavLink} from 'react-router-dom';
 import Toggler from './Toggler';
+import Brand from './Brand';
+import NavLeft from './NavLeft';
+import NavRight from './NavRight';
 
 // create a component 
-const Navigation = ({brandName,className,children}) => {
+const Navigation = ({brandName, className, children, width, height, logoPath}) => {
     return (
         <nav className={className}>
-            <NavLink className="navbar-brand" to="/">{brandName}</NavLink>
+            <Brand name={brandName} logoPath={logoPath} width={width} height={height}/>
             <Toggler/>
 
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav mr-auto">
+                <NavRight>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Right</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Link</a>
+                    </li>
+                </NavRight>
+                <NavLeft>
                     {children}
-                </ul>
+                </NavLeft>
+                
             </div>
         </nav>
     );

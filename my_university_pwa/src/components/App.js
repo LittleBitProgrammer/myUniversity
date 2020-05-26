@@ -7,22 +7,30 @@ import Navigation from './navabar/Navigation';
 import Navitem from './navabar/Navitem';
 //ROUTES
 import Routes from './routes/Routes';
+// IMG
+import myUniversityLogo from '../img//svg//graduation-hat.svg'
+import Container from './bootstrap/Container';
 
 //create a component 
 class App extends Component {
     render(){
         return (
-            <diV>
+            <div>
                 <BrowserRouter>
-                    <Navigation className='navbar navbar-expand-lg  navbar-dark bg-primary fixed-top' brandName='myUniversity'>
+                    <Navigation 
+                      className='navbar navbar-expand-lg navbar-dark bg-primary fixed-top' 
+                      brandName='myUniversity' 
+                      logoPath={myUniversityLogo}>
                         <Navitem path='/' name='News' exact={true}/>
                         <Navitem path='/calendario' name='Calendario'/>
                         <Navitem path='/ricevimento' name='Ricevimento'/>
                         <Navitem path='/chat' name='Chat'/>
                     </Navigation>
-                    <Routes/>
+                    <Container>
+                        <Routes/>
+                    </Container>
                 </BrowserRouter>
-            </diV>
+            </div>
         );
     }
 }
