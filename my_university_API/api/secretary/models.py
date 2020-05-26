@@ -200,3 +200,8 @@ update_anno_in_corso_studente_model = secretary.model('update anno in corso stud
     'matricola_studente': fields.String,
     'anno_in_corso': fields.Integer
 })
+
+insert_lavora_model = secretary.model('insert_lavora_model', {
+    'codice_corso': fields.String,
+    'matricola_docente': fields.String
+})

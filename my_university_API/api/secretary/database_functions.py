@@ -915,3 +915,25 @@ def updateAnnoInCorso(anno_in_corso, matricola_studente, connection):
             connection.close()
             cursor.close()
             print('MySQL connection is closed')
+
+# function to associate a professor to a course
+def insertLavora(codice_corso,
+               matricola_docente,
+               connection):
+    try:
+        cursor = connection.cursor()
+
+        mySQL_query_insert_lavora = """INSERT INTO lavora(codice_corso, 
+                                                      matricola_docente)
+                                     VALUES (%s, %s)"""
+        lavora_tuple = (codice_corso, matricola_docente)
+        cursor.execute(mySQL_query_insert_lavora, lavora_tuple)
+
+        connection.commit()
+    except Error as error:
+        print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')

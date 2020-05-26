@@ -450,3 +450,20 @@ class UpdateYearStudent(Resource):
 
         updateAnnoInCorso(args['anno_in_corso'], args['matricola_studente'], connection.get_connection())
         return args, 250
+
+# ============================    lavora    ========================== #
+@secretary.route('/lavora')
+class Room(Resource):
+
+    @secretary.expect(insert_lavora_model)
+    def post(self):
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea')
+        parser.add_argument('matricola_docente', type=int, help='matricola del docente')
+        args = parser.parse_args(strict=True)
+
+        insertLavora(args['codice_corso'],
+                   args['matricola_docente'],
+                   connection.get_connection())
+        return args, 250
