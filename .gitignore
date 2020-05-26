@@ -139,3 +139,5 @@ cython_debug/
 .idea
 .idea/
 *.xml
+
+.DS_Store
