@@ -1,3 +1,7 @@
 body {
     padding-top: 100px;
 }
+
+.border-2{
+    border-width: 3px !important;
+}
