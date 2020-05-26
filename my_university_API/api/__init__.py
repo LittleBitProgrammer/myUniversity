@@ -9,7 +9,7 @@ from config import Config  # to use the Config class
 from api.secretary import secretary  # to use secretary namespace
 from api.professor import professor  # to use professor namespace
 from api.student import student  # to use student namespace
-from api.global_op import global_op as universal  # to use global_operation namespace
+from flask_cors import CORS
 
 ####################################################################
 #                           api_variables
@@ -34,6 +34,10 @@ api_contact = '[carlo.lomello001@studenti.uniparthenope.it]  -  ' \
 ####################################################################
 # Creation of a Flask object
 app = Flask(__name__)
+
+# Use CORS
+CORS(app)
+
 # add config to our app
 app.config.from_object(Config)
 
@@ -56,7 +60,6 @@ api = Api(app,
 api.add_namespace(secretary)
 api.add_namespace(professor)
 api.add_namespace(student)
-api.add_namespace(universal)
 
 ####################################################################
 #                        circular imports
