@@ -6,6 +6,7 @@ import News from '../pages/News';
 import Calendar from '../pages/Calendar';
 import Receipt from '../pages/Receipt';
 import Chat from '../pages/Chat';
+import Profile from '../pages/Profile';
 
 //create a component
 const Routes = () => {
@@ -15,6 +16,7 @@ const Routes = () => {
             <Route path='/calendario' component={Calendar}/>
             <Route path='/ricevimento' component={Receipt}/>
             <Route path='/chat' component={Chat}/>
+            <Route path='/profilo' component={Profile}/>
         </Switch>
     );
 }

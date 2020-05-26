@@ -3,7 +3,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom'
 
 //create a component
-const Navitem = ({path, name, exact}) => {
+const Navitem = ({path, name, exact, children}) => {
     return (
         <li className="nav-item" data-toggle='collapse' data-target='.navbar-collapse.show'>
             <NavLink 
@@ -11,7 +11,7 @@ const Navitem = ({path, name, exact}) => {
               to={path} 
               exact={exact}
               activeClassName='active'>
-              {name}
+              {name}{children}
               <span className="sr-only">(current)</span>
             </NavLink>
         </li>
@@ -19,7 +19,7 @@ const Navitem = ({path, name, exact}) => {
 }
 
 Navitem.defaultProps = {
-    name: 'undefined',
+    name: '',
     exact: false
 }
 
