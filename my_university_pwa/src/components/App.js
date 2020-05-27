@@ -13,55 +13,30 @@ import BottomBar from './BottomBar';
 import Routes from './routes/Routes';
 //BOOTSTRAP
 import RoundImage from './bootstrap/RoundImage';
+//COOKIE
+import {Cookies, withCookies} from 'react-cookie';
+import {instanceOf} from 'prop-types';
 // IMG
 import myUniversityLogo from '../img//svg//graduation-hat.svg';
 import Container from './bootstrap/Container';
-import Login from './pages/Login';
 
 //create a component 
 class App extends Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+      };
 
-    viewLoad( isloaded ){
-        if(isloaded){
-            return(
-                <div>
-                    <Navigation 
-                        className='navbar navbar-expand-lg navbar-dark bg-primary fixed-top' 
-                        brandName='myUniversity' 
-                        logoPath={myUniversityLogo}>
-                        <NavRight>
-                            <Navitem path='/profilo'>
-                                <RoundImage 
-                                    path='https://www.lascimmiapensa.com/wp-content/uploads/2019/03/Al-Bano-1.jpg' 
-                                    altText='profile image'
-                                    width='45px'
-                                    height='45px'/>
-                            </Navitem>
-                        </NavRight>
-                        <NavLeft>
-                            <Navitem path='/' name='News' exact={true}/>
-                            <Navitem path='/calendario' name='Calendario'/>
-                            <Navitem path='/ricevimento' name='Ricevimento'/>
-                            <Navitem path='/chat' name='Chat'/>
-                        </NavLeft>
-                    </Navigation>
-                    <Container>
-                        <Routes/>
-                    </Container>
-                    <BottomBar 
-                        firstYear='2020' 
-                        lastYear='2020' 
-                        authors={['Carlo Lomello','Francesco Mabilia','Vecchio Roberto']}/>
-                </div>
-            )
-        }else{
-        return(
-            <div>
-                <Redirect to={{pathname: "/login"}}/>
-                <Container>
-                    <Login/>
-                </Container>
-            </div>);
+    constructor(props){
+        super(props);
+
+        const {cookies} = props;
+
+        this.state={
+            matricola_studente: cookies.get('matricola_studente') || '',
+            matricola_docente: cookies.get('matricola_docente') || '',
+            password_studente: cookies.get('password_studente') || '',
+            password_docente: cookies.get('password_docente') || '',
+            isNavVisible:false
         }
     }
 
@@ -69,7 +44,36 @@ class App extends Component {
         return (
             <div>
                 <BrowserRouter>
-                    {this.viewLoad(true)}
+                    <div>
+                        { !this.state.isNavVisible && <Redirect to={{pathname: "/login"}}/>}
+                        { this.state.isNavVisible && <Navigation 
+                            className='navbar navbar-expand-lg navbar-dark bg-primary fixed-top' 
+                            brandName='myUniversity' 
+                            logoPath={myUniversityLogo}>
+                            <NavRight>
+                                <Navitem path='/profilo'>
+                                    <RoundImage 
+                                        path='https://www.lascimmiapensa.com/wp-content/uploads/2019/03/Al-Bano-1.jpg' 
+                                        altText='profile image'
+                                        width='45px'
+                                        height='45px'/>
+                                </Navitem>
+                            </NavRight>
+                            <NavLeft>
+                                <Navitem path='/' name='News' exact={true}/>
+                                <Navitem path='/calendario' name='Calendario'/>
+                                <Navitem path='/ricevimento' name='Ricevimento'/>
+                                <Navitem path='/chat' name='Chat'/>
+                            </NavLeft>
+                        </Navigation>}
+                        <Container>
+                            <Routes/>
+                        </Container>
+                        <BottomBar 
+                            firstYear='2020' 
+                            lastYear='2020' 
+                            authors={['Carlo Lomello','Francesco Mabilia','Vecchio Roberto']}/>
+                    </div>
                 </BrowserRouter>
             </div>
         );
@@ -77,4 +81,4 @@ class App extends Component {
 }
 
 //export a component
-export default App;
+export default withCookies(App);
