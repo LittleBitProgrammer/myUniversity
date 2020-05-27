@@ -44,33 +44,41 @@ class App extends Component {
 
     login = async() => {
         let response;
+        //console.log('login',this.state.matricola_studente, this.state.password_studente)
         try{
             response = await myUniversity.post('/student/login', {
-                matricola_studente: this.state.freshman,
-                password_studente: this.state.password
+                matricola_studente: this.state.matricola_studente,
+                password_studente: this.state.password_studente
             });
         }catch(error){
             console.log(`😱 There was an error: ${error}`);
         }
 
-        if (response.data.length === 0){
+        // console.log(response);
+
+        if (response.data.length !== 0){
+            this.setState({isNavVisible: true})
+        }else{
             try{
                 response = await myUniversity.post('/professor/login',{
-                    matricola_docente: this.state.freshman,
-                    password_docente: this.state.password
+                    matricola_docente: this.state.matricola_docente,
+                    password_docente: this.state.password_docente
                 });
             }catch(error){
                 console.log(`😱 There was an error: ${error}`);
             }
         }
 
-        if (response.data.length === 0){
+        if (response.data.length !== 0){
+            this.setState({isNavVisible: true});
+        }else{
             this.setState({isNavVisible: false})
         }
+        //console.log(response)
     }
 
     componentDidMount(){
-        console.log(this.state.matricola_studente,this.state.password_studente,this.state.matricola_docente,this.state.password_docente);
+        console.log(this.state.matricola_studente,'-',this.state.password_studente,'-',this.state.matricola_docente,'-',this.state.password_docente);
         if((this.state.matricola_studente && this.state.password_studente) || 
            (this.state.matricola_docente && this.state.password_docente)){
                this.login();

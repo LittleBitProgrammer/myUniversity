@@ -12,8 +12,6 @@ const BottomBar = ({firstYear, lastYear, authors}) => {
         return (<span key={i++} className='text-primary'>{`${auth} - `}</span>);
     });
 
-    console.log(auths, '==========', auths[0]);
-
     return (
         <nav className='navbar navbar-expand navbar-light bg-light fixed-bottom'>
             <span className='navbar-text'>{`© Credits by ${firstYear}-${lastYear}`}</span>
