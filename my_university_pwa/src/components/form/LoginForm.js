@@ -6,6 +6,8 @@ import Submit from '../bootstrap/form/Submit';
 //FORM-FIELDS
 import TextField from '../bootstrap/form/fields/TextField';
 import PasswordField from '../bootstrap/form/fields/PasswordField';
+//API
+import myUniversity from '../../API/myUniversity';
 
 //create a component 
 class LoginForm extends Component{
@@ -23,9 +25,25 @@ class LoginForm extends Component{
         this.setState({[event.target.name]:event.target.value});
     }
 
+    onSubmit = async(event) => {
+        event.preventDefault();
+
+        console.log(this.state.freshman, this.state.password)
+
+        try{
+            const response = await myUniversity.post('/student/login',{
+                matricola_studente: this.state.freshman,
+                password_studente: this.state.password
+            });
+            console.log(response);
+        }catch (error){
+            console.log(`😱 There was an error: ${error}`);
+        }
+    }
+
     render(){
         return(
-            <form>
+            <form onSubmit={this.onSubmit}>
                 <h3>Login</h3>
                 <FormGroup>
                     <TextField
@@ -47,7 +65,7 @@ class LoginForm extends Component{
                       required={true}
                     />
                 </FormGroup>
-                <Submit classColor='btn-primary'/>
+                <Submit classColor='btn-primary' onSubmitClick={this.onSubmit}/>
             </form>
         );
     }
