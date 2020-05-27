@@ -16,6 +16,8 @@ import RoundImage from './bootstrap/RoundImage';
 //COOKIE
 import {Cookies, withCookies} from 'react-cookie';
 import {instanceOf} from 'prop-types';
+//API
+import myUniversity from '../API/myUniversity';
 // IMG
 import myUniversityLogo from '../img//svg//graduation-hat.svg';
 import Container from './bootstrap/Container';
@@ -36,8 +38,45 @@ class App extends Component {
             matricola_docente: cookies.get('matricola_docente') || '',
             password_studente: cookies.get('password_studente') || '',
             password_docente: cookies.get('password_docente') || '',
-            isNavVisible:false
+            isNavVisible:true
         }
+    }
+
+    login = async() => {
+        let response;
+        try{
+            response = await myUniversity.post('/student/login', {
+                matricola_studente: this.state.freshman,
+                password_studente: this.state.password
+            });
+        }catch(error){
+            console.log(`😱 There was an error: ${error}`);
+        }
+
+        if (response.data.length === 0){
+            try{
+                response = await myUniversity.post('/professor/login',{
+                    matricola_docente: this.state.freshman,
+                    password_docente: this.state.password
+                });
+            }catch(error){
+                console.log(`😱 There was an error: ${error}`);
+            }
+        }
+
+        if (response.data.length === 0){
+            this.setState({isNavVisible: false})
+        }
+    }
+
+    componentDidMount(){
+        console.log(this.state.matricola_studente,this.state.password_studente,this.state.matricola_docente,this.state.password_docente);
+        if((this.state.matricola_studente && this.state.password_studente) || 
+           (this.state.matricola_docente && this.state.password_docente)){
+               this.login();
+           }else{
+               this.setState({isNavVisible: false})
+           }
     }
 
     render(){
