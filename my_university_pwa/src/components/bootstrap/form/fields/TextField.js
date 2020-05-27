@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 class TextField extends Component{
 
     composeTextField = () => {
-        const {labelText,id,value,onChange,placeholder,required, className} = this.props;
+        const {labelText,id,name,value,onChange,placeholder,required,className} = this.props;
 
         if(labelText){
             return(
@@ -15,6 +15,7 @@ class TextField extends Component{
                       className={`form-control ${className}`}
                       type='text'
                       id={id}
+                      name={name}
                       value={value}
                       onChange={onChange}
                       placeholder={placeholder}
@@ -27,6 +28,7 @@ class TextField extends Component{
                   className={`form-control ${className}`}
                   type='text'
                   id={id}
+                  name={name}
                   value={value}
                   onChange={onChange}
                   placeholder={placeholder}

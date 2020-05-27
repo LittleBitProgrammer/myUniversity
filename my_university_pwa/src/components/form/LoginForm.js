@@ -9,15 +9,43 @@ import PasswordField from '../bootstrap/form/fields/PasswordField';
 
 //create a component 
 class LoginForm extends Component{
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            freshman: '',
+            password: ''
+        }
+    }
+
+    onChangeFields = (event) => {
+        this.setState({[event.target.name]:event.target.value});
+    }
+
     render(){
         return(
             <form>
                 <h3>Login</h3>
                 <FormGroup>
-                    <TextField/>
+                    <TextField
+                      id='freshman'
+                      name='freshman'
+                      value={this.state.freshman}
+                      onChange={this.onChangeFields}
+                      placeholder='Matricola - Es. 0124002020'
+                      required={true}
+                    />
                 </FormGroup>
                 <FormGroup>
-                    <PasswordField/>
+                    <PasswordField
+                      id='password'
+                      name='password'
+                      value={this.state.password}
+                      onChange={this.onChangeFields}
+                      placeholder='Password'
+                      required={true}
+                    />
                 </FormGroup>
                 <Submit classColor='btn-primary'/>
             </form>
