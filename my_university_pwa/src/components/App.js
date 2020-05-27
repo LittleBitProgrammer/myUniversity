@@ -16,6 +16,7 @@ import RoundImage from './bootstrap/RoundImage';
 // IMG
 import myUniversityLogo from '../img//svg//graduation-hat.svg';
 import Container from './bootstrap/Container';
+import Login from './pages/Login';
 
 //create a component 
 class App extends Component {
@@ -58,7 +59,7 @@ class App extends Component {
             <div>
                 <Redirect to={{pathname: "/login"}}/>
                 <Container>
-                    <Routes/>
+                    <Login/>
                 </Container>
             </div>);
         }
@@ -68,7 +69,7 @@ class App extends Component {
         return (
             <div>
                 <BrowserRouter>
-                    {this.viewLoad(false)}
+                    {this.viewLoad(true)}
                 </BrowserRouter>
             </div>
         );

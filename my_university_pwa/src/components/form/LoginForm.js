@@ -17,7 +17,8 @@ class LoginForm extends Component{
 
         this.state = {
             freshman: '',
-            password: ''
+            password: '',
+            loginError: false
         }
     }
 
@@ -28,20 +29,35 @@ class LoginForm extends Component{
     onSubmit = async(event) => {
         event.preventDefault();
 
-        console.log(this.state.freshman, this.state.password)
-
+        let response;
         try{
-            const response = await myUniversity.post('/student/login',{
+            response = await myUniversity.post('/student/login', {
                 matricola_studente: this.state.freshman,
                 password_studente: this.state.password
             });
-            console.log(response);
-        }catch (error){
+        }catch(error){
             console.log(`😱 There was an error: ${error}`);
+        }
+
+        if (response.data.length === 0){
+            try{
+                response = await myUniversity.post('/professor/login',{
+                    matricola_docente: this.state.freshman,
+                    password_docente: this.state.password
+                });
+            }catch(error){
+                console.log(`😱 There was an error: ${error}`);
+            }
+        }
+
+        if (response.data.length === 0){
+            this.setState({loginError: true})
         }
     }
 
     render(){
+        const errorMessage = !this.state.loginError ? '' : <p className='text-danger'>Matricola o password errate</p>
+
         return(
             <form onSubmit={this.onSubmit}>
                 <h3>Login</h3>
@@ -65,7 +81,8 @@ class LoginForm extends Component{
                       required={true}
                     />
                 </FormGroup>
-                <Submit classColor='btn-primary' onSubmitClick={this.onSubmit}/>
+                {errorMessage}
+                <Submit classColor='btn-primary'/>
             </form>
         );
     }
