@@ -24,7 +24,7 @@ class LoginForm extends Component{
             freshman: '',
             password: '',
             loginError: false,
-            isLogged: false
+            isLogged: this.cookies.get('isLogged') || false
         }
     }
 
@@ -43,10 +43,12 @@ class LoginForm extends Component{
             });
         }catch(error){
             console.log(`😱 There was an error: ${error}`);
+            this.cookies.set('isLogged',false);
         }
         if(response.data.length !== 0){
             this.cookies.set('matricola_studente', this.state.freshman);
             this.cookies.set('password_studente',this.state.password);
+            this.cookies.set('isLogged',true);
         }else{
             try{
                 response = await myUniversity.post('/professor/login',{
@@ -55,14 +57,17 @@ class LoginForm extends Component{
                 });
             }catch(error){
                 console.log(`😱 There was an error: ${error}`);
+                this.cookies.set('isLogged',false);
             }
         }
 
         if (response.data.length !== 0){
             this.cookies.set('matricola_docente', this.state.freshman);
             this.cookies.set('password_docente',this.state.password);
+            this.cookies.set('isLogged',true);
         }else{
             this.setState({loginError: true})
+            this.cookies.set('isLogged',false);
         }
     }
 

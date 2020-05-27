@@ -31,6 +31,7 @@ class App extends Component {
     constructor(props){
         super(props);
 
+        this.myCookies = new Cookies()
         const {cookies} = props;
 
         this.state={
@@ -52,12 +53,14 @@ class App extends Component {
             });
         }catch(error){
             console.log(`😱 There was an error: ${error}`);
+            this.myCookies.set('isLogged',false);
         }
 
         // console.log(response);
 
         if (response.data.length !== 0){
             this.setState({isNavVisible: true})
+            this.myCookies.set('isLogged',true);
         }else{
             try{
                 response = await myUniversity.post('/professor/login',{
@@ -66,13 +69,16 @@ class App extends Component {
                 });
             }catch(error){
                 console.log(`😱 There was an error: ${error}`);
+                this.myCookies.set('isLogged',false);
             }
         }
 
         if (response.data.length !== 0){
             this.setState({isNavVisible: true});
+            this.myCookies.set('isLogged',true);
         }else{
             this.setState({isNavVisible: false})
+            this.myCookies.set('isLogged',false);
         }
         //console.log(response)
     }
