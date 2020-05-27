@@ -9,6 +9,7 @@ from config import Config  # to use the Config class
 from api.secretary import secretary  # to use secretary namespace
 from api.professor import professor  # to use professor namespace
 from api.student import student  # to use student namespace
+from api.mongodb import mongodb
 from flask_cors import CORS
 
 ####################################################################
@@ -24,7 +25,8 @@ api_prefix = f'/api/{api_version}/'  # base url of our API
 api_description = 'This is myUniversity Official API. We divided the API in three main category:' \
                   '\n- Secretary' \
                   '\n- Professor' \
-                  '\n- Student '  # description of our API
+                  '\n- Student '  \
+                  '\n- Mongodb '  # description of our API
 api_contact = '[carlo.lomello001@studenti.uniparthenope.it]  -  ' \
               '[francesco.mabilia001@studenti.uniparthenope.it]  -  ' \
               '[roberto.vecchio001@studenti.uniparthenope.it]'  # contact of our team
@@ -60,6 +62,7 @@ api = Api(app,
 api.add_namespace(secretary)
 api.add_namespace(professor)
 api.add_namespace(student)
+api.add_namespace(mongodb)
 
 ####################################################################
 #                        circular imports
