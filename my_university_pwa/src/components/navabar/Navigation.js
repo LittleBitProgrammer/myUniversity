@@ -21,7 +21,7 @@ const Navigation = ({brandName, className, children, width, height, logoPath}) =
 
 Navigation.defaultProps = {
     brandName: 'Brand Name',
-    className: 'navbar navbar-expand-lg  navbar-dark bg-primary'
+    className: 'navbar navbar-expand-lg navbar-dark bg-primary'
 }
 
 // export a component 

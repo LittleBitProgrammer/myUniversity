@@ -326,3 +326,87 @@ def getCalendar(matricola_studente, connection):
             cursor.close()
             print('MySQL connection is closed')
             return lessons
+
+
+
+
+def reperimentoInfoDocentiCorsiENewsletter(matricola_studente, connection):
+    professors = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        student_tuple = (matricola_studente, matricola_studente)
+        lista_docenti_iscrizione_corso_piu_newsletter_per_chat = """
+            SELECT persona.cf, persona.nome, persona.cognome, docente.matricola_docente, docente.email_docente,
+            disciplina.codice_disciplina, disciplina.nome_disciplina
+            FROM persona
+            INNER JOIN docente on persona.cf = docente.cf
+            INNER JOIN insegna on docente.matricola_docente = insegna.matricola_docente
+            INNER JOIN disciplina on insegna.codice_corso = disciplina.codice_corso and insegna.codice_disciplina = disciplina.codice_disciplina
+            INNER JOIN disciplina_seguita on disciplina.codice_corso = disciplina_seguita.codice_corso AND disciplina.codice_disciplina = disciplina_seguita.codice_disciplina
+            WHERE disciplina_seguita.matricola_studente = %s
+            UNION
+            SELECT persona.cf, persona.nome, persona.cognome, docente.matricola_docente, docente.email_docente,
+            disciplina.codice_disciplina, disciplina.nome_disciplina
+            FROM persona
+            INNER JOIN docente on persona.cf = docente.cf
+            INNER JOIN insegna on docente.matricola_docente = insegna.matricola_docente
+            INNER JOIN disciplina on insegna.codice_corso = disciplina.codice_corso and insegna.codice_disciplina = disciplina.codice_disciplina
+            INNER JOIN iscrizione_newsletter on disciplina.codice_corso = iscrizione_newsletter.codice_corso AND disciplina.codice_disciplina = iscrizione_newsletter.codice_disciplina
+            WHERE iscrizione_newsletter.matricola_studente = %s
+            """
+        cursor.execute(lista_docenti_iscrizione_corso_piu_newsletter_per_chat, student_tuple)
+        professors = cursor.fetchall()
+
+        mySQL_query_get_student_contacts = """SELECT tipo_contatto, valore_contatto
+                                              FROM contatto_persona
+                                              WHERE cf = %s"""
+
+        for temp_professor in professors:
+            cursor.execute(mySQL_query_get_student_contacts, (temp_professor['cf'],))
+            temp_professor['contatti'] = cursor.fetchall()
+
+    except Error as e:
+        print('Error reading data from MySQL table', e)
+    finally:
+        if connection.is_connected():
+            connection.close()
+            cursor.close()
+            print('MySQL connection is closed')
+            return professors
+
+
+
+def reperimento_ricevimenti_prenotabili(matricola_studente, connection):
+    records = []
+    try:
+        cursor = connection.cursor()
+        qry_ricevimenti_possibili_studente = """
+        SELECT ricevimento.data_ricevimento, ricevimento.ore_ricevimento, 
+        docente.matricola_docente, docente.email_docente, persona.nome, persona.cognome 
+        from persona 
+        INNER JOIN docente on persona.cf = docente.cf 
+        INNER JOIN ricevimento on docente.matricola_docente = ricevimento.matricola_docente 
+        INNER JOIN lavora on docente.matricola_docente = lavora.matricola_docente 
+        WHERE lavora.codice_corso = (SELECT appartiene.codice_corso 
+                                        from appartiene 
+                                        INNER JOIN studente 
+                                        on appartiene.matricola_studente = studente.matricola_studente 
+                                        WHERE studente.matricola_studente = %s) 
+        AND ricevimento.data_ricevimento > (SYSDATE()+INTERVAL 1 DAY )
+        ORDER BY ricevimento.data_ricevimento ASC;
+        """
+        student_tuple = (matricola_studente,)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(qry_ricevimenti_possibili_studente, student_tuple)
+        records = cursor.fetchall()
+        print(records)
+        print("Fetching each row")
+    except Error as e:
+        print("Error reading data from MySQL table", e)
+    finally:
+        if (connection.is_connected()):
+            connection.close()
+            cursor.close()
+            print("MySQL connection is closed")
+            return records

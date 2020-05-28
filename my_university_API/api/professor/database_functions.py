@@ -416,3 +416,54 @@ def update_richiesta_ricevimento(matricola_docente,
             connection.close()
             cursor.close()
             print("MySQL connection is closed")
+
+
+
+def reperimentoInfoStudentiCorsiENewsletter(matricola_docente, connection):
+    students = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        professor_tuple = (matricola_docente, matricola_docente)
+        lista_studenti_iscritti_corso_piu_newsletter_per_chat = """
+            SELECT persona.cf, persona.nome, persona.cognome, studente.matricola_studente, 
+            studente.email_studente, studente.anno_in_corso, corso_di_laurea.codice_corso, 
+            corso_di_laurea.nome_corso, disciplina.codice_disciplina, disciplina.nome_disciplina
+            FROM persona 
+            INNER JOIN studente on persona.cf = studente.cf
+            INNER JOIN disciplina_seguita on studente.matricola_studente = disciplina_seguita.matricola_studente
+            INNER JOIN disciplina on disciplina_seguita.codice_corso = disciplina.codice_corso and disciplina_seguita.codice_disciplina = disciplina.codice_disciplina
+            INNER JOIN corso_di_laurea on disciplina.codice_corso = corso_di_laurea.codice_corso
+            INNER JOIN insegna on disciplina.codice_corso = insegna.codice_corso and disciplina.codice_disciplina = insegna.codice_disciplina
+            WHERE insegna.matricola_docente = %s
+            UNION
+            SELECT persona.cf, persona.nome, persona.cognome, studente.matricola_studente, 
+            studente.email_studente, studente.anno_in_corso, corso_di_laurea.codice_corso, 
+            corso_di_laurea.nome_corso, disciplina.codice_disciplina, disciplina.nome_disciplina
+            FROM persona 
+            INNER JOIN studente on persona.cf = studente.cf
+            INNER JOIN iscrizione_newsletter on studente.matricola_studente = iscrizione_newsletter.matricola_studente
+            INNER JOIN disciplina on iscrizione_newsletter.codice_corso = disciplina.codice_corso and iscrizione_newsletter.codice_disciplina = disciplina.codice_disciplina
+            INNER JOIN corso_di_laurea on disciplina.codice_corso = corso_di_laurea.codice_corso
+            INNER JOIN insegna on disciplina.codice_corso = insegna.codice_corso and disciplina.codice_disciplina = insegna.codice_disciplina
+            WHERE insegna.matricola_docente = %s 
+            """
+        cursor.execute(lista_studenti_iscritti_corso_piu_newsletter_per_chat, professor_tuple)
+        students = cursor.fetchall()
+
+        mySQL_query_get_student_contacts = """SELECT tipo_contatto, valore_contatto
+                                              FROM contatto_persona
+                                              WHERE cf = %s"""
+
+        for temp_student in students:
+            cursor.execute(mySQL_query_get_student_contacts, (temp_student['cf'],))
+            temp_student['contatti'] = cursor.fetchall()
+
+    except Error as e:
+        print('Error reading data from MySQL table', e)
+    finally:
+        if connection.is_connected():
+            connection.close()
+            cursor.close()
+            print('MySQL connection is closed')
+            return students

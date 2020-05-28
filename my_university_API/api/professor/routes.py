@@ -202,3 +202,15 @@ class Receipts(Resource):
         parser.add_argument('matricola_docente', type=str, help='mat of professor')
         args = parser.parse_args(strict=True)
         return reperimento_info_ricevimenti(args['matricola_docente'], database.get_connection()), 201
+
+
+# ============================ reperimento contatti studenti  ========================== #
+@professor.route('/reperimento_lista_studenti_iscritti_corso_piu_newsletter_per_chat')
+class ListaStudentiPerChat(Resource):
+    @professor.expect(freshman_professor)
+    @professor.marshal_with(lista_studenti_iscritti_corso_piu_newsletter_per_chat_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_docente', type=str, help='mat of professor')
+        args = parser.parse_args(strict=True)
+        return reperimentoInfoStudentiCorsiENewsletter(args['matricola_docente'], database.get_connection()), 201

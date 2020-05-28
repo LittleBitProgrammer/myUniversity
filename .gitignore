@@ -141,3 +141,5 @@ cython_debug/
 *.xml
 
 .DS_Store
+
+my_university_API/requirements.txt
