@@ -1,13 +1,15 @@
 //import lib
-import React, {Component} from 'react';
+import React from 'react';
+//FORM
+import LoginForm from '../form/LoginForm';
 
 //create a component 
-class Login extends Component {
-    render(){
-        return(
-            <div>Login Component</div>
-        );
-    }
+const Login = () => {
+    return(
+        <div>
+            <LoginForm/>
+        </div>
+    );
 }
 
 //export a component 
