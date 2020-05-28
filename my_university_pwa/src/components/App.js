@@ -31,7 +31,7 @@ class App extends Component {
             matricola_docente: cookies.get('matricola_docente') || '',
             password_studente: cookies.get('password_studente') || '',
             password_docente: cookies.get('password_docente') || '',
-            isNavVisible:true
+            isAuth: this.myCookies.get('isAuth') || false
         }
     }
 
@@ -45,14 +45,13 @@ class App extends Component {
             });
         }catch(error){
             console.log(`😱 There was an error: ${error}`);
-            this.myCookies.set('isLogged',false);
+            this.myCookies.set('isAuth',false,{ path: '/' });
         }
 
         // console.log(response);
 
         if (response.data.length !== 0){
-            this.setState({isNavVisible: true})
-            this.myCookies.set('isLogged',true);
+            this.myCookies.set('isAuth',true,{ path: '/' });
         }else{
             try{
                 response = await myUniversity.post('/professor/login',{
@@ -61,18 +60,15 @@ class App extends Component {
                 });
             }catch(error){
                 console.log(`😱 There was an error: ${error}`);
-                this.myCookies.set('isLogged',false);
+                this.myCookies.set('isAuth',false,{ path: '/' });
+            }
+
+            if (response.data.length !== 0){
+                this.myCookies.set('isAuth',true,{ path: '/' });
+            }else{
+                this.myCookies.set('isAuth',false,{ path: '/' });
             }
         }
-
-        if (response.data.length !== 0){
-            this.setState({isNavVisible: true});
-            this.myCookies.set('isLogged',true);
-        }else{
-            this.setState({isNavVisible: false})
-            this.myCookies.set('isLogged',false);
-        }
-        //console.log(response)
     }
 
     componentDidMount(){
@@ -81,16 +77,17 @@ class App extends Component {
            (this.state.matricola_docente && this.state.password_docente)){
                this.login();
            }else{
-               this.setState({isNavVisible: false})
+               this.setState({isAuth: false})
            }
     }
 
     render(){
+        console.log('render cookie', this.myCookies.get('isAuth'));
         return (
             <div>
                 <BrowserRouter>
                     <div>
-                        { !this.state.isNavVisible && <Redirect to={{pathname: "/login"}}/>}
+                        { !this.state.isAuth && <Redirect to={{pathname: "/login"}}/>}
                         <Container>
                             <Routes/>
                         </Container>

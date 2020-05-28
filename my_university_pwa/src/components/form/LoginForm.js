@@ -24,7 +24,7 @@ class LoginForm extends Component{
             freshman: '',
             password: '',
             loginError: false,
-            isLogged: true
+            isAuth: this.cookies.get('isAuth') || false
         }
     }
 
@@ -35,7 +35,9 @@ class LoginForm extends Component{
     onSubmit = async(event) => {
         event.preventDefault();
 
+        console.log('before submit',this.state.isAuth);
         let response;
+        let isAuth;
         try{
             response = await myUniversity.post('/student/login', {
                 matricola_studente: this.state.freshman,
@@ -43,12 +45,12 @@ class LoginForm extends Component{
             });
         }catch(error){
             console.log(`😱 There was an error: ${error}`);
-            this.cookies.set('isLogged',false);
+            isAuth = false
         }
         if(response.data.length !== 0){
             this.cookies.set('matricola_studente', this.state.freshman);
             this.cookies.set('password_studente',this.state.password);
-            this.cookies.set('isLogged',true);
+            isAuth = true
         }else{
             try{
                 response = await myUniversity.post('/professor/login',{
@@ -57,28 +59,27 @@ class LoginForm extends Component{
                 });
             }catch(error){
                 console.log(`😱 There was an error: ${error}`);
-                this.cookies.set('isLogged',false);
+                isAuth = false
+            }
+
+            if (response.data.length !== 0){
+                this.cookies.set('matricola_docente', this.state.freshman);
+                this.cookies.set('password_docente',this.state.password);
+                isAuth = true
+            }else{
+                this.setState({loginError: true})
+                isAuth = false
             }
         }
-
-        if (response.data.length !== 0){
-            this.cookies.set('matricola_docente', this.state.freshman);
-            this.cookies.set('password_docente',this.state.password);
-            this.cookies.set('isLogged',true);
-        }else{
-            this.setState({loginError: true})
-            this.cookies.set('isLogged',false);
-        }
-
-        this.setState({isLogged: false});
+        this.cookies.set('isAuth',isAuth,{path:'/'});
+        this.setState({isAuth: isAuth });
+        console.log('after submit',this.state.isAuth);
     }
 
-    render(){
-        const errorMessage = !this.state.loginError ? '' : <p className='text-danger'>Matricola o password errate</p>
-
-        return(
-            <div>
-                {!this.state.isLogged && <form onSubmit={this.onSubmit}>
+    composeView = (isAuthenticated, error) => {
+        if(!isAuthenticated){
+            return (
+                <form onSubmit={this.onSubmit}>
                     <h3>Login</h3>
                     <FormGroup>
                         <TextField
@@ -100,12 +101,23 @@ class LoginForm extends Component{
                         required={true}
                         />
                     </FormGroup>
-                    {errorMessage}
+                    {error}
                     <Submit classColor='btn-primary'/>
-                </form>}
-                {this.state.isLogged && <Redirect to={{pathname: "/"}}/>}
-            </div>
-        );
+                </form>
+            );
+        }else{
+            return(<Redirect to={{pathname: "/"}}/>);
+        }
+    } 
+
+    render(){
+        const errorMessage = !this.state.loginError ? '' : <p className='text-danger'>Matricola o password errate</p>
+        console.log('login form',this.state.isAuth);
+        console.log('cookie form', this.cookies.get('isAuth'));
+
+        return (
+            <div>{this.composeView(this.state.isAuth,errorMessage)}</div>
+        )
     }
 }
 
