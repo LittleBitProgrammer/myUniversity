@@ -4,7 +4,8 @@
 #                             import
 ####################################################################
 from mysql.connector import Error  # to use error
-
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt()
 
 ####################################################################
 #                             DB_functions
@@ -174,36 +175,52 @@ def reperimento_prenotazioni_ricevimento_studente(matricola_studente, connection
 # function to login the studente
 def loginStudent(matricola_studente, password_studente, connection):
     students = []
-
     try:
+        sql_select_Query_login = """
+                    SELECT password_studente from studente where  matricola_studente = %s;
+                    """
+        student_chk_psw = (matricola_studente,)
         cursor = connection.cursor(dictionary=True)
-        student_tuple = (matricola_studente, password_studente)
-        mySQL_query_login_studente = """SELECT persona.cf,
-                                               persona.nome,
-                                               persona.cognome, 
-                                               persona.data_di_nascita, 
-                                               persona.luogo_di_nascita, 
-                                               persona.cap, 
-                                               persona.via_piazza, 
-                                               persona.civico, 
-                                               studente.matricola_studente,
-                                               studente.email_studente, 
-                                               studente.data_immatricolazione,
-                                               studente.anno_in_corso
-                                        FROM persona INNER JOIN studente 
-                                        ON persona.cf = studente.cf 
-                                        WHERE studente.matricola_studente = %s
-                                        AND studente.password_studente = %s"""
-        cursor.execute(mySQL_query_login_studente, student_tuple)
-        students = cursor.fetchall()
+        cursor.execute(sql_select_Query_login, student_chk_psw)
+        psw = cursor.fetchall()
 
-        mySQL_query_get_student_contacts = """SELECT tipo_contatto, valore_contatto
-                                              FROM contatto_persona
-                                              WHERE cf = %s"""
+        print(psw[0]['password_studente'])
+        try:
+            authenticate = bcrypt.check_password_hash(psw[0]['password_studente'], password_studente)
+        except:
+            print("error")
+        finally:
+            print(authenticate)
 
-        for temp_student in students:
-            cursor.execute(mySQL_query_get_student_contacts, (temp_student['cf'],))
-            temp_student['contatti'] = cursor.fetchall()
+        authenticate = bcrypt.check_password_hash(psw[0]['password_studente'], password_studente)
+        if authenticate:
+            cursor = connection.cursor(dictionary=True)
+            student_tuple = (matricola_studente,)
+            mySQL_query_login_studente = """SELECT persona.cf,
+                                                   persona.nome,
+                                                   persona.cognome, 
+                                                   persona.data_di_nascita, 
+                                                   persona.luogo_di_nascita, 
+                                                   persona.cap, 
+                                                   persona.via_piazza, 
+                                                   persona.civico, 
+                                                   studente.matricola_studente,
+                                                   studente.email_studente, 
+                                                   studente.data_immatricolazione,
+                                                   studente.anno_in_corso
+                                            FROM persona INNER JOIN studente 
+                                            ON persona.cf = studente.cf 
+                                            WHERE studente.matricola_studente = %s"""
+            cursor.execute(mySQL_query_login_studente, student_tuple)
+            students = cursor.fetchall()
+
+            mySQL_query_get_student_contacts = """SELECT tipo_contatto, valore_contatto
+                                                  FROM contatto_persona
+                                                  WHERE cf = %s"""
+
+            for temp_student in students:
+                cursor.execute(mySQL_query_get_student_contacts, (temp_student['cf'],))
+                temp_student['contatti'] = cursor.fetchall()
 
     except Error as e:
         print('Error reading data from MySQL table', e)
@@ -219,15 +236,32 @@ def loginStudent(matricola_studente, password_studente, connection):
 def updatePassword(nuova_password_studente, matricola_studente, password_studente, connection):
     try:
 
-        mySQL_query_update_password = """UPDATE studente 
-                                         SET password_studente = %s 
-                                         WHERE (matricola_studente = %s 
-                                         AND password_studente = %s)"""
-
-        student_tuple = (nuova_password_studente, matricola_studente, password_studente)
+        sql_select_Query_login = """
+                    SELECT password_studente from studente where  matricola_studente = %s;
+                    """
+        student_chk_psw = (matricola_studente,)
         cursor = connection.cursor(dictionary=True)
-        cursor.execute(mySQL_query_update_password, student_tuple)
-        connection.commit()
+        cursor.execute(sql_select_Query_login, student_chk_psw)
+        psw = cursor.fetchall()
+        try:
+            authenticate = bcrypt.check_password_hash(psw[0]['password_studente'], password_studente)
+        except:
+            print("error")
+        finally:
+            print(authenticate)
+        authenticate = bcrypt.check_password_hash(psw[0]['password_studente'], password_studente)
+
+        if authenticate:
+            pw_hash = bcrypt.generate_password_hash(nuova_password_studente)
+            mySQL_query_update_password = """UPDATE studente 
+                                             SET password_studente = %s 
+                                             WHERE matricola_studente = %s;
+                                             """
+
+            student_tuple = (pw_hash, matricola_studente)
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(mySQL_query_update_password, student_tuple)
+            connection.commit()
 
         print('Password Updated!')
     except Error as error:

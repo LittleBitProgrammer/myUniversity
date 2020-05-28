@@ -4,44 +4,64 @@
 #                             import
 ####################################################################
 from mysql.connector import Error  # to use error
-
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt()
 
 ####################################################################
 #                             DB_functions
 ####################################################################
 def loginProfessor(matricola_docente, password_docente, connection):
     records = []
+
     try:
         cursor = connection.cursor()
-        sql_select_Query = """SELECT persona.cf,
-                                     persona.nome,
-                                     persona.cognome, 
-                                     persona.data_di_nascita, 
-                                     persona.luogo_di_nascita, 
-                                     persona.cap, 
-                                     persona.via_piazza, 
-                                     persona.civico, 
-                                     docente.matricola_docente,
-                                     docente.email_docente
-                                FROM persona INNER JOIN docente 
-                                ON persona.cf = docente.cf 
-                                WHERE docente.matricola_docente = %s
-                                AND docente.password_docente = %s"""
-
-        professor_tuple = (matricola_docente, password_docente)
+        sql_select_Query_login = """
+        SELECT password_docente from docente where  matricola_docente = %s;
+        """
+        professor_chk_psw = (matricola_docente,)
         cursor = connection.cursor(dictionary=True)
-        cursor.execute(sql_select_Query, professor_tuple)
-        records = cursor.fetchall()
-        print(records)
-        mysql_query_contacts = """SELECT tipo_contatto, valore_contatto
-                                          FROM contatto_persona
-                                          WHERE cf = %s"""
-        record_tuple = (records[0]['cf'],)
-        cursor.execute(mysql_query_contacts, record_tuple)
-        contacts = cursor.fetchall()
-        print(contacts)
-        records[0]['contatti'] = contacts
-        print("Fetching each row using column name")
+        cursor.execute(sql_select_Query_login, professor_chk_psw)
+        psw = cursor.fetchall()
+
+        print(psw[0]['password_docente'])
+        try:
+            authenticate = bcrypt.check_password_hash(psw[0]['password_docente'], password_docente)
+        except:
+            print("error")
+        finally:
+            print(authenticate)
+
+        authenticate = bcrypt.check_password_hash(psw[0]['password_docente'], password_docente)
+        if authenticate:
+            sql_select_Query = """SELECT persona.cf,
+                                                 persona.nome,
+                                                 persona.cognome, 
+                                                 persona.data_di_nascita, 
+                                                 persona.luogo_di_nascita, 
+                                                 persona.cap, 
+                                                 persona.via_piazza, 
+                                                 persona.civico, 
+                                                 docente.matricola_docente,
+                                                 docente.email_docente
+                                            FROM persona INNER JOIN docente 
+                                            ON persona.cf = docente.cf 
+                                            WHERE docente.matricola_docente = %s"""
+            professor_tuple = (matricola_docente, )
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(sql_select_Query, professor_tuple)
+            records = cursor.fetchall()
+            print(records)
+            mysql_query_contacts = """SELECT tipo_contatto, valore_contatto
+                                                      FROM contatto_persona
+                                                      WHERE cf = %s"""
+            record_tuple = (records[0]['cf'],)
+            cursor.execute(mysql_query_contacts, record_tuple)
+            contacts = cursor.fetchall()
+            print(contacts)
+            records[0]['contatti'] = contacts
+            print("Fetching each row using column name")
+        else:
+            records = []
     except Error as e:
         print("Error reading data from MySQL table", e)
     finally:
@@ -53,15 +73,37 @@ def loginProfessor(matricola_docente, password_docente, connection):
 
 def updatePassword(nuova_password_docente, matricola_docente, password_docente , connection):
     try:
+
         cursor = connection.cursor()
-        sql_update_password_Query = """ UPDATE docente 
-                                        SET password_docente = %s 
-                                        WHERE (matricola_docente = %s AND password_docente = %s)"""
-        professor_tuple = (nuova_password_docente, matricola_docente, password_docente)
+        sql_select_Query_login = """
+                SELECT password_docente from docente where  matricola_docente = %s;
+                """
+        professor_chk_psw = (matricola_docente,)
         cursor = connection.cursor(dictionary=True)
-        cursor.execute(sql_update_password_Query, professor_tuple)
-        connection.commit()
-        print("Password Updated!")
+        cursor.execute(sql_select_Query_login, professor_chk_psw)
+        psw = cursor.fetchall()
+
+        pw_hash = bcrypt.generate_password_hash(nuova_password_docente)
+        try:
+            authenticate = bcrypt.check_password_hash(psw[0]['password_docente'], password_docente)
+        except:
+            print("error")
+        finally:
+            print(authenticate)
+
+        authenticate = bcrypt.check_password_hash(psw[0]['password_docente'], password_docente)
+
+        if authenticate:
+            sql_update_password_Query = """ UPDATE docente 
+                                            SET password_docente = %s 
+                                            WHERE matricola_docente = %s ;"""
+
+            professor_tuple = (pw_hash, matricola_docente)
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(sql_update_password_Query, professor_tuple)
+            connection.commit()
+            print("Password Updated!")
+
     except Error as e:
         print("Error from MySQL", e)
     finally:
@@ -119,16 +161,7 @@ def inserimento_lezione_docente(codice_corso, codice_disciplina,
                         nome_sede, numero_piano, numero_aula,
                         numero_lezione, data_inizio, numero_ore,
                         titolo, descrizione)
-        # print('codice_corso',codice_corso)
-        # print('codice_disciplina', codice_disciplina)
-        # print('nome_sede', nome_sede)
-        # print('numero_piano', numero_piano)
-        # print('numero_aula', numero_aula)
-        # print('numero_lezione', numero_lezione)
-        # print('data_inizio', data_inizio)
-        # print('numero_ore', numero_ore)
-        # print('titolo', titolo)
-        # print('descrizione', descrizione)
+
         cursor = connection.cursor(dictionary=True)
         cursor.execute(sql_insert_lesson_Query, lesson_tuple)
         connection.commit()
