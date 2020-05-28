@@ -71,8 +71,10 @@ class LoginForm extends Component{
                 isAuth = false
             }
         }
+        console.log(response)
         this.cookies.set('isAuth',isAuth,{path:'/'});
         this.setState({isAuth: isAuth });
+
         console.log('after submit',this.state.isAuth);
     }
 
