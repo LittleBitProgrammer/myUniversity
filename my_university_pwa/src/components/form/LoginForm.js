@@ -24,7 +24,7 @@ class LoginForm extends Component{
             freshman: '',
             password: '',
             loginError: false,
-            isLogged: false
+            isLogged: true
         }
     }
 
