@@ -24,7 +24,7 @@ class LoginForm extends Component{
             freshman: '',
             password: '',
             loginError: false,
-            isLogged: this.cookies.get('isLogged') || false
+            isLogged: false
         }
     }
 
@@ -69,6 +69,8 @@ class LoginForm extends Component{
             this.setState({loginError: true})
             this.cookies.set('isLogged',false);
         }
+
+        this.setState({isLogged: false});
     }
 
     render(){
