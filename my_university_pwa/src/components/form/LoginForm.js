@@ -11,6 +11,8 @@ import PasswordField from '../bootstrap/form/fields/PasswordField';
 //API
 import myUniversity from '../../API/myUniversity';
 import {Cookies} from 'react-cookie';
+//CONTEXT
+import {UserContext} from '../context/UserContext';
 
 //create a component 
 class LoginForm extends Component{
@@ -24,7 +26,8 @@ class LoginForm extends Component{
             freshman: '',
             password: '',
             loginError: false,
-            isAuth: this.cookies.get('isAuth') || false
+            isAuth: this.cookies.get('isAuth') || false,
+            response: undefined
         }
     }
 
@@ -74,6 +77,7 @@ class LoginForm extends Component{
         console.log(response)
         this.cookies.set('isAuth',isAuth,{path:'/'});
         this.setState({isAuth: isAuth });
+        this.setState({response: response});
 
         console.log('after submit',this.state.isAuth);
     }
@@ -108,7 +112,7 @@ class LoginForm extends Component{
                 </form>
             );
         }else{
-            return(<Redirect to={{pathname: "/"}}/>);
+            return(<UserContext.Provider value={this.state.response}><Redirect to={{pathname: "/"}}/></UserContext.Provider>);
         }
     } 
 

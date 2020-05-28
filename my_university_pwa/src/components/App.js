@@ -13,6 +13,8 @@ import {instanceOf} from 'prop-types';
 import myUniversity from '../API/myUniversity';
 // IMG
 import Container from './bootstrap/Container';
+//CONTEXT
+import {UserContext} from './context/UserContext';
 
 //create a component 
 class App extends Component {
@@ -89,7 +91,9 @@ class App extends Component {
                     <div>
                         { !this.state.isAuth && <Redirect to={{pathname: "/login"}}/>}
                         <Container>
-                            <Routes/>
+                            <UserContext.Provider value={this.state.matricola_studente}>
+                                <Routes/>
+                            </UserContext.Provider>
                         </Container>
                         <BottomBar 
                             firstYear='2020' 
