@@ -4,7 +4,8 @@
 #                             import
 ####################################################################
 from mysql.connector import Error  # to use error
-
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt()
 ####################################################################
 #                             DB_functions
 ####################################################################
@@ -506,10 +507,11 @@ def insertTeacher(cf,
                   connection):
     try:
         cursor = connection.cursor()
+        pw_hash = bcrypt.generate_password_hash(password_docente)
 
         # tuple of person and student
         person_tuple = (cf, nome, cognome, data_di_nascita, luogo_di_nascita, cap, via_piazza, civico)
-        teacher_tuple = (matricola_docente, cf, email_docente, password_docente)
+        teacher_tuple = (matricola_docente, cf, email_docente, pw_hash)
         mySql_insert_person = """INSERT INTO persona(cf, 
                                                      nome,
                                                      cognome, 
@@ -668,8 +670,9 @@ def insertStudent(cf,
         cursor = connection.cursor()
 
         # tuple of person and student
+        pw_hash = bcrypt.generate_password_hash(password_studente)
         person_tuple = (cf, nome, cognome, data_di_nascita, luogo_di_nascita, cap, via_piazza, civico)
-        student_tuple = (matricola_studente, cf, email_studente, data_immatricolazione, password_studente)
+        student_tuple = (matricola_studente, cf, email_studente, data_immatricolazione, pw_hash)
         is_in_tuple = (codice_corso, matricola_studente)
 
         mySql_insert_person = """INSERT INTO persona(cf, 
