@@ -20,7 +20,7 @@ insert_student_model = secretary.model('insert student model', {
     'cognome': fields.String,
     'data_di_nascita': fields.String,
     'luogo_di_nascita': fields.String,
-    'cap': fields.Integer,
+    'cap': fields.String,
     'via_piazza': fields.String,
     'civico': fields.String,
     'matricola_studente': fields.String,
