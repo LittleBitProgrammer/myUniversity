@@ -1,5 +1,5 @@
 from flask_restx import fields
-from api.mongodb import *
+from application.api.mongodb import *
 
 freshman_model = mongodb.model('freshman', {
     'matricola': fields.String
@@ -33,4 +33,10 @@ full_conversation_model = mongodb.model('full_conversation_model', {
     'matricola1': fields.String,
     'matricola2': fields.String,
     'messages': fields.List(fields.Nested(get_message_model))
+})
+
+discipline_color_model = mongodb.model('discipline_color_model', {
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'colore_esadecimale': fields.String
 })

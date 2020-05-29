@@ -4,9 +4,9 @@
 #                             import
 ####################################################################
 from flask_restx import Resource, reqparse  # to use Resource, that expose http request method
-from api.secretary.database_functions import *
-from api.secretary.models import *
-from api.database_config import DatabaseConnector
+from application.api.secretary.database_functions import *
+from application.api.secretary.models import *
+from application.api.database_config import DatabaseConnector
 
 ####################################################################
 #                             object

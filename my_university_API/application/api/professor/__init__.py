@@ -13,4 +13,4 @@ professor = Namespace('professor', description='Professor related operations')
 ####################################################################
 #                        circular imports
 ####################################################################
-from api.professor import routes
+from application.api.professor import routes

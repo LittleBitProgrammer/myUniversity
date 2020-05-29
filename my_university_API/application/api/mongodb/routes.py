@@ -5,8 +5,8 @@
 ####################################################################
 
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api.mongodb.mongo_functions import *
-from api.mongodb.models import *
+from application.api.mongodb.mongo_functions import *
+from application.api.mongodb.models import *
 
 
 @mongodb.route("/send_message")
@@ -33,7 +33,6 @@ class createConversation(Resource):
         return create_conversation(args['matricola1'], args['matricola2']), 201
 
 
-# ============================  get_all_conversations   ========================== #
 @mongodb.route('/get_all_conversations')
 class GetAllConversations(Resource):
     @mongodb.expect(freshman_model)
@@ -44,3 +43,21 @@ class GetAllConversations(Resource):
         parser.add_argument('matricola', type=str, help='mat')
         args = parser.parse_args(strict=True)
         return get_all_conversations(args['matricola'],), 201
+
+@mongodb.route("/insert_discipline_color")
+class insertDisciplineColor(Resource):
+    @mongodb.expect(discipline_color_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice_corso')
+        parser.add_argument('codice_disciplina', type=str, help='codice_disciplina')
+        parser.add_argument('colore_esadecimale', type=str, help='colore_esadecimale')
+        args = parser.parse_args(strict=True)
+        return set_teach_color(args['codice_corso'], args['codice_disciplina'], args['colore_esadecimale']), 201
+
+
+@mongodb.route('/get_all_colors')
+class GetAllColors(Resource):
+    @mongodb.marshal_with(discipline_color_model)
+    def post(self):
+        return get_all_teach_colors(), 201
