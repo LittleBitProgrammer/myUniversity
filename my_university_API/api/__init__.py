@@ -5,12 +5,14 @@
 ####################################################################
 from flask import Flask  # to use flask Framework
 from flask_restx import Api  # to use flask-restx lib
-from config import Config  # to use the Config class
 from api.secretary import secretary  # to use secretary namespace
 from api.professor import professor  # to use professor namespace
 from api.student import student  # to use student namespace
 from api.mongodb import mongodb
 from flask_cors import CORS
+
+from flask import Blueprint
+api_blueprint = Blueprint('api', __name__)
 
 ####################################################################
 #                           api_variables
@@ -21,7 +23,7 @@ api_doc = '/'  # doc path of our API
 api_license = 'Apache-2.0'  # license name of our API
 api_license_url = 'https://github.com/robertove93/myUniversity/blob/master/LICENSE'  # license url of our API
 api_contact_email = 'roberto.vecchio001@studenti.uniparthenope.it'  # default contact (it's a placeholder)
-api_prefix = f'/api/{api_version}/'  # base url of our API
+api_prefix = f'/{api_version}/'  # base url of our API
 api_description = 'This is myUniversity Official API. We divided the API in three main category:' \
                   '\n- Secretary' \
                   '\n- Professor' \
@@ -34,17 +36,12 @@ api_contact = '[carlo.lomello001@studenti.uniparthenope.it]  -  ' \
 ####################################################################
 #                       object initialization
 ####################################################################
-# Creation of a Flask object
-app = Flask(__name__)
 
 # Use CORS
-CORS(app)
-
-# add config to our app
-app.config.from_object(Config)
+CORS(api_blueprint)
 
 # Creation of a Api object
-api = Api(app,
+api = Api(api_blueprint,
           version=api_version,
           title=api_title,
           doc=api_doc,  # TODO: web page of documentation
