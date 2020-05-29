@@ -20,11 +20,11 @@ class App extends Component {
                 <BrowserRouter>
                     <div>
                         <Container>
-                        <CookiesProvider>
-                            <UserProvider>
-                                <Routes/>
-                            </UserProvider>
-                        </CookiesProvider>
+                            <CookiesProvider>
+                                <UserProvider>
+                                    <Routes/>
+                                </UserProvider>
+                            </CookiesProvider>
                         </Container>
                         <BottomBar 
                             firstYear='2020' 

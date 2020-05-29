@@ -5,3 +5,7 @@ body {
 .border-2{
     border-width: 3px !important;
 }
+
+.profile-picture{
+    background-color: grey;
+}

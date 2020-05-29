@@ -25,12 +25,12 @@ class Login extends Component{
     }
 
     onSubmit = async(event,freshman,password) => {
+        console.log('called sub')
         event.preventDefault();
 
         let response;
         let isAuth;
         let userType;
-        let thereIsAnError;
 
         try{
             response = await myUniversity.post('/student/login', {
@@ -39,7 +39,7 @@ class Login extends Component{
             });
         }catch(error){
             console.log(`😱 There was an error: ${error}`);
-            thereIsAnError = true;
+            this.setState({loginError: true});
             isAuth = false;
         }
         if(response.data.length !== 0){
@@ -55,7 +55,7 @@ class Login extends Component{
                 });
             }catch(error){
                 console.log(`😱 There was an error: ${error}`);
-                thereIsAnError = true;
+                this.setState({loginError: true});
                 isAuth = false
             }
 
@@ -65,29 +65,28 @@ class Login extends Component{
                 userType='teacher';
                 isAuth = true
             }else{
-                thereIsAnError = true;
+                this.setState({loginError: true});
                 isAuth = false
             }
         }
 
         //UPDATE COOKIE
         this.cookies.set('isAuth',isAuth,{path:'/'});
-        //UPDATE STATE
-        this.setState({loginError: thereIsAnError});
         //UPDATE CONTEXT
         this.context.update({[userType]:response.data[0]});
     }
 
     render(){
         const errorMessage = !this.state.loginError ? '' : <p className='text-danger'>Matricola o password errate</p>
-
-        if(this.cookies.get('isAuth') === 'false'){return(
-            <div>
-                <LoginForm onSubmit={this.onSubmit} error={errorMessage}/>
-            </div>
-        )}
-        
-        return  <Redirect to={{pathname: "/"}}/>
+        console.log('auth in login', this.cookies.get('isAuth') )
+        console.log('redirect to home')
+        if(this.cookies.get('isAuth') === 'true'){return  <Redirect to='/' key='login-to-root'/>}
+        return(
+                <div>
+                    {console.log('show login form')}
+                    <LoginForm onSubmit={this.onSubmit} error={errorMessage}/>
+                </div>
+            )
     }
 }
 

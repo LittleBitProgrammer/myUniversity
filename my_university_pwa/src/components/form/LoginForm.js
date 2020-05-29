@@ -1,7 +1,5 @@
 //import lib
 import React, {Component} from 'react'
-//ROUTER
-import {Redirect} from 'react-router';
 //FORM
 import FormGroup from '../bootstrap/form/FormGroup';
 import Submit from '../bootstrap/form/Submit';
@@ -29,6 +27,7 @@ class LoginForm extends Component{
     }
 
     render(){
+        console.log('render login');
         return (
             <div>
                 <form onSubmit={(event) => this.props.onSubmit(event,this.state.freshman,this.state.password)}>
