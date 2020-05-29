@@ -98,6 +98,7 @@ class Routes extends Component {
     }
 
     render(){
+        console.log('render route')
         console.log('cookie auth',this.myCookies.get('isAuth'));
         console.log('state auth',this.state.isAuth);
         if(!this.myCookies.get('isAuth')){return  <Redirect to={{pathname: "/login"}}/>}
