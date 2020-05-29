@@ -12,7 +12,6 @@ import {CookiesProvider} from 'react-cookie';
 import Container from './bootstrap/Container';
 import UserProvider from './context/UserProvider';
 
-//TODO: UPDATE CONTEXT
 //create a component 
 class App extends Component {
     render(){
