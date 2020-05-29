@@ -5,7 +5,7 @@
 # 404	NOT_FOUND	           null           Event or Service not found
 # 403	PERMISSION_DENIED	   null	          User role not allowed to perform such action
 # 500	SERVER_ERROR	       null	          Internal server error
-from api import api
+from application.api import api
 
 
 # base error class

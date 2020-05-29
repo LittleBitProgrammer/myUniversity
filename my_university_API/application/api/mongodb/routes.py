@@ -5,8 +5,8 @@
 ####################################################################
 
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api.mongodb.mongo_functions import *
-from api.mongodb.models import *
+from application.api.mongodb.mongo_functions import *
+from application.api.mongodb.models import *
 
 
 @mongodb.route("/send_message")

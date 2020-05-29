@@ -1,4 +1,4 @@
-from api.professor import *
+from application.api.professor import *
 from flask_restx import fields
 
 contact_person = professor.model('contact_person', {

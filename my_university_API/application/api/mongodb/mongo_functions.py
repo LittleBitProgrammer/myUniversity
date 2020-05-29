@@ -1,4 +1,4 @@
-from api.mongodb.db import *
+from application.api.mongodb.db import *
 from datetime import datetime
 
 def send_message(id_conversation,

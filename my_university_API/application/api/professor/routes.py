@@ -5,9 +5,9 @@
 ####################################################################
 
 from flask_restx import Resource, reqparse, fields  # to use Resource, that expose http request method
-from api.professor.database_functions import *
-from api.professor.models import *
-from api.database_config import DatabaseConnector
+from application.api.professor.database_functions import *
+from application.api.professor.models import *
+from application.api.database_config import DatabaseConnector
 
 database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
 

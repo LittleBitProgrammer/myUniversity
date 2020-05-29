@@ -1,4 +1,4 @@
-from api.secretary import secretary
+from application.api.secretary import secretary
 from flask_restx import fields
 
 ####################################################################

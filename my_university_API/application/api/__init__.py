@@ -3,12 +3,11 @@
 ####################################################################
 #                             import
 ####################################################################
-from flask import Flask  # to use flask Framework
 from flask_restx import Api  # to use flask-restx lib
-from api.secretary import secretary  # to use secretary namespace
-from api.professor import professor  # to use professor namespace
-from api.student import student  # to use student namespace
-from api.mongodb import mongodb
+from application.api.secretary import secretary  # to use secretary namespace
+from application.api.professor import professor  # to use professor namespace
+from application.api.student import student  # to use student namespace
+from application.api.mongodb import mongodb
 from flask_cors import CORS
 
 from flask import Blueprint

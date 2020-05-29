@@ -3,7 +3,7 @@
 ####################################################################
 #                             import
 ####################################################################
-from api.student import student  # to use api
+from application.api.student import student  # to use api
 from flask_restx import fields  # to use Resource, that expose http request method
 
 ####################################################################

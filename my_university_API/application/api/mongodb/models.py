@@ -1,5 +1,5 @@
 from flask_restx import fields
-from api.mongodb import *
+from application.api.mongodb import *
 
 freshman_model = mongodb.model('freshman', {
     'matricola': fields.String

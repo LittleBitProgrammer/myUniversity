@@ -1,4 +1,4 @@
-# This file is executed when the professor module is imported
+# This file is executed when the student module is imported
 
 ####################################################################
 #                             import
@@ -8,11 +8,9 @@ from flask_restx import Namespace  # to use Namespace of flask RESTx
 ####################################################################
 #                         initialization
 ####################################################################
-mongodb = Namespace('mongodb', description='MongoDB related operations')
+student = Namespace('student', description='Student related operations')
 
 ####################################################################
 #                        circular imports
 ####################################################################
-from api.mongodb import routes
-
-
+from application.api.student import routes
