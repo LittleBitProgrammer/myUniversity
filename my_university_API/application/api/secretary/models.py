@@ -35,7 +35,7 @@ insert_headoffice_model = secretary.model('insert head office model', {
     'orario_apertura': fields.Integer,
     'orario_chiusura': fields.Integer,
     'numero_piani': fields.Integer,
-    'cap': fields.Integer,
+    'cap': fields.String,
     'via_piazza': fields.String,
     'civico': fields.String
 })
@@ -90,7 +90,7 @@ get_all_location_model = secretary.model('get all location model', {
     'orario_apertura': fields.Integer,
     'orario_chiusura': fields.Integer,
     'numero_piani': fields.Integer,
-    'cap': fields.Integer,
+    'cap': fields.String,
     'via_piazza': fields.String,
     'civico': fields.String
 })
@@ -124,7 +124,7 @@ insert_teacher_model = secretary.model('insert teacher model', {
     'cognome': fields.String,
     'data_di_nascita': fields.String,
     'luogo_di_nascita': fields.String,
-    'cap': fields.Integer,
+    'cap': fields.String,
     'via_piazza': fields.String,
     'civico': fields.String,
     'matricola_docente': fields.String,
@@ -140,7 +140,7 @@ get_all_teacher_model = secretary.model('get all teacher model', {
     'cf': fields.String,
     'data_di_nascita': fields.String,
     'luogo_di_nascita': fields.String,
-    'cap': fields.Integer,
+    'cap': fields.String,
     'via_piazza': fields.String,
     'civico': fields.String,
     'contatti': fields.List(fields.Nested(nested_contact_model))
@@ -161,7 +161,7 @@ get_all_student_model = secretary.model('get all student model', {
     'cf': fields.String,
     'data_di_nascita': fields.String,
     'luogo_di_nascita': fields.String,
-    'cap': fields.Integer,
+    'cap': fields.String,
     'via_piazza': fields.String,
     'civico': fields.String,
     'contatti': fields.List(fields.Nested(nested_contact_model))

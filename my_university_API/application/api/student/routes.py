@@ -10,6 +10,11 @@ from application.api.student.database_functions import *
 
 
 database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
+database = DatabaseConnector('bvrhcrukmknumkqtieuk-mysql.services.clever-cloud.com',
+                             3306,
+                             'bvrhcrukmknumkqtieuk',
+                             'ud3untakpkengqz5',
+                             'kHbxAB3JuoNygcXdXbH9')
 
 # ============================    richiesta ricevimento   ========================== #
 @student.route('/richiesta_ricevimento')

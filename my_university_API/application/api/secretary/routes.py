@@ -12,8 +12,12 @@ from application.api.database_config import DatabaseConnector
 #                             object
 ####################################################################
 # instance of the database connection
-connection = DatabaseConnector('localhost', 'my_university_db', 'root', '')
-
+# connection = DatabaseConnector('localhost', 'my_university_db', 'root', '')
+connection = DatabaseConnector('bvrhcrukmknumkqtieuk-mysql.services.clever-cloud.com',
+                               3306,
+                               'bvrhcrukmknumkqtieuk',
+                               'ud3untakpkengqz5',
+                               'kHbxAB3JuoNygcXdXbH9')
 
 ####################################################################
 #                             routing

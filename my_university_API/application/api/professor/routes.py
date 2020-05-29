@@ -9,7 +9,13 @@ from application.api.professor.database_functions import *
 from application.api.professor.models import *
 from application.api.database_config import DatabaseConnector
 
-database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
+# database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
+database = DatabaseConnector('bvrhcrukmknumkqtieuk-mysql.services.clever-cloud.com',
+                             3306,
+                             'bvrhcrukmknumkqtieuk',
+                             'ud3untakpkengqz5',
+                             'kHbxAB3JuoNygcXdXbH9')
+
 
 
 ####################################################################
