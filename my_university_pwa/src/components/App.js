@@ -1,4 +1,4 @@
-//import lib
+//IMPORT LIB
 import React, {Component} from 'react';
 // ROUTER
 import {BrowserRouter, Redirect} from 'react-router-dom';
@@ -13,9 +13,9 @@ import {instanceOf} from 'prop-types';
 import myUniversity from '../API/myUniversity';
 // IMG
 import Container from './bootstrap/Container';
-//CONTEXT
-import {UserContext} from './context/UserContext';
+import UserProvider from './context/UserProvider';
 
+//TODO: UPDATE CONTEXT
 //create a component 
 class App extends Component {
     static propTypes = {
@@ -33,12 +33,15 @@ class App extends Component {
             matricola_docente: cookies.get('matricola_docente') || '',
             password_studente: cookies.get('password_studente') || '',
             password_docente: cookies.get('password_docente') || '',
-            isAuth: this.myCookies.get('isAuth') || false
+            isAuth: this.myCookies.get('isAuth') || false,
+            userType: '',
+            response: {}
         }
     }
 
     login = async() => {
         let response;
+        let userType;
         //console.log('login',this.state.matricola_studente, this.state.password_studente)
         try{
             response = await myUniversity.post('/student/login', {
@@ -49,11 +52,9 @@ class App extends Component {
             console.log(`😱 There was an error: ${error}`);
             this.myCookies.set('isAuth',false,{ path: '/' });
         }
-
-        // console.log(response);
-
         if (response.data.length !== 0){
             this.myCookies.set('isAuth',true,{ path: '/' });
+            userType = 'student';
         }else{
             try{
                 response = await myUniversity.post('/professor/login',{
@@ -67,10 +68,14 @@ class App extends Component {
 
             if (response.data.length !== 0){
                 this.myCookies.set('isAuth',true,{ path: '/' });
+                userType = 'teacher';
             }else{
                 this.myCookies.set('isAuth',false,{ path: '/' });
             }
         }
+
+        this.setState({userType: userType, response:response.data[0]});
+        console.log('home resp',this.state.response, 'home user type', this.state.userType);
     }
 
     componentDidMount(){
@@ -91,9 +96,9 @@ class App extends Component {
                     <div>
                         { !this.state.isAuth && <Redirect to={{pathname: "/login"}}/>}
                         <Container>
-                            <UserContext.Provider value={this.state.matricola_studente}>
-                                <Routes/>
-                            </UserContext.Provider>
+                            <UserProvider>
+                                <Routes userType={this.state.userType} response={this.state.response}/>
+                            </UserProvider>
                         </Container>
                         <BottomBar 
                             firstYear='2020' 

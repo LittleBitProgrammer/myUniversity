@@ -15,6 +15,8 @@ import {Cookies} from 'react-cookie';
 import {UserContext} from '../context/UserContext';
 
 //create a component 
+//TODO: OPTIMIZE CALL (SPINNER)
+//TODO: FIX ON RELOAD
 class LoginForm extends Component{
 
     constructor(props){
@@ -27,7 +29,6 @@ class LoginForm extends Component{
             password: '',
             loginError: false,
             isAuth: this.cookies.get('isAuth') || false,
-            response: undefined
         }
     }
 
@@ -38,9 +39,11 @@ class LoginForm extends Component{
     onSubmit = async(event) => {
         event.preventDefault();
 
-        console.log('before submit',this.state.isAuth);
+        //console.log('before submit',this.state.isAuth);
         let response;
         let isAuth;
+        let userType;
+
         try{
             response = await myUniversity.post('/student/login', {
                 matricola_studente: this.state.freshman,
@@ -48,11 +51,13 @@ class LoginForm extends Component{
             });
         }catch(error){
             console.log(`😱 There was an error: ${error}`);
+            this.setState({loginError: true})
             isAuth = false
         }
         if(response.data.length !== 0){
             this.cookies.set('matricola_studente', this.state.freshman);
             this.cookies.set('password_studente',this.state.password);
+            userType = 'student';
             isAuth = true
         }else{
             try{
@@ -62,24 +67,27 @@ class LoginForm extends Component{
                 });
             }catch(error){
                 console.log(`😱 There was an error: ${error}`);
+                this.setState({loginError: true})
                 isAuth = false
             }
 
             if (response.data.length !== 0){
                 this.cookies.set('matricola_docente', this.state.freshman);
                 this.cookies.set('password_docente',this.state.password);
+                userType='teacher';
                 isAuth = true
             }else{
                 this.setState({loginError: true})
                 isAuth = false
             }
         }
-        console.log(response)
+        //console.log(response)
         this.cookies.set('isAuth',isAuth,{path:'/'});
         this.setState({isAuth: isAuth });
-        this.setState({response: response});
+        this.context.update({[userType]:response.data[0]});
+        console.log(this.context)
 
-        console.log('after submit',this.state.isAuth);
+        //console.log('after submit',this.state.isAuth);
     }
 
     composeView = (isAuthenticated, error) => {
@@ -112,20 +120,22 @@ class LoginForm extends Component{
                 </form>
             );
         }else{
-            return(<UserContext.Provider value={this.state.response}><Redirect to={{pathname: "/"}}/></UserContext.Provider>);
+            return(<Redirect to={{pathname: "/"}}/>);
         }
     } 
 
     render(){
         const errorMessage = !this.state.loginError ? '' : <p className='text-danger'>Matricola o password errate</p>
-        console.log('login form',this.state.isAuth);
-        console.log('cookie form', this.cookies.get('isAuth'));
+        //console.log('login form',this.state.isAuth);
+        //console.log('cookie form', this.cookies.get('isAuth'));
 
         return (
             <div>{this.composeView(this.state.isAuth,errorMessage)}</div>
         )
     }
 }
+
+LoginForm.contextType = UserContext;
 
 //export a component
 export default LoginForm;
