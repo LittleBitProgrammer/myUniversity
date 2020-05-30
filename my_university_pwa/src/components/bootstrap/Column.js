@@ -2,8 +2,8 @@
 import React from 'react';
 
 //create a component 
-const Column = ({children,sizeColumnClass,className}) => {
-    return <div className={sizeColumnClass}>{children}</div>
+const Column = ({children,screnSize,columnSize,className}) => {
+    return <div className={`col-${screnSize}-${columnSize} ${className}`}>{children}</div>
 }
 
 Column.defaultProps = {

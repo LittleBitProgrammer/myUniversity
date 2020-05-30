@@ -6,6 +6,21 @@ body {
     border-width: 3px !important;
 }
 
-.profile-picture{
-    background-color: grey;
+
+/* change this if you want to change the margin of profile image */
+.card-wrapper {
+    margin: 3% 0;
+  }
+  
+.custom-circle-image {
+width: 20vw; 
+height: 20vw;
+border-radius: 50%;
 }
+  
+.custom-circle-image img {
+object-fit: cover;
+}
+
+
+
