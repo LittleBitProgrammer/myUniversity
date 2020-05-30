@@ -2,7 +2,7 @@
 import React from 'react';
 
 //create a component 
-const Toggler = (props) => {
+const Toggler = () => {
     return (
         <button 
           className="navbar-toggler" 

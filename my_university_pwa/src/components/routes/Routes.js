@@ -9,7 +9,7 @@ import Chat from '../pages/Chat';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 // ROUTING
-import AppRoute from '../AppRoute';
+import AppRoute from '../route/AppRoute';
 // NAVBAR
 import MyUniversityNav from '../navabar/MyUniversityNav'
 //CONTEXT

@@ -1,10 +1,10 @@
 // IMPORT LIB
 import React from 'react';
-import Navigation from '../navabar/Navigation';
+import Navigation from './navigation/Navigation';
 import myUniversityLogo from '../../img/svg/graduation-hat.svg';
-import NavRight from '../navabar/NavRight';
-import NavLeft from '../navabar/NavLeft';
-import Navitem from '../navabar/Navitem';
+import NavRight from './navigation/NavRight';
+import NavLeft from './navigation/NavLeft';
+import Navitem from './navigation/Navitem';
 import RoundImage from '../bootstrap/RoundImage';
 
 // CREATE A COMPONENT
