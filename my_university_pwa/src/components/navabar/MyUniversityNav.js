@@ -2,6 +2,7 @@
 import React from 'react';
 import Navigation from './navigation/Navigation';
 import myUniversityLogo from '../../img/svg/graduation-hat.svg';
+import userLogo from '../../img/svg/user.svg';
 import NavRight from './navigation/NavRight';
 import NavLeft from './navigation/NavLeft';
 import Navitem from './navigation/Navitem';
@@ -20,7 +21,7 @@ const Navbar = () => {
             <Navitem path='/chat' name='Chat'/>
         </NavLeft>
         <NavRight>
-            <Navitem path='/profilo'  name='Profilo'/>
+            <Navitem path='/profilo' name='Profilo' logoImage={userLogo}/>
         </NavRight>
     </Navigation>
     )

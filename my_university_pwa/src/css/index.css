@@ -11,13 +11,13 @@ body {
 }
 
 .profile-img img{
-    width: 70%;
+    width: 50%;
     height: 100%;
 }
 
 .profile-img .file {
     overflow: hidden;
-    width: 70%;
+    width: 50%;
     border: none;
     border-radius: 2;
     font-size: 15px;
@@ -81,7 +81,8 @@ body {
 }
 
 .profile-work{
-    padding: 14%;
+    padding-top: 12%;
+    padding-left: 25%;
     margin-top: -15%;
 }
 
@@ -107,4 +108,18 @@ body {
 .profile-tab p{
     font-weight: 600;
     color: #0062cc;
+}
+.profile-tab-block{
+    margin-top: 0px;
+}
+
+.profile-sigle{
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 100%;
+    color: white;
+    font-weight: 900;
 }
