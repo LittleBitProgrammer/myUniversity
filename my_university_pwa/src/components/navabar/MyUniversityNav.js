@@ -2,6 +2,7 @@
 import React from 'react';
 import Navigation from './navigation/Navigation';
 import myUniversityLogo from '../../img/svg/graduation-hat.svg';
+import squareLogo from '../../img/svg/square-1.svg';
 import NavRight from './navigation/NavRight';
 import NavLeft from './navigation/NavLeft';
 import Navitem from './navigation/Navitem';
@@ -23,10 +24,12 @@ const Navbar = () => {
         <NavRight>
             <Navitem path='/profilo'>
                 <RoundImage 
-                    path='https://www.lascimmiapensa.com/wp-content/uploads/2019/03/Al-Bano-1.jpg' 
+                    path={squareLogo}
                     altText='profile image'
                     width='45px'
-                    height='45px'/>
+                    height='45px'
+                    className='circle-border-white'
+                    />
             </Navitem>
         </NavRight>
     </Navigation>

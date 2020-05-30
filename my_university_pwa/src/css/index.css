@@ -9,7 +9,7 @@ body {
 
 /* change this if you want to change the margin of profile image */
 .card-wrapper {
-    margin: 3% 0;
+    margin: 5% 0;
   }
   
 .custom-circle-image {
@@ -17,10 +17,28 @@ width: 20vw;
 height: 20vw;
 border-radius: 50%;
 }
+
+.profile-circle-image {
+    width: 8vw; 
+    height: 8vw;
+    border-radius: 50%;;
+}
   
 .custom-circle-image img {
 object-fit: cover;
 }
 
+.circle-border-white{
+    border:3px solid white; 
+    border-radius:50%;
+    -moz-border-radius:50%;
+    -webkit-border-radius:50%;
+}
 
+.circle-border-primary{
+    border:3px solid #007bff; 
+    border-radius:50%;
+    -moz-border-radius:50%;
+    -webkit-border-radius:50%;
+}
 
