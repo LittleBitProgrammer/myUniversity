@@ -1,14 +1,16 @@
-//import lib
+// IMPORT LIB
 import React, {Component} from 'react';
+// WRAPPER
+import ProfileInformation from '../wrapper/ProfileInformation';
 
-//create a component
+//CREATE A COMPONENT
 class Profile extends Component{
     render(){
         return (
-            <div>Profile Component</div>
-        );
+            <ProfileInformation/>
+        )
     }
 }
 
-//export a component 
+//EXPORT A COMPONENT
 export default Profile;

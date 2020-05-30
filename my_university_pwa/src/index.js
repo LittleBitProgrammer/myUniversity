@@ -5,10 +5,8 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 // CSS
 import './css/index.css';
-//COOKIE
-import {CookiesProvider} from 'react-cookie';
 
 //export / render a component
-ReactDom.render(<CookiesProvider><App/></CookiesProvider>, document.querySelector('#root'));
+ReactDom.render(<App/>, document.querySelector('#root'));
 
 serviceWorker.register();
