@@ -2,7 +2,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 //TODO: create component icon with text
 
@@ -15,7 +14,7 @@ const Navitem = ({path, name, exact,logoImage, children}) => {
               to={path} 
               exact={exact}
               activeClassName='active'>
-              <span>{logoImage &&<FontAwesomeIcon icon={faUser} className='mr-2'/>}{name}</span>
+              <span>{logoImage &&<FontAwesomeIcon icon={logoImage} className='mr-2'/>}{name}</span>
             {children}
               <span className="sr-only">(current)</span>
             </NavLink>

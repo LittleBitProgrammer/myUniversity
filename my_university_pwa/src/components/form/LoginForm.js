@@ -6,6 +6,8 @@ import Submit from '../bootstrap/form/Submit';
 //FORM-FIELDS
 import TextField from '../bootstrap/form/fields/TextField';
 import PasswordField from '../bootstrap/form/fields/PasswordField';
+//IMAGES
+import myUniversityLogo from '../../img/svg/graduation-hat-primary.svg'
 
 
 //create a component 
@@ -27,11 +29,11 @@ class LoginForm extends Component{
     }
 
     render(){
-        console.log('render login');
         return (
-            <div>
-                <form onSubmit={(event) => this.props.onSubmit(event,this.state.freshman,this.state.password)}>
-                    <h3>Login</h3>
+            <div className='text-center'>
+                <form onSubmit={(event) => this.props.onSubmit(event,this.state.freshman,this.state.password)} className='form-signin'>
+                    <img className='mb-4' alt='My University Logo' src={myUniversityLogo} width='72px' height='72px'/>
+                    <h1 className='h3 mb-3 font-weight-normal'>Please sign in</h1>
                     <FormGroup>
                         <TextField
                         id='freshman'
@@ -53,7 +55,8 @@ class LoginForm extends Component{
                         />
                     </FormGroup>
                     {this.props.error}
-                    <Submit classColor='btn-primary'/>
+
+                    <Submit classColor='btn-primary' className='btn-lg btn-block mt-5' buttontext='Login'/>
                 </form>
             </div>
         )

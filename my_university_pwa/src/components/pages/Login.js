@@ -4,12 +4,15 @@ import React, {Component} from 'react';
 import {Cookies} from 'react-cookie';
 //FORM
 import LoginForm from '../form/LoginForm';
+//CARD
+import Card from '../bootstrap/Card/Card';
 //API
 import myUniversity from '../../API/myUniversity';
 import { Redirect } from 'react-router-dom';
 //CONTEXT
 import {UserContext} from '../context/UserContext';
 
+//TODO: cookie banner showed to the user
 
 //create a component 
 class Login extends Component{
@@ -77,7 +80,7 @@ class Login extends Component{
     }
 
     render(){
-        const errorMessage = !this.state.loginError ? '' : <p className='text-danger'>Matricola o password errate</p>
+        const errorMessage = !this.state.loginError ? '' : <Card className='mt-3 bg-danger'><ul className="list-group list-group-flush"><li className='list-group-item text-danger'>Matricola o password errate</li></ul></Card>
         console.log('auth in login', this.cookies.get('isAuth') )
         console.log('redirect to home')
         if(this.cookies.get('isAuth') === 'true'){return  <Redirect to='/' key='login-to-root'/>}

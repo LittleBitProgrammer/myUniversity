@@ -2,7 +2,7 @@
 import React from 'react';
 
 //create a component 
-const Submit = ({onSubmitClick,buttontext,classColor, className}) => {
+const Submit = ({buttontext,classColor, className}) => {
     return <button type='submit' className={`btn ${classColor} ${className}`}>{buttontext}</button>
 }
 
