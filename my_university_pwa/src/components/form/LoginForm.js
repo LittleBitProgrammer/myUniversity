@@ -1,4 +1,4 @@
-//import lib
+//IMPORT LIB
 import React, {Component} from 'react'
 //FORM
 import FormGroup from '../bootstrap/form/FormGroup';
@@ -12,28 +12,34 @@ import myUniversityLogo from '../../img/svg/graduation-hat-primary.svg'
 
 //create a component 
 //TODO: OPTIMIZE CALL (SPINNER)
-//TODO: FIX ON RELOAD
 class LoginForm extends Component{
 
     constructor(props){
         super(props);
 
+        // THE STATE MEMORIZE FRESHMAN AND PASSWORD
         this.state = {
             freshman: '',
             password: ''
         }
     }
 
+    // CALLED ON INPUTS CHANGES
     onChangeFields = (event) => {
         this.setState({[event.target.name]:event.target.value});
     }
 
+    // RENDER METHOD
     render(){
         return (
             <div className='text-center'>
-                <form onSubmit={(event) => this.props.onSubmit(event,this.state.freshman,this.state.password)} className='form-signin'>
+                <form 
+                  onSubmit={(event) => this.props.onSubmit(event,this.state.freshman,this.state.password)} 
+                  className='form-signin'>
+                    {/* FORM HEADING */}
                     <img className='mb-4' alt='My University Logo' src={myUniversityLogo} width='72px' height='72px'/>
                     <h1 className='h3 mb-3 font-weight-normal'>Please sign in</h1>
+                    {/* FORM INPUT */}
                     <FormGroup>
                         <TextField
                         id='freshman'
@@ -54,8 +60,11 @@ class LoginForm extends Component{
                         required={true}
                         />
                     </FormGroup>
+
+                    {/* EROOR SPACE */}
                     {this.props.error}
 
+                    {/* SUBMIT BUTTON FORM*/}
                     <Submit classColor='btn-primary' className='btn-lg btn-block mt-5' buttontext='Login'/>
                 </form>
             </div>
@@ -63,5 +72,5 @@ class LoginForm extends Component{
     }
 }
 
-//export a component
+// EXPORT A COMPONENT
 export default LoginForm;
