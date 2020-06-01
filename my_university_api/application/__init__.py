@@ -4,7 +4,7 @@ from flask import Flask
 from config import Config
 from flask_socketio import SocketIO
 
-socketio = SocketIO(engineio_logger=True, logger=True, cors_allowed_origins='*')
+socketio = SocketIO(engineio_logger=True, logger=True, cors_allowed_origins='*', cors_allowed_headers='*')
 
 def createApp(config_class=Config):
     app = Flask(__name__, static_folder=None)

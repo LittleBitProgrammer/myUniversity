@@ -1,5 +1,6 @@
 from application import createApp
 app = createApp()
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
 def home():

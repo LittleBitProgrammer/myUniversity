@@ -18,11 +18,50 @@
     Message: <input type="text" id="private_message">
     <button id="send_private_message">Send</button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script
               src="http://code.jquery.com/jquery-3.2.1.min.js"
               integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
               crossorigin="anonymous"></script>
-    <script src="{{ url_for('chat_blueprint.static', filename='script.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+    <script>
+    $(document).ready(function() {
+
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var socket_messages = io('http://' + document.domain + ':' + location.port+'/messages');
+
+        $('#send').on('click', function() {
+            var message = $('#message').val();
+            socket_messages.emit('message from user', message);
+        });
+
+        socket_messages.on('from flask', function(msg) {
+            alert(msg);
+        });
+
+        socket.on('server orginated', function(msg) {
+            alert(msg);
+        });
+
+        var private_socket = io('http://' + document.domain + ':' + location.port+'/private')
+
+        $('#send_username').on('click', function() {
+            private_socket.emit('username', $('#username').val());
+        });
+
+        $('#send_private_message').on('click', function() {
+            var recipient = $('#send_to_username').val();
+            var message_to_send = $('#private_message').val();
+
+            private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
+        });
+
+        private_socket.on('new_private_message', function(msg) {
+            alert(msg);
+        });
+    });
+    </script>
+
 </body>
 </html>
+
