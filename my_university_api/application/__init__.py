@@ -6,8 +6,6 @@ from flask_socketio import SocketIO
 
 socketio = SocketIO(engineio_logger=True, logger=True, cors_allowed_origins='*')
 
-
-
 def createApp(config_class=Config):
     app = Flask(__name__, static_folder=None)
     app.config.from_object(Config)
@@ -18,8 +16,6 @@ def createApp(config_class=Config):
     from application.chat_server import chat_blueprint
     app.register_blueprint(chat_blueprint, url_prefix='/chat')
     return app
-
-
 
 
 if __name__ == '__main__':
