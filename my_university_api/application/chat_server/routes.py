@@ -1,4 +1,4 @@
-from application.chat_server import *
+from application.chat_server import socketio, chat_blueprint
 from flask import render_template
 
 @chat_blueprint.route('/')

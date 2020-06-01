@@ -5,8 +5,14 @@
     <title>SocketIO Example</title>
 </head>
 <body>
+
+
     <input type="text" id="username">
     <button id="send_username">Send Username</button>
+
+    <br>
+    <br>
+    <br>
 
     Send To: <input type="text" id="send_to_username">
     Message: <input type="text" id="private_message">
@@ -17,6 +23,6 @@
               src="http://code.jquery.com/jquery-3.2.1.min.js"
               integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
               crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('chat_blueprint.static', filename='script.js') }}"></script>
 </body>
 </html>

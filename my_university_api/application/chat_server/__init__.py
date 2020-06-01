@@ -3,7 +3,7 @@ from flask_socketio import emit
 from flask import request
 from application import socketio
 
-chat_blueprint = Blueprint('chat_blueprint', __name__, template_folder='templates', static_folder='static')
+chat_blueprint = Blueprint('chat_blueprint', __name__, template_folder='templates', static_folder='static', static_url_path='static')
 
 users = {}
 

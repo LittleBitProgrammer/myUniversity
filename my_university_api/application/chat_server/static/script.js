@@ -1,7 +1,8 @@
 $(document).ready(function() {
 
-    var socket = io.connect('http://localhost:5000');
-    var socket_messages = io('http://localhost:5000/messages')
+    var socket = io.connect('http://127.0.0.1:5000');
+
+    var socket_messages = io('http://127.0.0.1:5000/messages')
 
     $('#send').on('click', function() {
         var message = $('#message').val();
@@ -18,7 +19,7 @@ $(document).ready(function() {
         alert(msg);
     });
 
-    var private_socket = io('http://localhost:5000/private')
+    var private_socket = io('http://127.0.0.1:5000/private')
 
     $('#send_username').on('click', function() {
         private_socket.emit('username', $('#username').val());
@@ -34,5 +35,6 @@ $(document).ready(function() {
     private_socket.on('new_private_message', function(msg) {
         alert(msg);
     });
+
 
 });
