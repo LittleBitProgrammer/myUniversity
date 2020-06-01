@@ -1,11 +1,11 @@
 // IMPORT LIB
 import React from 'react';
-import Navigation from '../navabar/Navigation';
+import Navigation from '../navigation/Navigation';
 import myUniversityLogo from '../../img/svg/graduation-hat.svg';
-import NavRight from '../navabar/NavRight';
-import NavLeft from '../navabar/NavLeft';
-import Navitem from '../navabar/Navitem';
-import RoundImage from '../bootstrap/RoundImage';
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import NavRight from '../navigation/NavRight';
+import NavLeft from '../navigation/NavLeft';
+import Navitem from '../navigation/Navitem';
 
 // CREATE A COMPONENT
 const Navbar = () => {
@@ -21,13 +21,7 @@ const Navbar = () => {
             <Navitem path='/chat' name='Chat'/>
         </NavLeft>
         <NavRight>
-            <Navitem path='/profilo'>
-                <RoundImage 
-                    path='https://www.lascimmiapensa.com/wp-content/uploads/2019/03/Al-Bano-1.jpg' 
-                    altText='profile image'
-                    width='45px'
-                    height='45px'/>
-            </Navitem>
+            <Navitem path='/profilo' name='Profilo' logoImage={faUser}/>
         </NavRight>
     </Navigation>
     )
