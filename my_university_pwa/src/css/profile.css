@@ -72,28 +72,30 @@
     border-bottom:2px solid #0062cc;
 }
 
-.profile-work{
+.profile-contacts{
     padding-top: 12%;
     padding-left: 25%;
     margin-top: -15%;
 }
 
-.profile-work p{
+.profile-contacts p{
     font-size: 12px;
     color: #818182;
     font-weight: 600;
     margin-top: 10%;
 }
 
-.profile-work a{
+.profile-contacts a{
     text-decoration: none;
     color: #495057;
     font-weight: 600;
     font-size: 14px;
 }
-.profile-work ul{
+.profile-contacts ul{
     list-style: none;
 }
+
+
 .profile-tab label{
     font-weight: 600;
 }

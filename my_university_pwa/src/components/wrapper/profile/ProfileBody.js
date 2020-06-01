@@ -2,7 +2,7 @@
 import React from 'react';
 
 // CREATE A COMPONENT 
-const Sidebar = ({children}) => {
+const ProfileBody = ({children}) => {
     return (
         <div className='d-flex flex-column'>
             {children}
@@ -11,4 +11,4 @@ const Sidebar = ({children}) => {
 }
 
 // EXPORT A COMPONENT
-export default Sidebar;
+export default ProfileBody;

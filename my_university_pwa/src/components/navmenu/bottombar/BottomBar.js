@@ -1,6 +1,6 @@
 //import lib
 import React from 'react';
-import '../css/bottombar.css';
+import '../../../css/bottombar.css';
 
 //create a component 
 const BottomBar = ({firstYear, lastYear, authors}) => {

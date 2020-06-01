@@ -5,28 +5,31 @@ import Row from '../../bootstrap/Row';
 import Column from '../../bootstrap/Column';
 // WRAPPER
 import Sidebar from './Sidebar';
+import ProfileImage from '../ProfileImage';
+import Contacts from './Contacts';
+import ProfileBody from './ProfileBody';
+import ProfileHeader from './ProfileHeader';
 //CONTEXT
 import {UserContext} from '../../context/UserContext';
-//FUNCTIONS
-import {capitalizeFirstLetter} from '../../../Utility/functions';
 //IMAGE
 import squareLogo from '../../../img/svg/Square-profile.svg'
 //CSS
 import '../../../css/profile.css'
+import ProfileTab from '../../navmenu/tabBar/ProfileTab';
+
 
 //TODO: dynamic alt text
 //TODO: fix image size on smaller screen
 //TODO: teacher content
 //TODO: show user datetime format
 //TODO: conditional rendering on profile image 
+//TODO: dynamic contacts
 
 // CREATE A COMPONENT
 class ProfileInformation extends Component {
     // CLASS CONSTRUCTOR
     constructor(props){
         super(props)
-
-        
 
         this.state = {
             // insert information here
@@ -36,16 +39,32 @@ class ProfileInformation extends Component {
     //RENDER METHOD
     render(){
         const user = this.context;
+        console.log(user)
         return(
             <div>
                 <Row>
-                    <Column columnSize='3'>
+                    <Column columnSize='4' screenSize='lg'>
                         <Sidebar>
-                            
+                            <ProfileImage 
+                              inputText='Cambia Foto' 
+                              altText='Immagine del profilo' 
+                              sigle= {`${user.student.nome.charAt(0).toUpperCase()} ${user.student.cognome.charAt(0).toUpperCase()}`} 
+                              path={squareLogo}/>
+                              <Contacts 
+                                phoneNumbers={['081233483440','081233483441','081233483442']}
+                                emails={['bob@mail.it', 'bobbetto@mail.it', 'tweb@mail.it']}
+                                />
                         </Sidebar>
                     </Column>
-                    <Column columnSize='9'>
-                        ciao mondo
+                    <Column columnSize='8' screenSize='lg'>
+                        <ProfileBody>
+                            <ProfileHeader 
+                              firstName={user.student.nome} 
+                              lastNAme={user.student.cognome} 
+                              userType='studente' 
+                              userYear={user.student.anno_in_corso}/>
+                            <ProfileTab/>
+                        </ProfileBody>
                     </Column>
                 </Row>
             </div>
@@ -56,45 +75,6 @@ class ProfileInformation extends Component {
 {/* <div>
 <form>
     <Row>
-        <div className="col-md-4">
-            <div className="profile-img">
-                <div className='container-profile'>
-                <img src={squareLogo} alt="" className='rounded'/>
-                <div className="profile-sigle">
-                    {`${user.student.nome.charAt(0).toUpperCase()} ${user.student.cognome.charAt(0).toUpperCase()}`}
-                </div>
-                <div className="file btn btn-lg btn-primary text-block">
-                    Cambia Foto
-                    <input type="file" name="file"/>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div className="col-md-6">
-            <div className="profile-head">
-                <h5>
-                    {`${capitalizeFirstLetter(user.student.nome)} ${capitalizeFirstLetter(user.student.cognome)}`} 
-                </h5>
-                <h6>Studente</h6>
-                <p className="proile-year">Anno in corso : <span>{user.student.anno_in_corso}</span></p>
-                <ul className="nav nav-tabs" id="myTab" role="tablist">
-                    <li className="nav-item">
-                        <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Informazioni</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Altro</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </Row>
-    <Row>
-        <div className="col-md-4">
-            <div className="profile-work">
-                <p>Contatti Telefonici</p>
-                <p>Email</p>
-            </div>
-        </div>
         <div className="col-md-8">
             <div className="tab-content profile-tab" id="myTabContent">
                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
