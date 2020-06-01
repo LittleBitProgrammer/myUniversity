@@ -14,3 +14,4 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'TECNOLOGIE_WEB_2020'
     SWAGGER_UI_DOC_EXPANSION = os.environ.get('SWAGGER_UI_DOC_EXPANSION') or 'none'
     SWAGGER_UI_REQUEST_DURATION = os.environ.get('SWAGGER_UI_REQUEST_DURATION') or True
+    CORS_HEADERS = os.environ.get('CORS_HEADERS') or 'Content-Type'

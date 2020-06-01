@@ -4,10 +4,10 @@ from flask import Flask
 from config import Config
 from flask_socketio import SocketIO
 
-socketio = SocketIO()
+socketio = SocketIO(engineio_logger=True, logger=True, cors_allowed_origins='*', cors_allowed_headers='*')
 
 def createApp(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder=None)
     app.config.from_object(Config)
     socketio.init_app(app)
 
@@ -18,3 +18,5 @@ def createApp(config_class=Config):
     return app
 
 
+if __name__ == '__main__':
+    socketio.run(createApp, host='0.0.0.0')
