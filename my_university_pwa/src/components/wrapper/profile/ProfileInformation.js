@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import Row from '../../bootstrap/Row';
 import Column from '../../bootstrap/Column';
 // WRAPPER
-import Sidebar from './Sidebar';
+import Sidebar from './ProfileSide';
 import ProfileImage from '../ProfileImage';
 import Contacts from './Contacts';
 import ProfileBody from './ProfileBody';
