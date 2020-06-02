@@ -6,9 +6,9 @@ import React from 'react';
 // CREATE A COMPONENT
 const TabBar = ({children}) => {
     return (
-        <ul className="nav nav-tabs" id="myTab" role="tablist">
+        <div>
             {children}
-        </ul>
+        </div>
     );
 }
 

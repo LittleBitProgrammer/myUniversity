@@ -3,83 +3,33 @@ import React from 'react'
 // TABBAR
 import TabBar from '../../bootstrap/navigation/TabBar';
 import NavTab from '../../bootstrap/navigation/NavTab';
-import Row from '../../bootstrap/Row';
+import TabHeader from '../../bootstrap/navigation/TabHeader';
+import TabBody from '../../bootstrap/navigation/TabBody';
+import TabView from '../../bootstrap/navigation/TabView';
+import TabRow from '../../bootstrap/navigation/TabRow';
 
 // CREATE A COMPONENT
 const ProfileTab = (props) => {
     return (
-        <div>
         <TabBar>
-            <NavTab isActive={true} id='home-tab' to='home' tabName='Informazioni'/>
-            <NavTab isActive={false} id='other-tab' to='other' tabName='Altro'/>
+            <TabHeader>
+                <NavTab isActive={true} id='home-tab' to='home' tabName='Informazioni'/>
+                <NavTab isActive={false} id='other-tab' to='other' tabName='Altro'/>
+            </TabHeader>
+            <TabBody>
+                <TabView animaationClass='fade' id='home' isActive='active show'>
+                    <TabRow title='Matricola' attribute='Test1'/>
+                    <TabRow title='Codice Fiscale' attribute='Test2'/>
+                    <TabRow title='Email Universitaria' attribute='Test3'/>
+                    <TabRow title='Data di immatricolazione' attribute='Test4'/>
+                </TabView>
+                <TabView animaationClass='fade' id='other'>
+                    <TabRow title='Domicilio' attribute='Test1'/>
+                    <TabRow title='Data di nascita' attribute='Test2'/>
+                    <TabRow title='Luogo di nascita' attribute='Test3'/>
+                </TabView>
+            </TabBody>
         </TabBar>
-        <div className="tab-content profile-tab" id="myTabContent">
-                <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div className='profile-tab-block'>
-                    <Row>
-                        <div className="col-md-6">
-                            <label>Matricola</label>
-                        </div>
-                        <div className="col-md-6">
-                            <p>test</p>
-                        </div>
-                    </Row>
-                    <Row>
-                        <div className="col-md-6">
-                            <label>Codice Fiscale</label>
-                        </div>
-                        <div className="col-md-6">
-                            <p>test</p>
-                        </div>
-                    </Row>
-                    <Row>
-                        <div className="col-md-6">
-                            <label>Email universitaria</label>
-                        </div>
-                        <div className="col-md-6">
-                            <p>test</p>
-                        </div>
-                    </Row>
-                    <Row>
-                        <div className="col-md-6">
-                            <label>Data Di Immatricolazione</label>
-                        </div>
-                        <div className="col-md-6">
-                            <p>test</p>
-                        </div>
-                    </Row>
-                </div>
-                </div>
-                <div className="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
-                <div className='profile-tab-block'>
-                    <Row>
-                        <div className="col-md-6">
-                            <label>Domicilio</label>
-                        </div>
-                        <div className="col-md-6">
-                            <p>test</p>
-                        </div>
-                    </Row>
-                    <Row>
-                        <div className="col-md-6">
-                            <label>Data di nascita</label>
-                        </div>
-                        <div className="col-md-6">
-                            <p>test</p>
-                        </div>
-                    </Row>
-                    <Row>
-                        <div className="col-md-6">
-                            <label>Luogo di Nascita</label>
-                        </div>
-                        <div className="col-md-6">
-                            <p>test</p>
-                        </div>
-                    </Row>
-                </div>
-            </div>
-        </div>
-        </div>
     );
 }
 
