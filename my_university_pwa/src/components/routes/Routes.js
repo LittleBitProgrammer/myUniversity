@@ -11,7 +11,7 @@ import Login from '../pages/Login';
 // ROUTING
 import AppRoute from '../routing/AppRoute';
 // NAVBAR
-import MyUniversityNav from '../navabar/MyUniversityNav'
+import MyUniversityNav from '../navmenu/navbar/MyUniversityNav';
 //CONTEXT
 import {UserContext} from '../context/UserContext';
 //AXIOS

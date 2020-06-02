@@ -1,11 +1,11 @@
 // IMPORT LIB
 import React from 'react';
-import Navigation from '../navigation/Navigation';
-import myUniversityLogo from '../../img/svg/graduation-hat.svg';
+import Navigation from '../../bootstrap/navigation/Navigation';
+import myUniversityLogo from '../../../img/svg/graduation-hat.svg';
 import { faUser } from '@fortawesome/free-solid-svg-icons'
-import NavRight from '../navigation/NavRight';
-import NavLeft from '../navigation/NavLeft';
-import Navitem from '../navigation/Navitem';
+import NavRight from '../../bootstrap/navigation/NavRight';
+import NavLeft from '../../bootstrap/navigation/NavLeft';
+import Navitem from '../../bootstrap/navigation/Navitem';
 
 // CREATE A COMPONENT
 const Navbar = () => {
