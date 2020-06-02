@@ -48,7 +48,8 @@ class ProfileInformation extends Component {
                             <ProfileImage 
                               inputText='Cambia Foto' 
                               altText='Immagine del profilo' 
-                              sigle= {`${user.student.nome.charAt(0).toUpperCase()} ${user.student.cognome.charAt(0).toUpperCase()}`} 
+                              sigle= {`${user.student.nome.charAt(0).toUpperCase()} 
+                                       ${user.student.cognome.charAt(0).toUpperCase()}`} 
                               path={squareLogo}/>
                               <Contacts 
                                 phoneNumbers={['081233483440','081233483441','081233483442']}

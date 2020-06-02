@@ -95,7 +95,6 @@ class Routes extends Component {
     }
 
     render(){
-        console.log('routes',this.myCookies.get('isAuth'));
         return (
             <div>
                 <Switch>

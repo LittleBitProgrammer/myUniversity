@@ -8,7 +8,7 @@ const Contacts = ({phoneNumbers, emails}) => {
         return <div><a href>{number}</a></div>
     });
     const emailList = emails.map((email) => {
-        return <div><a href>{email}</a></div>
+        return <div><a href='/'>{email}</a></div>
     });
     return (
         <div className='profile-contacts'>
