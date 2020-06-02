@@ -5,7 +5,7 @@ import React from 'react';
 const Contacts = ({phoneNumbers, emails}) => {
 
     const numberList = phoneNumbers.map((number) => {
-        return <div><a href>{number}</a></div>
+        return <div><a href='/'>{number}</a></div>
     });
     const emailList = emails.map((email) => {
         return <div><a href='/'>{email}</a></div>

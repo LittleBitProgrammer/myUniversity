@@ -2,9 +2,9 @@
 import React from 'react';
 
 // CREATE A COMPONENT 
-const TabView = ({children,animaationClass,isActive,id}) => {
+const TabView = ({children,className,animaationClass,isActive,id}) => {
     return (<div 
-              className={`tab-pane ${animaationClass} ${isActive ? 'active show' : ''}`} 
+              className={`tab-pane ${animaationClass} ${isActive ? 'active show' : ''} ${className}`} 
               id={id}
               role='tabpanel'
               aria-labelledby={id}>
@@ -14,7 +14,8 @@ const TabView = ({children,animaationClass,isActive,id}) => {
 
 TabView.defaultProps = {
     animaationClass: 'fade',
-    isActive: false
+    isActive: false,
+    className:''
 }
 
 // EXPORT A COMPONENT 

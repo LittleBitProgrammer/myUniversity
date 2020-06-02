@@ -11,13 +11,13 @@ import TabRow from '../../bootstrap/navigation/TabRow';
 // CREATE A COMPONENT
 const ProfileTab = (props) => {
     return (
-        <TabBar>
+        <TabBar className='mt-4'>
             <TabHeader>
                 <NavTab isActive={true} id='home-tab' to='home' tabName='Informazioni'/>
                 <NavTab isActive={false} id='other-tab' to='other' tabName='Altro'/>
             </TabHeader>
-            <TabBody>
-                <TabView animaationClass='fade' id='home' isActive='active show'>
+            <TabBody className='mt-4'>
+                <TabView animaationClass='fade' id='home' isActive='active show' className='profile-tab'>
                     <TabRow title='Matricola' attribute='Test1'/>
                     <TabRow title='Codice Fiscale' attribute='Test2'/>
                     <TabRow title='Email Universitaria' attribute='Test3'/>

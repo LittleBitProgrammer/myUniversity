@@ -1,16 +1,12 @@
 // IMPORT LIB
 import React from 'react';
-// CARD
-import Card from '../bootstrap/Card/Card';
 
 // CREATE A COMPONENT
 const CardError = ({errorMessage}) => {
     return (
-        <Card className='mt-3 bg-danger'>
-            <ul className="list-group list-group-flush">
-                <li className='list-group-item text-danger'>{errorMessage}</li>
-            </ul>
-        </Card>
+        <div class="alert alert-danger mt-3" role="alert">
+            {errorMessage}
+        </div>
     );
 }
 
