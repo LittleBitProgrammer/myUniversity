@@ -9,7 +9,7 @@ import TabView from '../../bootstrap/navigation/TabView';
 import TabRow from '../../bootstrap/navigation/TabRow';
 
 // CREATE A COMPONENT
-const ProfileTab = (props) => {
+const ProfileTab = ({freshman,fCode,uEmail,uSubscription,domicile,bornDate,bornPlace}) => {
     return (
         <TabBar className='mt-4'>
             <TabHeader>
@@ -18,15 +18,15 @@ const ProfileTab = (props) => {
             </TabHeader>
             <TabBody className='mt-4'>
                 <TabView animaationClass='fade' id='home' isActive='active show' className='profile-tab'>
-                    <TabRow title='Matricola' attribute='Test1'/>
-                    <TabRow title='Codice Fiscale' attribute='Test2'/>
-                    <TabRow title='Email Universitaria' attribute='Test3'/>
-                    <TabRow title='Data di immatricolazione' attribute='Test4'/>
+                    <TabRow title='Matricola' attribute={freshman}/>
+                    <TabRow title='Codice Fiscale' attribute={fCode}/>
+                    <TabRow title='Email Universitaria' attribute={uEmail}/>
+                    <TabRow title='Data di immatricolazione' attribute={uSubscription}/>
                 </TabView>
-                <TabView animaationClass='fade' id='other'>
-                    <TabRow title='Domicilio' attribute='Test1'/>
-                    <TabRow title='Data di nascita' attribute='Test2'/>
-                    <TabRow title='Luogo di nascita' attribute='Test3'/>
+                <TabView animaationClass='fade' id='other' className='profile-tab'>
+                    <TabRow title='Domicilio' attribute={domicile}/>
+                    <TabRow title='Data di nascita' attribute={bornDate}/>
+                    <TabRow title='Luogo di nascita' attribute={bornPlace}/>
                 </TabView>
             </TabBody>
         </TabBar>

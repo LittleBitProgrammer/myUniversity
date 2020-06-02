@@ -22,12 +22,7 @@ class UserProvider extends Component {
                 email_studente: '',
                 data_immatricolazione: '',
                 anno_in_corso: 0,
-                contatti: [
-                    {
-                      tipo_contatto: '',
-                      valore_contatto: ''
-                    }
-                       ]
+                contatti: []
             },
             teacher: {
                 cf: '',
@@ -40,12 +35,7 @@ class UserProvider extends Component {
                 civico: '',
                 matricola_docente: '',
                 email_docente: '',
-                contatti: [
-                 {
-                   tipo_contatto: '',
-                   valore_contatto: ''
-                 }
-                    ]
+                contatti: []
             },
             update: this.updateState
         }
