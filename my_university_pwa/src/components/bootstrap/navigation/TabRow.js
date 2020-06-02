@@ -4,9 +4,9 @@ import Column from '../Column';
 import Row from '../Row';
 
 // CREATE A COMPONENT
-const TabRow = ({title,attribute}) => {
+const TabRow = ({classNAme,title,attribute}) => {
     return (
-        <Row>
+        <Row className={classNAme}>
             <Column columnSize='6'>
                 <label>{title}</label>
             </Column>

@@ -11,7 +11,7 @@ const ProfileHeader = ({firstName, lastNAme, userType, userYear}) => {
                     {`${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(lastNAme)}`} 
                 </h5>
                 <h6>{userType}</h6>
-                <p className="proile-year">Anno in corso : <span>{userYear}</span></p>
+                <p className="proile-year">Anno in corso : <span className='ml-1'>{userYear}</span></p>
         </div>
     );
 }

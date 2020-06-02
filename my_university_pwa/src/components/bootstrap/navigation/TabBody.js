@@ -2,8 +2,12 @@
 import React from 'react';
 
 // CREATE A COMPONENT 
-const TabBody = ({children,id}) => {
-    return <div className='tab-content' id={id}>{children}</div>
+const TabBody = ({children,className,id}) => {
+    return <div className={`tab-content ${className}`} id={id}>{children}</div>
+}
+
+TabBody.defaultProps = {
+    className: ''
 }
 
 // EXPORT A COMPONENT
