@@ -1,7 +1,7 @@
 //IMPORT LIB
 import React from 'react';
 //FUNCTIONS
-import {capitalizeFirstLetter} from '../../../Utility/functions';
+import {capitalizeFirstLetter} from '../../../utility/functions';
 
 //CREATE A COMPONENT 
 const ProfileHeader = ({firstName, lastNAme, userType, userYear}) => {
