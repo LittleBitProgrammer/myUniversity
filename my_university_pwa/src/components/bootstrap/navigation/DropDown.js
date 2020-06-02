@@ -4,20 +4,21 @@ import DropTitle from '../navigation/DropTitle';
 import DropMenu from '../navigation/DropMenu';
 
 // CREATE A COMPONENT 
-const DropDown = ({children,id}) => {
+const DropDown = ({children,className,id,title,logoImage}) => {
     return (
-        <div class='nav-item dropdown'>
-            <DropTitle id={id} title='Profilo'/>
+        <li className={`nav-item dropdown ${className ? className : ''}`}>
+            <DropTitle id={id} title={title} logoImage={logoImage}/>
             <DropMenu id={id}>
                 {children}
             </DropMenu>
-        </div>
+        </li>
     );
 }
 
 DropDown.defaultProps = {
-    id: 'navbarDropdown'
+    id: 'navbarDropdown',
+    title: 'DropMenu'
 }
 
 // EXPORT A COMPONENT
-export default DropMenu;
+export default DropDown;

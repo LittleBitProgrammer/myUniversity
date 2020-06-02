@@ -1,8 +1,9 @@
 // IMPORT LIB
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // CREATE A COMPONENT 
-const DropTitle = ({title,id}) => {
+const DropTitle = ({title,id,logoImage}) => {
     return (
         <a 
           className='nav-link dropdown-toggle' 
@@ -12,7 +13,7 @@ const DropTitle = ({title,id}) => {
           data-toggle='dropdown' 
           aria-haspopup='true' 
           aria-expanded='false'>
-          {title}
+          <span>{logoImage &&<FontAwesomeIcon icon={logoImage} className='mr-2'/>}{title}</span>
         </a>
     );
 }

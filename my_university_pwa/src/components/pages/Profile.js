@@ -13,6 +13,7 @@ import {formatDate} from '../../utility/functions';
 //TODO: show user datetime format
 //TODO: conditional rendering on profile image 
 //TODO: dynamic contacts
+//TODO: use state and not context
 
 //CREATE A COMPONENT
 class Profile extends Component{
@@ -21,21 +22,26 @@ class Profile extends Component{
         super(props);
 
         this.state = {
-            isTablet: false
+            isTablet: false,
         }
     }
 
-    populateContacts = (user,obj) => {
-        console.log('len =', user.student.contatti.length);
+    populateContacts = (user) => {
+        const contacts = {
+                phoneNumbers: [],
+                emails: []
+        }
+
         if(user.student.contatti.length !== 0){
             user.student.contatti.forEach((contatto) => {
                 if(contatto.tipo_contatto === 'telefono'){
-                    obj.phoneNumbers.push(contatto.valore_contatto);
+                    contacts.phoneNumbers.push(contatto.valore_contatto);
                 }else{
-                    obj.emails.push(contatto.valore_contatto);
+                    contacts.emails.push(contatto.valore_contatto);
                 }
             })
         }
+        return contacts;
     }
 
     updateToTabletView = () => {
@@ -46,14 +52,10 @@ class Profile extends Component{
         window.addEventListener('resize', this.updateToTabletView );
     }
 
-    contacts = {
-        phoneNumbers: [],
-        emails: []
-    }
-
     render(){
         const user = this.context;
-        this.populateContacts(user,this.contacts);
+
+        const contacts = this.populateContacts(user);
 
         console.log(user.student);
         console.log(this.contacts);
@@ -61,8 +63,8 @@ class Profile extends Component{
         return (
             <ProfileInformation 
               sigle={`${user.student.nome.charAt(0).toUpperCase()}${user.student.cognome.charAt(0).toUpperCase()}`} 
-              phoneNumbers={this.contacts.phoneNumbers}
-              emails={this.contacts.emails}
+              phoneNumbers={contacts.phoneNumbers}
+              emails={contacts.emails}
               firstName={user.student.nome} 
               lastNAme={user.student.cognome} 
               userYear={user.student.anno_in_corso}

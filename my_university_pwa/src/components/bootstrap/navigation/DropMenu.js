@@ -4,15 +4,15 @@ import React from 'react';
 // CREATE A COMPONENT
 const DropMenu = ({children,id}) => {
     return (
-        <div class="dropdown-menu" aria-labelledby={id}>
+        <div className="dropdown-menu" aria-labelledby={id}>
             {children}
         </div>
     );
 }
 
-DropMenu.defaultProps({
+DropMenu.defaultProps={
     id: 'navbarDropdown'
-})
+}
 
 // EXPORT A COMPONENT
 export default DropMenu;
