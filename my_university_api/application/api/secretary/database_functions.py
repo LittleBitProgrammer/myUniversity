@@ -989,3 +989,31 @@ def insertContattoPersona(tipo_contatto, valore_contatto, cf, connection):
             cursor.close()
             connection.close()
             print('MySQL connection is closed')
+
+# function to delete contatto_persona inside database
+def deleteContattoPersona(cf, tipo_contatto, valore_contatto, connection):
+    try:
+        cursor = connection.cursor()
+        mySQL_query_delete_contatto_persona = """DELETE FROM contatto_persona
+                                         WHERE cf = %s
+                                         AND tipo_contatto = %s
+                                         AND valore_contatto = %s """
+
+        delete_contatto_persona_tuple = (cf, tipo_contatto, valore_contatto)
+        cursor.execute(mySQL_query_delete_contatto_persona, delete_contatto_persona_tuple)
+
+        mySQL_query_delete_contatto = """DELETE FROM contatto
+                                         WHERE tipo_contatto = %s
+                                         AND valore_contatto = %s """
+
+        delete_contatto_tuple = (tipo_contatto, valore_contatto)
+        cursor.execute(mySQL_query_delete_contatto, delete_contatto_tuple)
+
+        connection.commit()
+    except Error as error:
+        print(f'failed to delete into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')

@@ -499,3 +499,18 @@ class InsertCOntattoPersona(Resource):
         args = parser.parse_args(strict=True)
         insertContattoPersona(args['cf'], args['tipo_contatto'], args['valore_contatto'], connection.get_connection())
         return args, 250
+
+
+# ============================    delete_contatto_persona    ========================== #
+@secretary.route('/delete__contatto_persona')
+class DeleteContattoPersona(Resource):
+    @secretary.expect(person_contact_model)
+    def post(self):
+        # arguments
+        parser = reqparse.RequestParser()
+        parser.add_argument('cf', type=str, help='cf')
+        parser.add_argument('tipo_contatto', type=str, help='tipo_contatto')
+        parser.add_argument('valore_contatto', type=int, help='valore_contatto')
+        args = parser.parse_args(strict=True)
+        deleteContattoPersona(args['cf'], args['tipo_contatto'], args['valore_contatto'], connection.get_connection())
+        return args, 250
