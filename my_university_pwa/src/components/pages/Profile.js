@@ -4,6 +4,8 @@ import React, {Component} from 'react';
 import ProfileInformation from '../wrapper/profile/ProfileInformation';
 //CONTEXT
 import {UserContext} from '../context/UserContext';
+// UTILITY FUNCTION
+import {formatDate} from '../../utility/functions';
 
 //TODO: dynamic alt text
 //TODO: fix image size on smaller screen
@@ -46,13 +48,13 @@ class Profile extends Component{
               emails={this.contacts.emails}
               firstName={user.student.nome} 
               lastNAme={user.student.cognome} 
-              userYear={user.student.data_immatricolazione}
+              userYear={user.student.anno_in_corso}
               freshman={user.student.matricola_studente}
               fCode={user.student.cf}
               uEmail={user.student.email_studente}
-              uSubscription={user.student.data_immatricolazione}
+              uSubscription={formatDate(user.student.data_immatricolazione)}
               domicile={`${user.student.via_piazza}, ${user.student.civico} - ${user.student.cap}`}
-              bornDate={user.student.data_di_nascita}
+              bornDate={formatDate(user.student.data_di_nascita)}
               bornPlace={user.student.luogo_di_nascita}
             />
         )
