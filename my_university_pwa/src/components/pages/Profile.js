@@ -17,6 +17,14 @@ import {formatDate} from '../../utility/functions';
 //CREATE A COMPONENT
 class Profile extends Component{
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            isTablet: false
+        }
+    }
+
     populateContacts = (user,obj) => {
         console.log('len =', user.student.contatti.length);
         if(user.student.contatti.length !== 0){
@@ -30,6 +38,14 @@ class Profile extends Component{
         }
     }
 
+    updateToTabletView = () => {
+        this.setState({isTablet: window.innerWidth <= 991});
+    }
+
+    componentDidMount(){
+        window.addEventListener('resize', this.updateToTabletView );
+    }
+
     contacts = {
         phoneNumbers: [],
         emails: []
@@ -41,6 +57,7 @@ class Profile extends Component{
 
         console.log(user.student);
         console.log(this.contacts);
+        this.state.isTablet ? console.log('tablet') : console.log('desktop')
         return (
             <ProfileInformation 
               sigle={`${user.student.nome.charAt(0).toUpperCase()}${user.student.cognome.charAt(0).toUpperCase()}`} 
