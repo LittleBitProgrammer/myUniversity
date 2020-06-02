@@ -13,39 +13,58 @@ import {formatDate} from '../../utility/functions';
 //TODO: show user datetime format
 //TODO: conditional rendering on profile image 
 //TODO: dynamic contacts
+//TODO: use state and not context
 
 //CREATE A COMPONENT
 class Profile extends Component{
 
-    populateContacts = (user,obj) => {
-        console.log('len =', user.student.contatti.length);
-        if(user.student.contatti.length !== 0){
-            user.student.contatti.forEach((contatto) => {
-                if(contatto.tipo_contatto === 'telefono'){
-                    obj.phoneNumbers.push(contatto.valore_contatto);
-                }else{
-                    obj.emails.push(contatto.valore_contatto);
-                }
-            })
+    constructor(props){
+        super(props);
+
+        this.state = {
+            isTablet: false,
         }
     }
 
-    contacts = {
-        phoneNumbers: [],
-        emails: []
+    populateContacts = (user) => {
+        const contacts = {
+                phoneNumbers: [],
+                emails: []
+        }
+
+        if(user.student.contatti.length !== 0){
+            user.student.contatti.forEach((contatto) => {
+                if(contatto.tipo_contatto === 'telefono'){
+                    contacts.phoneNumbers.push(contatto.valore_contatto);
+                }else{
+                    contacts.emails.push(contatto.valore_contatto);
+                }
+            })
+        }
+        return contacts;
+    }
+
+    updateToTabletView = () => {
+        this.setState({isTablet: window.innerWidth <= 991});
+    }
+
+    componentDidMount(){
+        window.addEventListener('resize', this.updateToTabletView );
     }
 
     render(){
         const user = this.context;
-        this.populateContacts(user,this.contacts);
+
+        const contacts = this.populateContacts(user);
 
         console.log(user.student);
         console.log(this.contacts);
+        this.state.isTablet ? console.log('tablet') : console.log('desktop')
         return (
             <ProfileInformation 
               sigle={`${user.student.nome.charAt(0).toUpperCase()}${user.student.cognome.charAt(0).toUpperCase()}`} 
-              phoneNumbers={this.contacts.phoneNumbers}
-              emails={this.contacts.emails}
+              phoneNumbers={contacts.phoneNumbers}
+              emails={contacts.emails}
               firstName={user.student.nome} 
               lastNAme={user.student.cognome} 
               userYear={user.student.anno_in_corso}

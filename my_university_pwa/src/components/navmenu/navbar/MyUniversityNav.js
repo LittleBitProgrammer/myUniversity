@@ -1,11 +1,17 @@
 // IMPORT LIB
 import React from 'react';
+// NAVIGATION
 import Navigation from '../../bootstrap/navigation/Navigation';
-import myUniversityLogo from '../../../img/svg/graduation-hat.svg';
-import { faUser } from '@fortawesome/free-solid-svg-icons'
 import NavRight from '../../bootstrap/navigation/NavRight';
 import NavLeft from '../../bootstrap/navigation/NavLeft';
 import Navitem from '../../bootstrap/navigation/Navitem';
+// DROPDOWN
+import DropDown from '../../bootstrap/navigation/DropDown';
+// IMAGES
+import myUniversityLogo from '../../../img/svg/graduation-hat.svg';
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+//CSS
+import '../../../css/navbar.css';
 
 // CREATE A COMPONENT
 const Navbar = () => {
@@ -21,7 +27,11 @@ const Navbar = () => {
             <Navitem path='/chat' name='Chat'/>
         </NavLeft>
         <NavRight>
-            <Navitem path='/profilo' name='Profilo' logoImage={faUser}/>
+            <DropDown title='Profilo' id='navbarDropdown' logoImage={faUser} className='dropdown-menu-right'>
+                <a className="dropdown-item" href="/Profilo">Informazioni</a>
+                <div className="dropdown-divider"></div>
+                <a className="dropdown-item" href="/login">Esci</a>
+            </DropDown>
         </NavRight>
     </Navigation>
     )
