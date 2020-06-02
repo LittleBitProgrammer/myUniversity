@@ -14,6 +14,12 @@ nested_contact_model = secretary.model('nested contact teacher model', {
     'valore_contatto': fields.String
 })
 
+person_contact_model = secretary.model('insert or get contact model', {
+    'cf': fields.String,
+    'tipo_contatto': fields.String,
+    'valore_contatto': fields.String
+})
+
 insert_student_model = secretary.model('insert student model', {
     'cf': fields.String,
     'nome': fields.String,

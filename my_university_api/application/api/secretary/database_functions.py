@@ -966,3 +966,26 @@ def deleteLavora(codice_corso,
             cursor.close()
             connection.close()
             print('MySQL connection is closed')
+
+def insertContattoPersona(tipo_contatto, valore_contatto, cf, connection):
+    try:
+        cursor = connection.cursor()
+
+        mySQL_query_insert_Contatto = """INSERT INTO contatto(tipo_contatto, valore_contatto) VALUES (%s, %s)"""
+        contatto_tuple = (tipo_contatto, valore_contatto)
+        cursor.execute(mySQL_query_insert_Contatto, contatto_tuple)
+
+        mySQL_query_insert_Contatto_persona = """INSERT INTO contatto_persona(cf, tipo_contatto, valore_contatto) VALUES (%s, %s, %s)"""
+        contatto_persona_tuple = (cf, tipo_contatto, valore_contatto)
+        cursor.execute(mySQL_query_insert_Contatto_persona, contatto_persona_tuple)
+
+        connection.commit()
+
+
+    except Error as error:
+        print(f'failed to insert into mySQL table {error}')
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print('MySQL connection is closed')
