@@ -12,10 +12,14 @@ const ProfileImage = ({path,altText,sigle,inputText}) => {
                 <div className="profile-sigle">
                     {sigle}
                 </div>
-                <div className="file btn btn-lg btn-primary text-block">
-                    {inputText}
-                    <input type="file" name="file"/>
-                </div>
+                {
+                    inputText &&
+                    <div className="file btn btn-lg btn-primary text-block">
+                        {inputText}
+                        <input type="file" name="file"/>
+                    </div>
+                }
+
             </div>
         </div>
     );

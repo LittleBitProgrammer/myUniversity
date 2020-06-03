@@ -1,15 +1,20 @@
 // IMPORT LIB
-import React, {Component} from 'react';
-//import myUniversity from '../../API/myUniversity';
+import React from "react";
+import ChatItem from "../items/ChatItem";
 
 // CREATE A COMPONENT
-class ChatList extends Component {
-    componentDidMount(){
-    }
-
-    render(){
-        return <div>Questa è la mia lista </div>
-    }
+const ChatList = ({chats})=>{
+    const chatList = chats.map(
+        (item) => {
+            return <ChatItem key={item.id_conversation} />
+        }
+    )
+    return (
+        <div>
+            {chatList}
+            {console.log(chats)}
+        </div>
+    )
 }
 
 // EXPORT A COMPONENT
