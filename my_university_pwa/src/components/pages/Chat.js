@@ -22,8 +22,9 @@ import {Cookies} from "react-cookie";
 
 // CSS
 import '../../css/modal.css';
-import Button from "../bootstrap/Button";
 import ChatModalList from "../list/ChatModalList";
+import '../../css/chat.css';
+
 
 //create a component
 class Chat extends Component {
@@ -52,7 +53,15 @@ class Chat extends Component {
     }
 
     async componentDidMount() {
+        const chats = this.getAllExistentChats();
+        const contacts = this.getAllContacts();
 
+
+        chats.then( (response_chats) =>{
+            contacts.then( (response_contacts) =>{
+                this.mergeChats(response_chats, response_contacts);
+            } )
+        })
         this.mergeChats();
     }
     
@@ -80,116 +89,77 @@ class Chat extends Component {
         }
     }
 
-    /*
-    *     getAllExistentChats = () => {
-        var chats = {chats: []};
-        try {
-            const response =  myUniversity.post('mongodb/get_all_conversations', {
-                matricola: this.cookies.get('matricola_studente') }).then( (response) => {
-                chats.chats = response.data;
-            });
-            return chats
+    mergeChats = (chats, contacts) => {
 
-        }catch (error) {
-            console.log(error);
-        }
-    }
+        let rewrittedChatList = [];
+        let rewrittedContacts = [];
 
-    getAllContacts = () => {
-        var contacts = {contacts: []};
-        try{
-            const response =  myUniversity.post('/student/reperimento_lista_docenti_iscrizione_corso_piu_newsletter_per_chat', {
-                matricola_studente: this.cookies.get('matricola_studente') }).then( (response) => {
-                contacts.contacts = response.data;
-            });
-            return contacts;
-
-        }catch (error) {
-            console.log(error)
-        }
-    }
-    * */
-
-    mergeChats = () => {
-
-        const chats = this.getAllExistentChats();
-        const contacts = this.getAllContacts();
-
-
-
-        console.log('chats',chats);
-        console.log('contacts',contacts);
-        let rewrittedChatList;
-        let rewrittedContacts;
-
-        chats.forEach((chat) => {
-            contacts.forEach((contact) => {
+        if(chats && contacts){
+            chats.forEach((chat) => {
                 let chk = false;
-                if(contacts.matricola_docente === chat.matricola1 || contacts.matricola_docente === chat.matricola2){
-                    chk = true;
-                }
+                let tempContact;
+
+                contacts.forEach((contact) => {
+                    if(contact.matricola_docente === chat.matricola1 || contact.matricola_docente === chat.matricola2){
+                        chk = true;
+                        tempContact = contact;
+                    }
+                })
+
                 if(chk){
                     rewrittedChatList.push(
                         {
-                            "id_conversation": chat.id_conversation,
-                            "matricola_docente": contact.matricola_docente,
-                            "nome_docente" : contact.nome,
-                            "cognome_docente" : contact.cognome,
-                            "matricola_studente": this.cookies.get("matricola_studente"),
-                            "nome_studente" : this.cookies.get("nome"),
-                            "cognome_studente" : this.cookies.get("cognome"),
-                            "codice_disciplina" : chat.codice_disciplina,
-                            "nome_disciplina" : chat.nome_disciplina,
-                            "contacts": contact.contacts,
-                            "messages": [
-                                {
-                                    "matricola_mittente": "string",
-                                    "matricola_destinatario": "string",
-                                    "messaggio": "string",
-                                    "data_invio": "string"
-                                }
-                            ]
+                            id_conversation: chat.id_conversation,
+                            matricola_docente: tempContact.matricola_docente,
+                            nome_docente : tempContact.nome,
+                            cognome_docente : tempContact.cognome,
+                            matricola_studente: this.cookies.get("matricola_studente"),
+                            nome_studente : this.cookies.get("userCookies").nome,
+                            cognome_studente : this.cookies.get("userCookies").cognome,
+                            codice_disciplina : tempContact.codice_disciplina,
+                            nome_disciplina : tempContact.nome_disciplina,
+                            contacts: tempContact.contatti,
+                            messages: chat.messages
                         }
                     );
                 }
             })
-        })
 
-        // abbiamo ordinato la lista dei nuovi contatti
-        contacts.forEach((contact) => {
-            chats.forEach((chat) => {
+
+
+            // abbiamo ordinato la lista dei nuovi contatti
+            contacts.forEach((contact) => {
                 let chk = false;
-                if(contacts.matricola_docente === chat.matricola1 || contacts.matricola_docente === chat.matricola2){
-                    chk = true;
-                }
+                chats.forEach((chat) => {
+                    if(contact.matricola_docente === chat.matricola1 || contact.matricola_docente === chat.matricola2){
+                        chk = true;
+                    }
+                })
                 if(chk === false){
                     rewrittedContacts.push(contact);
-
                 }
             })
-        })
 
-
-        this.setState({
-            chats: rewrittedChatList,
-            contacts: rewrittedContacts
-        })
+            this.setState({
+                chats: rewrittedChatList,
+                contacts: rewrittedContacts
+            })
+        }
     }
 
     render(){
-        console.log('state', this.state)
+        console.log('state', this.state);
         return (
             <div>
                 <Row>
-                    <Column columnSize='4'><SideChat onButtonCLick={this.onButtonCLick} chats={this.state.chats}/></Column>
-                    <Column columnSize='8'><ChatVew/></Column>
+                    <Column columnSize='5'><SideChat onButtonCLick={this.onButtonCLick} chats={this.state.chats}/></Column>
+                    <Column columnSize='7'><ChatVew/></Column>
                 </Row>
-
                 {this.state.isModalVisible &&
                 <Modal className="modal" classContent="modal-content">
                     <ModalHeader title="Aggiungi chat" onCloseClick={this.onModalClosed} color="white" textSize="h5" iconSize="h3"/>
                     <ModalBody className="p-2">
-                        <ChatModalList/>
+                        <ChatModalList contacts={this.state.contacts}/>
                     </ModalBody>
                 </Modal>}
             </div>
