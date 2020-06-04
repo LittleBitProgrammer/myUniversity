@@ -51,66 +51,76 @@ class Chat extends Component {
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+
+        this.mergeChats();
     }
     
     getAllExistentChats = async() => {
+
         try {
             const response = await myUniversity.post('mongodb/get_all_conversations', {
                 matricola: this.cookies.get('matricola_studente') });
-
-                return response.data
+                return response.data;
 
         }catch (error) {
             console.log(error);
         }
+
     }
 
     getAllContacts = async() => {
         try{
             const response = await myUniversity.post('/student/reperimento_lista_docenti_iscrizione_corso_piu_newsletter_per_chat', {
-                matricola: this.cookies.get('matricola_studente')});
-
-                return response.data
+                matricola_studente: this.cookies.get('matricola_studente')});
+            return response.data;
 
         }catch (error) {
             console.log(error)
         }
     }
 
+    /*
+    *     getAllExistentChats = () => {
+        var chats = {chats: []};
+        try {
+            const response =  myUniversity.post('mongodb/get_all_conversations', {
+                matricola: this.cookies.get('matricola_studente') }).then( (response) => {
+                chats.chats = response.data;
+            });
+            return chats
+
+        }catch (error) {
+            console.log(error);
+        }
+    }
+
+    getAllContacts = () => {
+        var contacts = {contacts: []};
+        try{
+            const response =  myUniversity.post('/student/reperimento_lista_docenti_iscrizione_corso_piu_newsletter_per_chat', {
+                matricola_studente: this.cookies.get('matricola_studente') }).then( (response) => {
+                contacts.contacts = response.data;
+            });
+            return contacts;
+
+        }catch (error) {
+            console.log(error)
+        }
+    }
+    * */
+
     mergeChats = () => {
+
         const chats = this.getAllExistentChats();
         const contacts = this.getAllContacts();
 
 
 
+        console.log('chats',chats);
+        console.log('contacts',contacts);
         let rewrittedChatList;
         let rewrittedContacts;
-
-        /*
-        lista chat esistenti sistemata
-            {
-              "id_conversation": "string",
-              "matricola1": "string",
-              "matricola1_nome" : string,
-              "matricola1_cognome" : string,
-              "matricola2": "string",
-              "matricola2_nome" : string,
-              "matricola2_cognome" : string,
-              "codice_disciplina" : string,
-              "nome_disciplina" : string,
-
-              "messages": [
-                {
-                  "matricola_mittente": "string",
-                  "matricola_destinatario": "string",
-                  "messaggio": "string",
-                  "data_invio": "string"
-                }
-              ]
-            }
-
-        */
 
         chats.forEach((chat) => {
             contacts.forEach((contact) => {
@@ -122,15 +132,15 @@ class Chat extends Component {
                     rewrittedChatList.push(
                         {
                             "id_conversation": chat.id_conversation,
-                            "matricola1": string,
-                            "matricola1_nome" : string,
-                            "matricola1_cognome" : string,
-                            "matricola2": "string",
-                            "matricola2_nome" : string,
-                            "matricola2_cognome" : string,
-                            "codice_disciplina" : string,
-                            "nome_disciplina" : string,
-
+                            "matricola_docente": contact.matricola_docente,
+                            "nome_docente" : contact.nome,
+                            "cognome_docente" : contact.cognome,
+                            "matricola_studente": this.cookies.get("matricola_studente"),
+                            "nome_studente" : this.cookies.get("nome"),
+                            "cognome_studente" : this.cookies.get("cognome"),
+                            "codice_disciplina" : chat.codice_disciplina,
+                            "nome_disciplina" : chat.nome_disciplina,
+                            "contacts": contact.contacts,
                             "messages": [
                                 {
                                     "matricola_mittente": "string",
@@ -154,17 +164,20 @@ class Chat extends Component {
                 }
                 if(chk === false){
                     rewrittedContacts.push(contact);
+
                 }
             })
         })
 
 
-
-
+        this.setState({
+            chats: rewrittedChatList,
+            contacts: rewrittedContacts
+        })
     }
 
     render(){
-        console.log(this.state.isModalVisible)
+        console.log('state', this.state)
         return (
             <div>
                 <Row>

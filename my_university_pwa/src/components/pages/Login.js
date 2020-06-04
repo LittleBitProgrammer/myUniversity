@@ -83,6 +83,8 @@ class Login extends Component{
 
         //UPDATE COOKIE
         this.cookies.set('isAuth',isAuth,{path:'/'});
+        this.cookies.set('userCookies', response.data[0] );
+
         //UPDATE CONTEXT
         this.context.update({[userType]:response.data[0]});
     }
