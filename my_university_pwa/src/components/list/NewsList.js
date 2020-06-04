@@ -1,15 +1,28 @@
 // IMPORT LIB
-import React, {Component} from 'react';
-//import myUniversity from '../../API/myUniversity';
+import React from 'react';
+// ITEM
+import AlertItem from '../wrapper/AlertItem';
+
+// TODO:// CARD COLOR
 
 // CREATE A COMPONENT
-class NewsList extends Component {
-    componentDidMount(){
-    }
+const NewsList = ({news}) => {
 
-    render(){
-        return <div>News List </div>
-    }
+    const newsList = news.map((item,index) => {
+        return (
+            <AlertItem 
+              key={index}
+              id={index}
+              className='mt-3 news-card'
+              title={item.titolo_avviso}
+              discipline={item.nome_disciplina}
+              fName={item.nome}
+              lName={item.cognome}
+              body={item.corpo_avviso}/>
+        );
+    });
+
+    return <div className='mt-3'>{newsList}</div>;
 }
 
 // EXPORT A COMPONENT 

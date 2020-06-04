@@ -85,7 +85,7 @@ class Routes extends Component {
     }
 
     componentDidMount(){
-        //console.log(this.state.matricola_studente,'-',this.state.password_studente,'-',this.state.matricola_docente,'-',this.state.password_docente);
+        console.log('did mount')
         if((this.state.matricola_studente && this.state.password_studente) || 
            (this.state.matricola_docente && this.state.password_docente)){
                this.login();

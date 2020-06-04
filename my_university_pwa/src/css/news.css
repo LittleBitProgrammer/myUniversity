@@ -1,0 +1,16 @@
+.button-header{
+   float: right;
+}
+
+.news:hover{
+   text-decoration: none;
+}
+
+.news-card{
+   border-color: #017BFF;
+   transition: transform .2s; /* Animation */
+}
+
+.news-card:hover{
+   transform: scale(1.025);
+}

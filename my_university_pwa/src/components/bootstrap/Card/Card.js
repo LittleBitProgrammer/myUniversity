@@ -2,9 +2,9 @@
 import React from 'react';
 
 //create a component
-const Card = ({children, className, maxWidth}) => {
+const Card = ({children, className, maxWidth, onClick}) => {
     return (
-        <div className={`card ${className}`} style={{maxWidth: maxWidth}}>
+        <div className={`card ${className}`} style={{maxWidth: maxWidth}} onClick={onClick}>
             {children}
         </div>
     );
