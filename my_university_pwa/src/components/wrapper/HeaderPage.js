@@ -7,23 +7,23 @@ import Column from '../bootstrap/Column';
 import Button from '../bootstrap/Button';
 
 // CREATE A COMPONENT 
-const NewsHeader = ({title,buttonTitle}) => {
+const HeaderPage = ({title,buttonTitle,buttonClick}) => {
     return (
         <Row className='justify-content-between'>
             <Column columnSize='6'>
                 <h3>{title}</h3>
             </Column>
             <Column columnSize='6'  className='justify-content-end'>
-                <Button className='button-header' buttontext={buttonTitle} classColor='btn-primary'/>
+                <Button className='button-header' buttontext={buttonTitle} classColor='btn-primary' onClick={buttonClick}/>
             </Column>
         </Row>
     );
 }
 
-NewsHeader.defaultProps = {
+HeaderPage.defaultProps = {
     title: 'default',
     buttonTitle: 'default'
 }
 
 // EXPORT A COMPONENT 
-export default NewsHeader;
+export default HeaderPage;
