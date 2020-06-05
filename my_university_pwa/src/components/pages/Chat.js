@@ -191,6 +191,7 @@ class Chat extends Component {
 
     }
 
+    // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
     render(){
         console.log(this.state)
         return (
