@@ -19,7 +19,7 @@ const ReceiptsItem = ({day,fName,lName,className, id}) => {
             className='news'
             data-toggle='collapse' 
             role='button'
-            href={`#collapseAlert${id}`}
+            href={`#collapseReceipt${id}`}
             aria-expanded='false' 
             aria-controls={`collapseReceipt${id}`}>
 
