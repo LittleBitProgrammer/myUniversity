@@ -5,6 +5,8 @@ import myUniversity from '../../API/myUniversity';
 //COOKIE
 import { Cookies } from 'react-cookie';
 import ReceiptsList from '../list/ReceiptList';
+// CSS
+import '../../css/receipt.css';
 
 //create a component 
 class Receipts extends Component {
@@ -14,8 +16,7 @@ class Receipts extends Component {
         this.myCookies = new Cookies();
 
         this.state = {
-            receipts: [],
-            isModalVisible: false
+            receipts: []
         }
     }
 

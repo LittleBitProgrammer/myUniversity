@@ -1,41 +1,39 @@
 // IMPORT LIB
-import React, {Component} from 'react';
+import React from 'react';
 // CARD
 import Card from '../bootstrap/Card/Card';
 import CardBody from '../bootstrap/Card/CardBody';
 import CardTitle from '../bootstrap/Card/CardTitle';
-// TEXT
-import TextField from '../bootstrap/form/fields/TextField';
 // FUNCTIONS
 import {capitalizeFirstLetter} from '../../utility/functions';
 // BUTTON
-import Button from '../bootstrap/Button';
-import Column from '../bootstrap/Column';
 import CardText from '../bootstrap/Card/CardText';
+import ReceiptForm from '../form/ReceiptForm';
+
 
 // CREATE A COMPONENT
-class ReceiptsItem extends Component {
+const ReceiptsItem = ({day,fName,lName,className, id}) => {
 
-    render(){
-        const {day,fName,lName,className} = this.props;
-        return (
+    return (
+        <a 
+            className='news'
+            data-toggle='collapse' 
+            role='button'
+            href={`#collapseAlert${id}`}
+            aria-expanded='false' 
+            aria-controls={`collapseReceipt${id}`}>
+
             <Card className={className}>
                 <CardBody>
                     <CardTitle>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(lName)}</CardTitle>
                     <CardText>{`${day}`}</CardText>
-                    <form>
-                        <div >
-                            <TextField placeholder='Matricola, Es. 0124001910'></TextField>
-                            <input type='text' className='form-control form-control-lg mt-3' placeholder='Motivazione, Es."Spiegazione generatore di grafi"'></input>
-                            <Column columnSize='6' className='justify-content-end'>
-                                <Button className='btn btn-primary mt-1 button-header' buttontext='Invia'></Button>
-                            </Column>
-                        </div>
-                    </form>
+                    <div className='collapse' id={`collapseReceipt${id}`}>
+                        <ReceiptForm />
+                    </div>
                 </CardBody>
             </Card>
-        )
-    }
+        </a>
+    )
 }
 
 // EXPORT A COMPONENT

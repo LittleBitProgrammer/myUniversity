@@ -13,7 +13,8 @@ const ReceiptsList = ({receipts}) => {
                 day={item.data_ricevimento}
                 fName={item.nome}
                 lName={item.cognome}
-                className='mt-3 receipts-card'
+                className='mt-3 border-primary'
+    
             />
         );
     });
