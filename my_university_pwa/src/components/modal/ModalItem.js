@@ -1,14 +1,14 @@
 // IMPORT LIB
-import React, {Component} from 'react';
+import React from 'react';
 
 // CREATE A COMPONENT
-const ChatItem = ({onClick, disciplineCode, disciplineName, teacherSName, teacherName})=>{
+const ModalItem = ({onClick, disciplineCode, disciplineName, teacherSName, teacherName, matricolaDocente})=>{
     return (
-        <div className="pointer pt-3 pb-3" onClick={onClick}>
+        <div className="pointer pt-3 pb-3" onClick={() => { onClick(matricolaDocente) }}>
             <p className="h6"> {`${disciplineCode} - ${disciplineName} - ${teacherSName}  ${teacherName}`}</p>
         </div>
     )
 }
 
 // EXPORT A COMPONENT
-export default ChatItem;
+export default ModalItem;

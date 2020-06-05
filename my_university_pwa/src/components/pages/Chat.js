@@ -2,8 +2,8 @@
 import React, {Component} from 'react';
 
 // WRAPPER
-import SideChat from "../wrapper/Chat/SideChat";
-import ChatVew from "../wrapper/Chat/ChatView";
+import SideChat from "../wrapper/Chat/SideChat/SideChat";
+import ChatVew from "../wrapper/Chat/Body/ChatView";
 
 // MODAL
 import Modal from "../modal/Modal";
@@ -36,11 +36,19 @@ class Chat extends Component {
         this.state = {
             isModalVisible : false,
             chats: [],
-            contacts: []
+            contacts: [],
+            chat_index: '',
+            input_text: ''
         }
     }
 
-    onButtonCLick=() => {
+    onSideChatItemClick = (index)=> {
+        this.setState({
+            chat_index: index
+        })
+    }
+
+    onModalChatButtonCLick=() => {
         this.setState({
             isModalVisible : true
         })
@@ -125,8 +133,6 @@ class Chat extends Component {
                 }
             })
 
-
-
             // abbiamo ordinato la lista dei nuovi contatti
             contacts.forEach((contact) => {
                 let chk = false;
@@ -147,19 +153,68 @@ class Chat extends Component {
         }
     }
 
+    onModalItemCLick = async (matricola_docente)=> {
+        //TODO RITORNA INDICE DI CONVERSAZIONE, UTILIZZARE PER IMPOSTARE IL FOCUS SULLA CONVERSAZIONE
+        let respose = await myUniversity.post("/mongodb/create_new_conversation", {
+            matricola1: this.cookies.get("matricola_studente"),
+            matricola2: matricola_docente
+        });
+        this.onModalClosed();
+        const chat = await this.getAllExistentChats();
+        const cont = await this.getAllContacts();
+        this.mergeChats(chat,cont);
+        this.setState({
+            chat_index: respose.data.id_conversation
+        })
+    }
+
+    onInputChange = (inputText) => {
+        this.setState({
+            input_text: inputText
+        })
+    }
+
+    onMessageSend = async() => {
+        let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
+        console.log('matricola_docente - send message', matricola_docente);
+        try {
+            await myUniversity.post('/mongodb/send_message', {
+                id_conversation: this.state.chat_index,
+                matricola_mittente: this.cookies.get('matricola_studente'),
+                matricola_destinatario: matricola_docente,
+                messaggio: this.state.input_text
+            });
+
+        }catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
     render(){
-        console.log('state', this.state);
+        console.log(this.state)
         return (
             <div>
                 <Row>
-                    <Column columnSize='5'><SideChat onButtonCLick={this.onButtonCLick} chats={this.state.chats}/></Column>
-                    <Column columnSize='7'><ChatVew/></Column>
+                    <Column columnSize='5'>
+                        <SideChat onButtonClick={this.onModalChatButtonCLick}
+                                  onItemClick={this.onSideChatItemClick}
+                                  chats={this.state.chats}/>
+                    </Column>
+                    <Column columnSize='7'>
+                        <ChatVew
+                            chats={this.state.chats}
+                            chat_index={this.state.chat_index}
+                            onInputChange={this.onInputChange}
+                            onMessageSend={this.onMessageSend}/>
+                    </Column>
                 </Row>
                 {this.state.isModalVisible &&
                 <Modal className="modal" classContent="modal-content">
                     <ModalHeader title="Aggiungi chat" onCloseClick={this.onModalClosed} color="white" textSize="h5" iconSize="h3"/>
                     <ModalBody className="p-2">
-                        <ChatModalList contacts={this.state.contacts}/>
+                        <ChatModalList contacts={this.state.contacts} onModalItemCLick={this.onModalItemCLick}/>
                     </ModalBody>
                 </Modal>}
             </div>
@@ -167,8 +222,6 @@ class Chat extends Component {
     }
 }
 
-
 //export a component
 export default Chat;
-
 

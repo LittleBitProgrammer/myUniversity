@@ -1,10 +1,10 @@
 // IMPORT LIB
-import React, {Component} from 'react';
-import ChatItem from "../modal/ModalItem";
+import React from 'react';
+import ModalItem from "../modal/ModalItem";
 
 
 // CREATE A COMPONENT
-const ChatModalList = ({onButtonCLick, contacts})=>{
+const ChatModalList = ({onModalItemCLick, contacts})=>{
 
     console.log('contatti in lista cos',contacts);
     if(!contacts){
@@ -16,12 +16,14 @@ const ChatModalList = ({onButtonCLick, contacts})=>{
     }
     const contactList = contacts.map( (contact, index) => {
         return (
-            <ChatItem key={index}
-                          onClick={onButtonCLick}
-                      disciplineCode={contact.codice_disciplina}
-                      disciplineName={contact.nome_disciplina}
-                      teacherName={contact.nome}
-                      teacherSName={contact.cognome}/>
+            <ModalItem key={index}
+                       onClick={onModalItemCLick}
+                       disciplineCode={contact.codice_disciplina}
+                       disciplineName={contact.nome_disciplina}
+                       teacherName={contact.nome}
+                       teacherSName={contact.cognome}
+                       matricolaDocente={contact.matricola_docente}
+            />
         )
     });
     return (

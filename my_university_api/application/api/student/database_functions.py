@@ -444,3 +444,37 @@ def reperimento_ricevimenti_prenotabili(matricola_studente, connection):
             cursor.close()
             print("MySQL connection is closed")
             return records
+
+def reperimento_insegnamenti_(matricola_studente, connection):
+    records = []
+    try:
+        cursor = connection.cursor()
+        qry_ricevimenti_possibili_studente = """
+        SELECT ricevimento.data_ricevimento, ricevimento.ore_ricevimento, 
+        docente.matricola_docente, docente.email_docente, persona.nome, persona.cognome 
+        from persona 
+        INNER JOIN docente on persona.cf = docente.cf 
+        INNER JOIN ricevimento on docente.matricola_docente = ricevimento.matricola_docente 
+        INNER JOIN lavora on docente.matricola_docente = lavora.matricola_docente 
+        WHERE lavora.codice_corso = (SELECT appartiene.codice_corso 
+                                        from appartiene 
+                                        INNER JOIN studente 
+                                        on appartiene.matricola_studente = studente.matricola_studente 
+                                        WHERE studente.matricola_studente = %s) 
+        AND ricevimento.data_ricevimento > (SYSDATE()+INTERVAL 1 DAY )
+        ORDER BY ricevimento.data_ricevimento ASC;
+        """
+        student_tuple = (matricola_studente,)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(qry_ricevimenti_possibili_studente, student_tuple)
+        records = cursor.fetchall()
+        print(records)
+        print("Fetching each row")
+    except Error as e:
+        print("Error reading data from MySQL table", e)
+    finally:
+        if (connection.is_connected()):
+            connection.close()
+            cursor.close()
+            print("MySQL connection is closed")
+            return records

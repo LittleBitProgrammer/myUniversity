@@ -9,10 +9,12 @@ import {capitalizeFirstLetter,takeDate,takeTime, trimMessage} from "../../utilit
 
 // CREATE A COMPONENT
 
-const ChatItem = ({fName, sName, lastMessage, lmTime, lenght, index})=>{
+const ChatItem = ({fName, sName, lastMessage, lmTime, lenght, index, onItemClick})=>{
 
     return (
-        <div className='mt-3 pointer pointed'>
+        <div className='mt-3 pointer pointed' onClick={() => {
+            onItemClick(index)
+        }}>
             <Row className='no-gutters'>
                 <Column columnSize='2' screenSize='lg'>
                     <ChatImg className='chat-profile-img mr-1' sigle={`${fName[0].toUpperCase().concat(sName[0].toUpperCase())}`} isVisibleInput={false} path={squareLogo}/>
