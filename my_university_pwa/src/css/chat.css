@@ -24,3 +24,13 @@
 .d-flex-column{
     min-height: 70vh;
 }
+
+.outer {
+    display: table;
+}
+
+
+
+.inner_remaining {
+    display: table-row;
+}

@@ -17,6 +17,8 @@ class TextArea extends Component {
         this.props.textCallback(this.state.inputValue);
     }
 
+
+
     render() {
         return(<TextareaAutosize
             maxRows={this.props.maxRows}

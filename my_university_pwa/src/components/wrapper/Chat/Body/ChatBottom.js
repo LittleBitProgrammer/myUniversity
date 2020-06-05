@@ -6,7 +6,7 @@ import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import Row from "../../../bootstrap/Row";
 
 //sizeTextSendButton serve ad impostare la garndezza del button
-const ChatBottom = ({className,textCallback,maxRows,placeholder,sizeTextArea,sizeSendButton, sizeTextSendButton})=>{
+const ChatBottom = ({className,textCallback,maxRows,placeholder,sizeTextArea,sizeSendButton, sizeTextSendButton, onMessageSend})=>{
     return(
         <Row className={className}>
 
@@ -20,7 +20,7 @@ const ChatBottom = ({className,textCallback,maxRows,placeholder,sizeTextArea,siz
 
             </Column>
             <Column Column screenSize="lg" columnSize={sizeSendButton}>
-                <FontAwesomeIcon icon={faPaperPlane} color='black' className="pointer toBottom"/>
+                <FontAwesomeIcon icon={faPaperPlane} color='black' className="pointer toBottom" onClick={onMessageSend}/>
             </Column>
         </Row>
     )

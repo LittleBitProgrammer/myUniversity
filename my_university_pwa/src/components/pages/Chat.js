@@ -38,6 +38,7 @@ class Chat extends Component {
             chats: [],
             contacts: [],
             chat_index: '',
+            input_text: ''
         }
     }
 
@@ -167,8 +168,31 @@ class Chat extends Component {
         })
     }
 
-    render(){
+    onInputChange = (inputText) => {
+        this.setState({
+            input_text: inputText
+        })
+    }
 
+    onMessageSend = async() => {
+        let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
+        console.log('matricola_docente - send message', matricola_docente);
+        try {
+            await myUniversity.post('/mongodb/send_message', {
+                id_conversation: this.state.chat_index,
+                matricola_mittente: this.cookies.get('matricola_studente'),
+                matricola_destinatario: matricola_docente,
+                messaggio: this.state.input_text
+            });
+
+        }catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    render(){
+        console.log(this.state)
         return (
             <div>
                 <Row>
@@ -178,7 +202,11 @@ class Chat extends Component {
                                   chats={this.state.chats}/>
                     </Column>
                     <Column columnSize='7'>
-                        <ChatVew chats={this.state.chats} chat_index={this.state.chat_index}/>
+                        <ChatVew
+                            chats={this.state.chats}
+                            chat_index={this.state.chat_index}
+                            onInputChange={this.onInputChange}
+                            onMessageSend={this.onMessageSend}/>
                     </Column>
                 </Row>
                 {this.state.isModalVisible &&

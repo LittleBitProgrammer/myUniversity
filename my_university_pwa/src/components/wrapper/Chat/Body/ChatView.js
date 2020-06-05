@@ -7,8 +7,10 @@ import Column from "../../../bootstrap/Column";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import ChatBottom from "./ChatBottom";
+import ConversationList from "../../../list/ConversationList";
+import ScrollView from "../../ScrollView";
 
-const ChatVew = ({chats, chat_index})=>{
+const ChatVew = ({chats, chat_index, onInputChange, onMessageSend})=>{
     if (chat_index){
         let chat = chats[chats.findIndex((obj)=>obj.id_conversation === chat_index)];
         return (
@@ -17,6 +19,9 @@ const ChatVew = ({chats, chat_index})=>{
                     <Row>
                         <ChatHeader nome={chat.nome_docente} cognome={chat.cognome_docente}/>
                     </Row>
+                    <ScrollView>
+                        <ConversationList messages={chat.messages}/>
+                    </ScrollView>
 
                     <ChatBottom
                         className="toBottom"
@@ -24,10 +29,10 @@ const ChatVew = ({chats, chat_index})=>{
                         maxRows={4}
                         sizeSendButton="1"
                         sizeTextArea="11"
-                        textCallback={ ()=>{console.log("button send value")}} />
-
+                        textCallback={onInputChange}
+                        onMessageSend={onMessageSend}
+                    />
                 </div>
-
             </Card>)
     }
     return (<Card className='p-2 chat-card-size'><ChatHeader/></Card>)
