@@ -9,7 +9,7 @@ from application.api.student.models import *
 from application.api.student.database_functions import *
 
 
-database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
+# database = DatabaseConnector('localhost', 'my_university_db', 'root', '')
 database = DatabaseConnector('bvrhcrukmknumkqtieuk-mysql.services.clever-cloud.com',
                              3306,
                              'bvrhcrukmknumkqtieuk',
@@ -126,7 +126,7 @@ class Password(Resource):
 
 
 # ============================    get discipline   ========================== #
-@student.route('/discipline')
+@student.route('/discipline_seguibili')
 class Discipline(Resource):
 
     def post(self):
