@@ -2,7 +2,7 @@
 import React from 'react';
 
 //create a component 
-const Button = ({buttontext,classColor, className, onClick}) => {
+const Button = ({buttontext,classColor,className,onClick}) => {
     return <button className={`btn ${classColor} ${className}`} onClick={onClick}>{buttontext}</button>
 }
 

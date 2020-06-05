@@ -22,6 +22,7 @@ const logout = () => {
     cookies.remove('isAuth');
     cookies.remove('matricola_studente');
     cookies.remove('password_studente');
+    cookies.remove('userCookies');
 }
 
 // CREATE A COMPONENT
