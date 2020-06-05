@@ -14,20 +14,20 @@ const ChatList = ({chats, onItemClick})=>{
             }
 
             return (
-
-                <ChatItem key={item.id_conversation}
-                          fName={item.nome_docente}
-                          sName={item.cognome_docente}
-                          lastMessage={messaggio}
-                          lmTime={lmTime}
-                          lenght={chats.length}
-                          index={item.id_conversation}
-                          onItemClick={onItemClick}
-            />)
+                    <ChatItem key={item.id_conversation}
+                              fName={item.nome_docente}
+                              sName={item.cognome_docente}
+                              lastMessage={messaggio}
+                              lmTime={lmTime}
+                              lenght={chats.length}
+                              index={item.id_conversation}
+                              onItemClick={onItemClick}
+                    />
+            )
         }
     )
     return (
-        <div>
+        <div className="inside-sidechat-card-size">
             {chatList}
         </div>
     )
