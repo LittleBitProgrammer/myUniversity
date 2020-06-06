@@ -26,10 +26,6 @@ class App extends Component {
                                 </UserProvider>
                             </CookiesProvider>
                         </Container>
-                        <BottomBar 
-                            firstYear='2020' 
-                            lastYear='2020' 
-                            authors={['Carlo Lomello','Francesco Mabilia','Roberto Vecchio']}/>
                     </div>
                 </BrowserRouter>
             </div>
