@@ -36,7 +36,7 @@ class Receipts extends Component {
 
     render(){
         return(
-            <div className='page-content'>
+            <div>
                 <h3 >Ricevimento</h3>
                 <ReceiptsList receipts={this.state.receipts}/>
             </div>

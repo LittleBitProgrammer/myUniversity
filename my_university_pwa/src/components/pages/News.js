@@ -53,7 +53,7 @@ class News extends Component {
 
     render(){
         return (
-            <div className='page-content'>
+            <div>
                 <HeaderPage title='Avvisi' buttonTitle='Gestisci Newsletter' buttonClick={this.onNewsButtonClick}/>
                 <NewsList news={this.state.news}/>
                 {this.state.isModalVisible && 

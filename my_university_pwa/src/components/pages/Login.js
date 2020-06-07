@@ -86,7 +86,7 @@ class Login extends Component{
         this.cookies.set('userCookies', response.data[0] );
 
         //UPDATE CONTEXT
-        this.context.update({[userType]:response.data[0]});
+        this.context.update({[userType]:response.data[0], isAuth: !this.context.isAuth});
     }
 
     //RENDER METHOD

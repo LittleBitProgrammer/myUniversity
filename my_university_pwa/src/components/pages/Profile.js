@@ -57,8 +57,6 @@ class Profile extends Component{
 
         const contacts = this.populateContacts(user);
 
-        console.log(user.student);
-        console.log(this.contacts);
         this.state.isTablet ? console.log('tablet') : console.log('desktop')
         return (
             <ProfileInformation 

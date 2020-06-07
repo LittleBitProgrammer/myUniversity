@@ -18,7 +18,6 @@ import square from '../../../img/svg/square.svg';
 class DrawerMenu extends Component{
     constructor(props){
         super(props)
-        this.cookies = new Cookies()
 
         this.state = {
             isNavOpen: false
@@ -29,13 +28,6 @@ class DrawerMenu extends Component{
         this.setState({
             isNavOpen: !this.state.isNavOpen
         });
-    }
-
-    logout = () => {
-        this.cookies.remove('isAuth');
-        this.cookies.remove('matricola_studente');
-        this.cookies.remove('password_studente');
-        this.cookies.remove('userCookies');
     }
 
     //TODO ALT TEXT DYNAMIC IN NAVITEM
@@ -61,12 +53,12 @@ class DrawerMenu extends Component{
                     </div>
                     <h6 className="freshman">Mat: 0124001871</h6>
                     <ul>
-                        <Navitem path='/' name='News' logoImage={news} exact={true}/>
-                        <Navitem path='/calendario' name='Calendario' logoImage={calendar}/>
-                        <Navitem path='/ricevimento' name='Ricevimento' logoImage={receipt}/>
-                        <Navitem path='/chat' name='Chat' logoImage={chat}/>
+                        <Navitem path='/' name='News' logoImage={news} onClick={this.toggleNav} exact={true}/>
+                        <Navitem path='/calendario' name='Calendario' onClick={this.toggleNav} logoImage={calendar}/>
+                        <Navitem path='/ricevimento' name='Ricevimento' onClick={this.toggleNav} logoImage={receipt}/>
+                        <Navitem path='/chat' name='Chat' onClick={this.toggleNav} logoImage={chat}/>
                     </ul>
-                    <Navitem path='/login' name='Esci' logoImage={exit} liClass='exit' onClick={this.logout}/>
+                    <Navitem path='/login' name='Esci' logoImage={exit} liClass='exit' onClick={this.props.onLogout}/>
                 </nav>
             </React.Fragment>
         );

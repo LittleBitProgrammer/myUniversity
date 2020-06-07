@@ -4,25 +4,41 @@ import React, {Component} from 'react';
 import {BrowserRouter} from 'react-router-dom';
 //ROUTES
 import Routes from './routes/Routes';
-//COOKIE
-import {CookiesProvider} from 'react-cookie';
+//DRAWERMENU
+import DrawerMenu from './navmenu/drawer_menu/DraweMenu';
+//CONTEXT
+import {UserContext} from './context/UserContext';
+//COOKIES
+import { Cookies } from 'react-cookie';
 // IMG
 import Container from './bootstrap/Container';
-import UserProvider from './context/UserProvider';
+
 
 //create a component 
 class App extends Component {
+    constructor(props){
+        super(props);
+        this.cookies = new Cookies();
+    }
+
+    logout = () => {
+        this.cookies.remove('isAuth');
+        this.cookies.remove('matricola_studente');
+        this.cookies.remove('password_studente');
+        this.cookies.remove('userCookies');
+
+       //UPDATE CONTEXT
+        this.context.update({isAuth:!this.context.isAuth});
+    }
+
     render(){
         return (
             <div>
                 <BrowserRouter>
                     <div>
-                        <Container>
-                            <CookiesProvider>
-                                <UserProvider>
-                                    <Routes/>
-                                </UserProvider>
-                            </CookiesProvider>
+                    { this.context.isAuth && <DrawerMenu onLogout={this.logout}/>}
+                        <Container className='page-content'>
+                                <Routes/>
                         </Container>
                     </div>
                 </BrowserRouter>
@@ -30,6 +46,8 @@ class App extends Component {
         );
     }
 }
+
+App.contextType = UserContext;
 
 //export a component
 export default App;

@@ -2,9 +2,9 @@
 import React from 'react';
 
 // create a component 
-const Container = ({children}) => {
+const Container = ({children, className}) => {
     return (
-        <div className='container'>{children}</div>
+        <div className={`container${className? ' ' + className : ''}`}>{children}</div>
     );
 }
 

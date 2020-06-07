@@ -19,7 +19,7 @@ import ProfileTab from '../../navmenu/tabBar/ProfileTab';
 const ProfileInformation = ({sigle,phoneNumbers,emails,firstName,lastNAme,userYear,freshman,fCode, uEmail, uSubscription,
                              domicile,bornDate,bornPlace}) => {
     return(
-        <div className='page-content'>
+        <div>
             <Row>
                 <Column columnSize='4' screenSize='lg'>
                     <Sidebar>
