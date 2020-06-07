@@ -483,7 +483,7 @@ def reperimentoListaDiscipline(matricola_studente, connection):
     try:
         cursor = connection.cursor(dictionary=True)
         student_tuple = (matricola_studente, matricola_studente)
-        qry_discipline = """select * from (( SELECT 
+        qry_discipline = """SELECT 
                                     corso_di_laurea.codice_corso,
                                     corso_di_laurea.nome_corso,
                                     disciplina.codice_disciplina, 
@@ -501,9 +501,9 @@ def reperimentoListaDiscipline(matricola_studente, connection):
                                     WHERE (SELECT studente.anno_in_corso 
                                     FROM studente 
                                     WHERE studente.matricola_studente = %s) >= disciplina.anno
-                                    AND disciplina.semestre = 1) AS t1)
+                                    AND disciplina.semestre = 1
                                     UNION
-                                    (SELECT corso_di_laurea.codice_corso,
+                                    SELECT corso_di_laurea.codice_corso,
                                     corso_di_laurea.nome_corso,
                                     disciplina.codice_disciplina,
                                     disciplina.nome_disciplina, 
@@ -519,7 +519,7 @@ def reperimentoListaDiscipline(matricola_studente, connection):
                                     where studente.matricola_studente = %s) >= disciplina.anno 
                                     AND disciplina.semestre = 2 
                                     AND (SELECT MONTH(SYSDATE())>= 3 from dual) 
-                                    AND (SELECT MONTH(SYSDATE())<= 9 from dual) )
+                                    AND (SELECT MONTH(SYSDATE())<= 9 from dual) 
                                     ORDER BY anno DESC, semestre DESC, cfu ASC"""
         cursor.execute(qry_discipline, student_tuple)
         discipline = cursor.fetchall()
