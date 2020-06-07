@@ -1,0 +1,22 @@
+#loading-header{
+    font-family: 'Dosis', sans-serif;
+    color: white;
+    border-bottom:2px solid #FDBF06;
+    padding: 10px;
+}
+
+.loading-logo{
+    height: 40px;
+    width: 40px;
+    margin-left: 160px;
+    margin-bottom: -45px;
+    transform: rotate(25deg);
+    animation: name duration timing-function delay iteration-count direction fill-mode;
+}
+
+.loading-background{
+    background-color: #017bff;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}

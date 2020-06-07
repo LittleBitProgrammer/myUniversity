@@ -10,89 +10,18 @@ import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 // ROUTING
 import AppRoute from '../routing/AppRoute';
-//CONTEXT
-import {UserContext} from '../context/UserContext';
-//AXIOS
-import myUniversity from '../../API/myUniversity';
 //COOKIE
-import {Cookies, withCookies} from 'react-cookie';
-import {instanceOf} from 'prop-types';
+import {Cookies} from 'react-cookie';
 
 //create a component
 class Routes extends Component {
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-      };
-
     constructor(props){
-        super(props);
+        super(props)
 
-        const {cookies} = props;
-        this.myCookies = new Cookies()
-
-        this.state={
-            matricola_studente: cookies.get('matricola_studente') || '',
-            matricola_docente: cookies.get('matricola_docente') || '',
-            password_studente: cookies.get('password_studente') || '',
-            password_docente: cookies.get('password_docente') || '',
-        }
-    }
-
-    login = async() => {
-        let response;
-        let userType;
-        let isAuth;
-
-        try{
-            response = await myUniversity.post('/student/login', {
-                matricola_studente: this.state.matricola_studente,
-                password_studente: this.state.password_studente
-            });
-        }catch(error){
-            console.log(`😱 There was an error: ${error}`);
-            isAuth = false;
-        }
-        if (response.data.length !== 0){
-            isAuth = true;
-            userType = 'student';
-        }else{
-            try{
-                response = await myUniversity.post('/professor/login',{
-                    matricola_docente: this.state.matricola_docente,
-                    password_docente: this.state.password_docente
-                });
-            }catch(error){
-                console.log(`😱 There was an error: ${error}`);
-                isAuth = false;
-            }
-
-            if (response.data.length !== 0){
-                isAuth = true;
-                userType = 'teacher';
-            }else{
-               isAuth = false;
-            }
-        }
-
-        // UPDATE STATE
-        this.setState({userType: userType, response:response.data[0]});
-        //UPDATE COOKIES
-        this.myCookies.set('isAuth',isAuth,{ path: '/' });
-        //UPDATE CONTEXT
-        this.context.update({[userType]:response.data[0], isAuth: !this.context.isAuth})
-    }
-
-    componentDidMount(){
-        if((this.state.matricola_studente && this.state.password_studente) || 
-           (this.state.matricola_docente && this.state.password_docente)){
-               this.login();
-           }else{
-                this.myCookies.set('isAuth',false,{ path: '/' });
-           }
+        this.myCookies = new Cookies();
     }
 
     render(){
-        console.log(this.context);
         return (
             <div>
                 <Switch>
@@ -124,7 +53,5 @@ class Routes extends Component {
     }
 }
 
-Routes.contextType = UserContext; 
-
 //export a component 
-export default withCookies(Routes);
+export default Routes;
