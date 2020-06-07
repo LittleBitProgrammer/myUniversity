@@ -10,8 +10,6 @@ import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 // ROUTING
 import AppRoute from '../routing/AppRoute';
-// NAVBAR
-import MyUniversityNav from '../navmenu/navbar/MyUniversityNav';
 import DrawerMenu from '../navmenu/drawer_menu/DraweMenu';
 //CONTEXT
 import {UserContext} from '../context/UserContext';
