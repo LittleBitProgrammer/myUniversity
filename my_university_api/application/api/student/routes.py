@@ -128,9 +128,13 @@ class Password(Resource):
 # ============================    get discipline   ========================== #
 @student.route('/discipline_seguibili')
 class Discipline(Resource):
-
+    @student.expect(freshman_student)
+    @student.marshal_with(lista_discipline_model)
     def post(self):
-        return {'riceve disciplina': '1'}
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_studente', type=str, help='codice della matricola studente universitaria')
+        args = parser.parse_args(strict=True)
+        return reperimentoListaDiscipline(args['matricola_studente'], database.get_connection()), 250
 
 
 # ============================    segui disciplina   ========================== #
