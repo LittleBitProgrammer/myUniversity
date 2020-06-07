@@ -12,7 +12,7 @@ import ReceiptForm from '../form/ReceiptForm';
 
 
 // CREATE A COMPONENT
-const ReceiptsItem = ({day,fName,lName,className, id}) => {
+const ReceiptsItem = ({day,fName,lName,className, id, matricola}) => {
 
     return (
         <a 
@@ -28,7 +28,7 @@ const ReceiptsItem = ({day,fName,lName,className, id}) => {
                     <CardTitle>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(lName)}</CardTitle>
                     <CardText>{`${day}`}</CardText>
                     <div className='collapse' id={`collapseReceipt${id}`}>
-                        <ReceiptForm />
+                        <ReceiptForm matricola_studente={matricola}/>
                     </div>
                 </CardBody>
             </Card>
