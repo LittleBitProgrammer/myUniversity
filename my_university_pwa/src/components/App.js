@@ -10,8 +10,6 @@ import DrawerMenu from './navmenu/drawer_menu/DraweMenu';
 import {UserContext} from './context/UserContext';
 //COOKIES
 import { Cookies } from 'react-cookie';
-// IMG
-import Container from './bootstrap/Container';
 
 
 //create a component 
@@ -37,9 +35,9 @@ class App extends Component {
                 <BrowserRouter>
                     <div>
                     { this.context.isAuth && <DrawerMenu onLogout={this.logout}/>}
-                        <Container className='page-content'>
+                        <div className='page-content'>
                                 <Routes/>
-                        </Container>
+                        </div>
                     </div>
                 </BrowserRouter>
             </div>

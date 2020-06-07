@@ -2,8 +2,6 @@
 import React, {Component} from 'react';
 //NAV ITEM
 import Navitem from '../../bootstrap/navigation/Navitem';
-//COOKIES
-import {Cookies} from 'react-cookie';
 // SVG
 import logo from '../../../img/svg/graduation-hat.svg';
 import news from '../../../img/svg/news.svg';
