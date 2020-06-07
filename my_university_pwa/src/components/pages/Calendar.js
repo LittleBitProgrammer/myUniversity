@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 class Calendar extends Component{
     render(){
         return (
-            <div>Calendar components :)</div>
+            <div className='page-content'>Calendar components :)</div>
         );
     }
 }

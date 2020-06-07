@@ -1,20 +1,20 @@
 //import lib
 import React from 'react';
 import {NavLink} from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 //TODO: create component icon with text
 
 //create a component
-const Navitem = ({path, name, exact,logoImage, children}) => {
+const Navitem = ({path, name, exact,logoImage,className,liClass,onClick,children}) => {
     return (
-        <li className="nav-item" data-toggle='collapse' data-target='.navbar-collapse.show'>
+        <li className={liClass}>
             <NavLink 
-              className="nav-link" 
+              className={`nav-link${className?' ' + className : ''}`}
               to={path} 
               exact={exact}
-              activeClassName='active'>
-              <span>{logoImage &&<FontAwesomeIcon icon={logoImage} className='mr-2'/>}{name}</span>
+              onClick={onClick}
+              activeClassName='my-university-active'>
+              <span>{logoImage &&<img src={logoImage} className='mr-2' alt='icon menu'/>}{name}</span>
             {children}
               <span className="sr-only">(current)</span>
             </NavLink>

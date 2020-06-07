@@ -2,8 +2,6 @@
 import React, {Component} from 'react';
 // ROUTER
 import {BrowserRouter} from 'react-router-dom';
-//BOTTOMBAR
-import BottomBar from './navmenu/bottombar/BottomBar';
 //ROUTES
 import Routes from './routes/Routes';
 //COOKIE

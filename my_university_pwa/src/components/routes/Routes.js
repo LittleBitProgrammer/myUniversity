@@ -12,6 +12,7 @@ import Login from '../pages/Login';
 import AppRoute from '../routing/AppRoute';
 // NAVBAR
 import MyUniversityNav from '../navmenu/navbar/MyUniversityNav';
+import DrawerMenu from '../navmenu/drawer_menu/DraweMenu';
 //CONTEXT
 import {UserContext} from '../context/UserContext';
 //AXIOS
@@ -98,23 +99,23 @@ class Routes extends Component {
         return (
             <div>
                 <Switch>
-                <AppRoute name="News" path="/" navBar={MyUniversityNav} component={News} {...this.props} exact>
+                <AppRoute name="News" path="/" navBar={DrawerMenu} component={News} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
-                        <AppRoute name="Calendario" path="/calendario" navBar={MyUniversityNav} component={Calendar} {...this.props} exact>
+                        <AppRoute name="Calendario" path="/calendario" navBar={DrawerMenu} component={Calendar} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
-                        <AppRoute name="Ricevimento" path="/ricevimento" navBar={MyUniversityNav} component={Receipt} {...this.props} exact>
+                        <AppRoute name="Ricevimento" path="/ricevimento" navBar={DrawerMenu} component={Receipt} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
-                        <AppRoute name="Chat" path="/chat" navBar={MyUniversityNav} component={Chat} {...this.props} exact>
+                        <AppRoute name="Chat" path="/chat" navBar={DrawerMenu} component={Chat} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
-                        <AppRoute name="Profilo" path="/profilo" navBar={MyUniversityNav} component={Profile} {...this.props} exact>
+                        <AppRoute name="Profilo" path="/profilo" navBar={DrawerMenu} component={Profile} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>

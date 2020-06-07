@@ -195,7 +195,7 @@ class Chat extends Component {
     render(){
         console.log(this.state)
         return (
-            <div>
+            <div className='page-content'>
                 <Row>
                     <Column columnSize='5'>
                         <SideChat onButtonClick={this.onModalChatButtonCLick}
