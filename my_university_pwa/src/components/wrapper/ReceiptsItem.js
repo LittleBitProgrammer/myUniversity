@@ -27,7 +27,7 @@ const ReceiptsItem = ({day,fName,lName,className, id, matricola}) => {
                 <CardBody>
                     <CardTitle>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(lName)}</CardTitle>
                     <CardText>{`${day}`}</CardText>
-                    <div className='collapse' id={`collapseReceipt${id}`}>
+                    <div> 
                         <ReceiptForm matricola_studente={matricola}/>
                     </div>
                 </CardBody>
@@ -38,3 +38,5 @@ const ReceiptsItem = ({day,fName,lName,className, id, matricola}) => {
 
 // EXPORT A COMPONENT
 export default ReceiptsItem;
+
+//className='collapse' id={`collapseReceipt${id}`}>

@@ -19,9 +19,9 @@ class ReceiptForm extends Component{
     onChange = (event) => {
         this.setState({
             inputText: event.target.value
-        })
+        });
     }
-    
+
     render(){
         console.log(this.props.matricola_studente)
         console.log(this.state)
@@ -30,7 +30,6 @@ class ReceiptForm extends Component{
                 <div>
                     <h5>Matricola: {this.props.matricola_studente}</h5>
                     <TextArea 
-                        type='text'
                         maxRows={10}
                         className='form-control form-control-lg mt-2' 
                         onChange={this.onChange}
