@@ -1,7 +1,7 @@
 // IMPORT LIB
 import React, { Component } from 'react';
 // IMPORT TEXT
-import TextField from '../bootstrap/form/fields/TextField';
+import TextArea from '../bootstrap/form/fields/TextArea';
 // IMPORT BUTTON
 import Button from '../bootstrap/Button';
 
@@ -23,17 +23,20 @@ class ReceiptForm extends Component{
     }
     
     render(){
+        console.log(this.props.matricola_studente)
         console.log(this.state)
         return(
             <form>
-                <div >
-                    <TextField placeholder='Matricola, Es. 0124001910'/>
-                    <input 
-                        type='text' 
-                        className='form-control form-control-lg mt-3' 
-                        placeholder='Motivazione, Es."Spiegazione generatore di grafi"' 
-                        onChange={this.onChange} 
-                        value={this.state.inputText}/>
+                <div>
+                    <h5>Matricola: {this.props.matricola_studente}</h5>
+                    <TextArea 
+                        type='text'
+                        maxRows={10}
+                        className='form-control form-control-lg mt-2' 
+                        onChange={this.onChange}
+                        value={this.state.inputText}
+                        placeholder='Motivazione, Es."Spiegazione generatore di grafi"'
+                        />
                     <Button classColor='btn-primary' className='mt-1 btn-right mr-0' buttontext='Invia'/>
                 </div>
             </form>

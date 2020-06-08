@@ -4,7 +4,7 @@ import React from 'react';
 import ReceiptsItem from '../wrapper/ReceiptsItem';
 
 // CREATE A COMPONENT
-const ReceiptsList = ({receipts}) => {
+const ReceiptsList = ({receipts, mat}) => {
     const receiptsList = receipts.map((item, index) =>{
         return(
             <ReceiptsItem
@@ -14,14 +14,13 @@ const ReceiptsList = ({receipts}) => {
                 fName={item.nome}
                 lName={item.cognome}
                 className='mt-3 border-primary'
-    
+                matricola={mat}
             />
         );
     });
 
     return <div className='mt-3'>{receiptsList}</div>
 }
-
 
 // EXPORT A COMPONENT
 export default ReceiptsList

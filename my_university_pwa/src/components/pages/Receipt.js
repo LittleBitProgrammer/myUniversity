@@ -38,7 +38,7 @@ class Receipts extends Component {
         return(
             <div>
                 <h3 >Ricevimento</h3>
-                <ReceiptsList receipts={this.state.receipts}/>
+                <ReceiptsList receipts={this.state.receipts} mat={this.myCookies.get('matricola_studente')}/>
             </div>
         );
     }
