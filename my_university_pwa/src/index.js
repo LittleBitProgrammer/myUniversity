@@ -12,5 +12,3 @@ import './css/index.css';
 
 //export / render a component
 ReactDom.render(<UserProvider><CookiesProvider><App/></CookiesProvider></UserProvider>, document.querySelector('#root'));
-
-//serviceWorker.register();

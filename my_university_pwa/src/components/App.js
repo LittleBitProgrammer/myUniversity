@@ -15,7 +15,6 @@ import {instanceOf} from 'prop-types';
 import myUniversity from '../API/myUniversity';
 import Loading from './pages/Loading';
 
-
 //create a component 
 class App extends Component {
     static propTypes = {
