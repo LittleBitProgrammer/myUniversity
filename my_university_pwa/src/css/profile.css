@@ -98,7 +98,8 @@
     .profile-tab p{
         font-size: 14px;
     }
-} 
+}  
+
 
 @media all and (max-width:370px){
     .profile-tab label{
