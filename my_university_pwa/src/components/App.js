@@ -47,7 +47,6 @@ class App extends Component {
     }
 
     login = async() => {
-
         let response;
         let userType;
         let isAuth;
