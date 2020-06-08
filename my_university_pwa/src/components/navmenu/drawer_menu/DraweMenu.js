@@ -1,5 +1,10 @@
 // IMPORT LIB
 import React, {Component} from 'react';
+// DRAWER COMPONENT
+import Toggler from './drawer_components/Toggler';
+import Header from './drawer_components/Header';
+import Drawer from './drawer_components/Drawer';
+import MenuList from './drawer_components/MenuList';
 //NAV ITEM
 import Navitem from '../../bootstrap/navigation/Navitem';
 //COOKIE
@@ -37,18 +42,9 @@ class DrawerMenu extends Component{
     render(){
         return(
             <React.Fragment>
-                <input 
-                  type="checkbox" 
-                  id="drawer-toggle" 
-                  name="drawer-toggle" 
-                  onChange={this.toggleNav} 
-                  checked={this.state.isNavOpen}/>
-                <label htmlFor="drawer-toggle" id="drawer-toggle-label"></label>
-                <header>
-                    My university
-                    <img src={logo} alt='MyUniversity Logo' className='logo'/>
-                </header>
-                <nav id="drawer">
+                <Toggler onChange={this.toggleNav} checked={this.state.isNavOpen}/>
+                <Header text='My university' logo={logo} altText='MyUniversity Logo' logoClass='logo'/>
+                <Drawer>
                     <Navitem path='/profilo' onClick={this.toggleNav} liClass='drawer-profile' exact={true}>
                         <div className="img-container">
                             <img className="img-profile rounded" src={square} height="128" width="128" alt='profile img'/>
@@ -59,16 +55,16 @@ class DrawerMenu extends Component{
                                 }
                             </h2>
                         </div>
+                        <h6 className="freshman">Mat: {this.myCookies.get('userCookies').matricola_studente}</h6>
                     </Navitem>
-                    <h6 className="freshman">Mat: {this.myCookies.get('userCookies').matricola_studente}</h6>
-                    <ul>
+                    <MenuList>
                         <Navitem path='/' name='News' logoImage={news} onClick={this.toggleNav} exact={true}/>
                         <Navitem path='/calendario' name='Calendario' onClick={this.toggleNav} logoImage={calendar}/>
                         <Navitem path='/ricevimento' name='Ricevimento' onClick={this.toggleNav} logoImage={receipt}/>
                         <Navitem path='/chat' name='Chat' onClick={this.toggleNav} logoImage={chat}/>
-                    </ul>
+                    </MenuList>
                     <Navitem path='/login' name='Esci' logoImage={exit} liClass='exit' onClick={this.props.onLogout}/>
-                </nav>
+                </Drawer>
             </React.Fragment>
         );
     }
