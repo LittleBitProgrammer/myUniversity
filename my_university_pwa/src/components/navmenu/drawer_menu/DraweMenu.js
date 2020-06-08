@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 //NAV ITEM
 import Navitem from '../../bootstrap/navigation/Navitem';
+//COOKIE
+import {Cookies} from 'react-cookie';
 // SVG
 import logo from '../../../img/svg/graduation-hat.svg';
 import news from '../../../img/svg/news.svg';
@@ -16,6 +18,8 @@ import square from '../../../img/svg/square.svg';
 class DrawerMenu extends Component{
     constructor(props){
         super(props)
+
+        this.myCookies = new Cookies();
 
         this.state = {
             isNavOpen: false
@@ -45,11 +49,18 @@ class DrawerMenu extends Component{
                     <img src={logo} alt='MyUniversity Logo' className='logo'/>
                 </header>
                 <nav id="drawer">
-                    <div className="img-container">
-                        <img className="img-profile rounded" src={square} height="128" width="128" alt='profile img'/>
-                        <h2>RV</h2>
-                    </div>
-                    <h6 className="freshman">Mat: 0124001871</h6>
+                    <Navitem path='/profilo' onClick={this.toggleNav} liClass='drawer-profile' exact={true}>
+                        <div className="img-container">
+                            <img className="img-profile rounded" src={square} height="128" width="128" alt='profile img'/>
+                            <h2>
+                                {
+                                 this.myCookies.get('userCookies').nome[0].toUpperCase() + 
+                                 this.myCookies.get('userCookies').cognome[0].toUpperCase()
+                                }
+                            </h2>
+                        </div>
+                    </Navitem>
+                    <h6 className="freshman">Mat: {this.myCookies.get('userCookies').matricola_studente}</h6>
                     <ul>
                         <Navitem path='/' name='News' logoImage={news} onClick={this.toggleNav} exact={true}/>
                         <Navitem path='/calendario' name='Calendario' onClick={this.toggleNav} logoImage={calendar}/>

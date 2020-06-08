@@ -271,7 +271,6 @@ margin-left: 300px;
 }
 
 .img-profile{
-    margin-left: 10px;
     border: #c7c7c7 5px solid;
 }
 
@@ -296,4 +295,9 @@ margin-left: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  #drawer .drawer-profile {
+      list-style-type: none;
+      margin-left: -6px;
   }

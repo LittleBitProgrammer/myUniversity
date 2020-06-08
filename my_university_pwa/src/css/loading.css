@@ -15,7 +15,7 @@
 }
 
 .loading-background{
-    background-color: #017bff;
+    background-image: linear-gradient(to bottom, #0165d1,#017bff);
     margin: 0;
     padding: 0;
     width: 100%;
