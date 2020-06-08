@@ -20,6 +20,7 @@ class insertMessage(Resource):
         parser.add_argument('messaggio', type=str, help='messaggio')
         args = parser.parse_args(strict=True)
         send_message(args['id_conversation'], args['matricola_mittente'], args['matricola_destinatario'], args['messaggio'])
+        return args, 201
 
 @mongodb.route("/create_new_conversation")
 class createConversation(Resource):

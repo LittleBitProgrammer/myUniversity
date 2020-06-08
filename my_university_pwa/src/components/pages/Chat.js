@@ -188,9 +188,13 @@ class Chat extends Component {
                 input_text: ""
             })
 
+            this.state.chats.push()
+
+
         }catch (error) {
             console.log(error);
         }
+
     }
 
     // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
