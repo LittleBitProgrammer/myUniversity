@@ -6,7 +6,7 @@ import ChatBottom from "./ChatBottom";
 import ConversationList from "../../../list/ConversationList";
 import ScrollView from "../../ScrollView";
 
-const ChatVew = ({chats, chat_index, onInputChange, onMessageSend})=>{
+const ChatVew = ({chats, chat_index, onInputChange, onMessageSend, value})=>{
     if (chat_index){
         let chat = chats[chats.findIndex((obj)=>obj.id_conversation === chat_index)];
         return (
@@ -27,6 +27,7 @@ const ChatVew = ({chats, chat_index, onInputChange, onMessageSend})=>{
                         sizeTextArea="11"
                         textCallback={onInputChange}
                         onMessageSend={onMessageSend}
+                        value={value}
                     />
                 </div>
             </Card>)

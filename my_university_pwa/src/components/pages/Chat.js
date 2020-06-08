@@ -176,7 +176,6 @@ class Chat extends Component {
 
     onMessageSend = async() => {
         let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
-        console.log('matricola_docente - send message', matricola_docente);
         try {
             await myUniversity.post('/mongodb/send_message', {
                 id_conversation: this.state.chat_index,
@@ -185,10 +184,13 @@ class Chat extends Component {
                 messaggio: this.state.input_text
             });
 
+            this.setState({
+                input_text: ""
+            })
+
         }catch (error) {
             console.log(error);
         }
-
     }
 
     // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
@@ -207,7 +209,9 @@ class Chat extends Component {
                             chats={this.state.chats}
                             chat_index={this.state.chat_index}
                             onInputChange={this.onInputChange}
-                            onMessageSend={this.onMessageSend}/>
+                            onMessageSend={this.onMessageSend}
+                            value={this.state.input_text}
+                        />
                     </Column>
                 </Row>
                 {this.state.isModalVisible &&

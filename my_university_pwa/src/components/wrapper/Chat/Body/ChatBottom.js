@@ -1,21 +1,22 @@
 import React from "react";
 import Column from "../../../bootstrap/Column";
-import TextArea from "../../../bootstrap/form/fields/TextArea";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import Row from "../../../bootstrap/Row";
+import ChatField from "../../../bootstrap/form/fields/ChatField";
 
 //sizeTextSendButton serve ad impostare la garndezza del button
-const ChatBottom = ({className,textCallback,maxRows,placeholder,sizeTextArea,sizeSendButton, sizeTextSendButton, onMessageSend})=>{
+const ChatBottom = ({className,textCallback,maxRows,placeholder,sizeTextArea,sizeSendButton, sizeTextSendButton, onMessageSend, value})=>{
     return(
         <Row className={className}>
 
             <Column screenSize="lg" columnSize={sizeTextArea}>
-                <TextArea
+                <ChatField
                     className="form-control"
                     maxRows={maxRows}
                     placeholder={placeholder}
                     textCallback={textCallback}
+                    value={value}
                 />
 
             </Column>
