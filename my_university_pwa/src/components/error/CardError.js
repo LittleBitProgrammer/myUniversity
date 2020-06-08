@@ -4,7 +4,7 @@ import React from 'react';
 // CREATE A COMPONENT
 const CardError = ({errorMessage}) => {
     return (
-        <div class="alert alert-danger mt-3" role="alert">
+        <div className="alert alert-danger mt-3" role="alert">
             {errorMessage}
         </div>
     );

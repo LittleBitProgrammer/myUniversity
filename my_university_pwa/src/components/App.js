@@ -47,6 +47,7 @@ class App extends Component {
     }
 
     login = async() => {
+        console.log('entrato in login')
         let response;
         let userType;
         let isAuth;
@@ -91,15 +92,20 @@ class App extends Component {
     }
 
     componentDidMount(){
+        console.log('app did mount')
         if((this.state.matricola_studente && this.state.password_studente) || 
            (this.state.matricola_docente && this.state.password_docente)){
                this.login();
            }else{
+                console.log('sbagliato')
+                //UPDATE CONTEXT
                 this.myCookies.set('isAuth',false,{ path: '/' });
+                this.setState({isLoading: false});
            }
     }
 
     render(){
+        console.log('render app', this.state)
         if(this.state.isLoading){
             return <Loading/>;
         }
@@ -107,7 +113,7 @@ class App extends Component {
             <div>
                 <BrowserRouter>
                     <div>
-                    { this.context.isAuth && <DrawerMenu onLogout={this.logout}/>}
+                    { this.myCookies.get('isAuth') === 'true' && <DrawerMenu onLogout={this.logout}/>}
                         <div className='page-content'>
                             <Routes/>
                         </div>
