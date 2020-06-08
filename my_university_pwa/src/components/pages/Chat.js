@@ -14,6 +14,9 @@ import ModalHeader from "../modal/ModalHeader";
 import Row from "../bootstrap/Row";
 import Column from "../bootstrap/Column";
 
+// FUNC UTILITY
+import {getCurrentTimeStamp} from "../../utility/functions";
+
 // API - MYUNIVERSITY
 import myUniversity from "../../API/myUniversity";
 
@@ -177,25 +180,26 @@ class Chat extends Component {
     onMessageSend = async() => {
         let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
         try {
-            await myUniversity.post('/mongodb/send_message', {
+            const response = await myUniversity.post('/mongodb/send_message', {
                 id_conversation: this.state.chat_index,
                 matricola_mittente: this.cookies.get('matricola_studente'),
                 matricola_destinatario: matricola_docente,
                 messaggio: this.state.input_text
             });
 
+            response.data.data_invio = getCurrentTimeStamp();
+            console.log('response + data', response.data);
+            this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].messages.push(response.data);
             this.setState({
                 input_text: ""
             })
-
-            this.state.chats.push()
-
 
         }catch (error) {
             console.log(error);
         }
 
     }
+
 
     // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
     render(){

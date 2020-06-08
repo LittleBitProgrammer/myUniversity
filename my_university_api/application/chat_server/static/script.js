@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     var socket = io.connect('http://127.0.0.1:5000');
-    var socket_messages = io('http://127.0.0.1:5000/messages')
+    var socket_messages = io('http://127.0.0.1:5000/messages');
 
     $('#send').on('click', function() {
         var message = $('#message').val();
@@ -25,7 +25,6 @@ $(document).ready(function() {
     $('#send_private_message').on('click', function() {
         var recipient = $('#send_to_username').val();
         var message_to_send = $('#private_message').val();
-
         private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
     });
 
