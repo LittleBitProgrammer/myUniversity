@@ -14,7 +14,9 @@ const ReceiptsList = ({receipts, mat}) => {
                 fName={item.nome}
                 lName={item.cognome}
                 className='mt-3 border-primary'
-                matricola={mat}
+                matricola_stud={mat}
+                matricola_doc={item.matricola_docente}
+
             />
         );
     });

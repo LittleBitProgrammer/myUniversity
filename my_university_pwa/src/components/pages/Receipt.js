@@ -35,6 +35,7 @@ class Receipts extends Component {
     }
 
     render(){
+        
         return(
             <div>
                 <h3 >Ricevimento</h3>

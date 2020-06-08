@@ -11,6 +11,7 @@ class TextArea extends Component {
     }
 
     onChange = (event)=>{
+        event.preventDefault();
         this.setState({
             inputValue: event.target.value
         });

@@ -12,27 +12,18 @@ import ReceiptForm from '../form/ReceiptForm';
 
 
 // CREATE A COMPONENT
-const ReceiptsItem = ({day,fName,lName,className, id, matricola}) => {
+const ReceiptsItem = ({day,fName,lName,className, id, matricola_stud, matricola_doc}) => {
 
     return (
-        <a 
-            className='news'
-            data-toggle='collapse' 
-            role='button'
-            href={`#collapseReceipt${id}`}
-            aria-expanded='false' 
-            aria-controls={`collapseReceipt${id}`}>
-
-            <Card className={className}>
-                <CardBody>
-                    <CardTitle>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(lName)}</CardTitle>
-                    <CardText>{`${day}`}</CardText>
-                    <div> 
-                        <ReceiptForm matricola_studente={matricola}/>
-                    </div>
-                </CardBody>
-            </Card>
-        </a>
+        
+        <Card className={className}>
+            <CardBody>
+                <CardTitle>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(lName)}</CardTitle>
+                <CardText>{`${day}`}</CardText>
+                <ReceiptForm matricola_studente={matricola_stud} matricola_docente={matricola_doc} date={day}/>
+            </CardBody>
+        </Card>
+    
     )
 }
 
