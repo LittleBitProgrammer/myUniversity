@@ -20,7 +20,7 @@ const Contacts = ({phoneNumbers, emails}) => {
         <Row className='no-gutters'>
             <Column columnSize='6'>
                 <div className='profile-contacts'>
-                    <p><span><img src={phone} alt='mail logo' className='mb-2 mr-1'/></span>Contatti Telefonici</p>
+                    <p><span><img src={phone} alt='mail logo' className='mb-2 mr-1'/></span>Telefono</p>
                     {numberList}
                 </div>
             </Column>

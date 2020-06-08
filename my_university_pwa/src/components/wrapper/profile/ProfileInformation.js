@@ -21,7 +21,7 @@ const ProfileInformation = ({sigle,phoneNumbers,emails,firstName,lastNAme,userYe
                              domicile,bornDate,bornPlace}) => {
     return(
         <div className='profile'>
-            <Row>
+            <Row className='no-gutters'>
                 <Column columnSize='12'>
                     <ProfileHeader 
                         firstName={firstName} 
