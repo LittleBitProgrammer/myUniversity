@@ -11,10 +11,13 @@ class TextArea extends Component {
     }
 
     onChange = (event)=>{
+        event.preventDefault();
         this.setState({
             inputValue: event.target.value
         });
-        this.props.textCallback(this.state.inputValue);
+        if(this.props.textCallback){
+            this.props.textCallback(this.state.inputValue);
+        }
     }
 
 

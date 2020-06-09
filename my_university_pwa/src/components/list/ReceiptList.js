@@ -4,8 +4,8 @@ import React from 'react';
 import ReceiptsItem from '../wrapper/ReceiptsItem';
 
 // CREATE A COMPONENT
-const ReceiptsList = ({receipts, mat}) => {
-    const receiptsList = receipts.map((item, index) =>{
+const ReceiptsList = ({allReceipts, mat}) => {
+    const receiptsList = allReceipts.map((item, index) =>{
         return(
             <ReceiptsItem
                 key={index}
@@ -14,7 +14,9 @@ const ReceiptsList = ({receipts, mat}) => {
                 fName={item.nome}
                 lName={item.cognome}
                 className='mt-3 border-primary'
-                matricola={mat}
+                matricola_stud={mat}
+                matricola_doc={item.matricola_docente}
+
             />
         );
     });
