@@ -217,3 +217,25 @@ class ListaRicevimentoPrenotabile(Resource):
         parser.add_argument('matricola_studente', type=str, help='matricola_studente')
         args = parser.parse_args(strict=True)
         return reperimento_ricevimenti_prenotabili(args['matricola_studente'], database.get_connection()), 201
+
+# ============================ reperimento iscrizioni newsletter  ========================== #
+@student.route('/reperimento_lista_iscrizioni_newsletter')
+class ListaReperimentoIscrizioniNewsletter(Resource):
+    @student.expect(freshman_student)
+    @student.marshal_with(lista_iscrizioni_newsletter_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_studente', type=str, help='mat of student')
+        args = parser.parse_args(strict=True)
+        return getIscrizioneNewsletter(args['matricola_studente'], database.get_connection()), 201
+
+# ============================ reperimento discipline seguite  ========================== #
+@student.route('/reperimento_lista_discipline_seguite')
+class ListaReperimentoListaDisciplineSeguite(Resource):
+    @student.expect(freshman_student)
+    @student.marshal_with(lista_discipline_seguite_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('matricola_studente', type=str, help='mat of student')
+        args = parser.parse_args(strict=True)
+        return getDisciplinaSeguita(args['matricola_studente'], database.get_connection()), 201

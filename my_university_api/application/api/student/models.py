@@ -145,3 +145,14 @@ lista_discipline_model = student.model('lista_discipline_model', {
     'semestre': fields.String,
     'cfu': fields.String
 })
+
+lista_discipline_seguite_model = student.model('lista_discipline_seguite_model', {
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String
+})
+
+lista_iscrizioni_newsletter_model = student.model('lista_discipline_seguite_model', {
+    'codice_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'data_iscrizione': fields.String
+})
