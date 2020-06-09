@@ -355,7 +355,6 @@ def getCalendar(matricola_studente, connection):
         print(f"Error from mySQL: {error}")
     finally:
         if connection.is_connected():
-            print('cacca')
             connection.close()
             cursor.close()
             print('MySQL connection is closed')
@@ -363,7 +362,6 @@ def getCalendar(matricola_studente, connection):
 
 def reperimentoInfoDocentiCorsiENewsletter(matricola_studente, connection):
     professors = []
-
     try:
         cursor = connection.cursor(dictionary=True)
         student_tuple = (matricola_studente, matricola_studente)
@@ -532,3 +530,39 @@ def reperimentoListaDiscipline(matricola_studente, connection):
             cursor.close()
             print('MySQL connection is closed')
             return discipline
+
+def getIscrizioneNewsletter(matricola_studente, connection):
+    response = []
+    try:
+        mySQL_query_get_iscrizione_newsletter = """SELECT codice_corso, 
+                                        codice_disciplina,
+                                        data_iscrizione 
+                                        FROM iscrizione_newsletter 
+                                        WHERE matricola_studente = %s"""
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(mySQL_query_get_iscrizione_newsletter, (matricola_studente,))
+        response = cursor.fetchall()
+    except Error as error:
+        print(f"Error from mySQL: {error}")
+    finally:
+        if connection.is_connected():
+            connection.close()
+            cursor.close()
+            print('MySQL connection is closed')
+            return response
+
+def getDisciplinaSeguita(matricola_studente, connection):
+    response = []
+    try:
+        mySQL_query_get_iscrizione_newsletter = """SELECT codice_corso, codice_disciplina FROM disciplina_seguita  WHERE matricola_studente = %s"""
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(mySQL_query_get_iscrizione_newsletter, (matricola_studente,))
+        response = cursor.fetchall()
+    except Error as error:
+        print(f"Error from mySQL: {error}")
+    finally:
+        if connection.is_connected():
+            connection.close()
+            cursor.close()
+            print('MySQL connection is closed')
+            return response
