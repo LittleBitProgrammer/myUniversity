@@ -316,6 +316,29 @@ def unFollowDiscipline(codice_corso, codice_disciplina, matricola_studente, conn
             cursor.close()
             print('MySQL connection is closed')
 
+# function to unfollow discipline
+def unFollowNewsletter(codice_corso, codice_disciplina, matricola_studente, connection):
+    try:
+        cursor = connection.cursor(dictionary=True)
+
+        mySQL_query_delete_iscrizione_newsletter = """DELETE FROM iscrizione_newsletter
+                                                  WHERE codice_corso = %s
+                                                  AND codice_disciplina = %s
+                                                  AND matricola_studente = %s"""
+
+        unFollow_discipline_tuple = (codice_corso, codice_disciplina, matricola_studente)
+        cursor.execute(mySQL_query_delete_iscrizione_newsletter, unFollow_discipline_tuple)
+        connection.commit()
+
+        print('Discipline unfollowed')
+    except Error as error:
+        print(f"Error from mySQL: {error}")
+    finally:
+        if connection.is_connected():
+            connection.close()
+            cursor.close()
+            print('MySQL connection is closed')
+
 
 # function to get student calendar
 def getCalendar(matricola_studente, connection):

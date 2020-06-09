@@ -179,6 +179,23 @@ class UnfollowDiscipline(Resource):
 
         return args, 250
 
+# ============================    unfollow newsletter   ========================== #
+@student.route('/unfollow_newsletter')
+class UnfollowNewsletter(Resource):
+
+    @student.expect(follow_discipline_model)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('codice_corso', type=str, help='codice del corso di laurea universitario')
+        parser.add_argument('codice_disciplina', type=str, help='codice della disciplina universitaria')
+        parser.add_argument('matricola_studente', type=str, help='codice della matricola studente universitaria')
+        args = parser.parse_args(strict=True)
+        unFollowNewsletter(args['codice_corso'],
+                           args['codice_disciplina'],
+                           args['matricola_studente'],
+                           database.get_connection())
+        return args, 250
+
 
 # ============================    calendario   ========================== #
 @student.route('/calendario')
