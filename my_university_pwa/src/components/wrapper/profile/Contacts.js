@@ -1,5 +1,9 @@
 // IMPORT LIB
 import React from 'react';
+import Row from '../../bootstrap/Row';
+import Column from '../../bootstrap/Column';
+import mail from '../../../img/svg/mail.svg';
+import phone from '../../../img/svg/phone.svg';
 
 // CREATE A COMPONENT 
 const Contacts = ({phoneNumbers, emails}) => {
@@ -13,12 +17,20 @@ const Contacts = ({phoneNumbers, emails}) => {
     });
    
     return (
-        <div className='profile-contacts'>
-            <p>Contatti Telefonici</p>
-            {numberList}
-            <p>Email</p>
-            {emailList}
-        </div>
+        <Row className='no-gutters'>
+            <Column columnSize='6'>
+                <div className='profile-contacts'>
+                    <p><span><img src={phone} alt='mail logo' className='mb-2 mr-1'/></span>Telefono</p>
+                    {numberList}
+                </div>
+            </Column>
+            <Column columnSize='6'>
+                <div className='profile-contacts'>
+                    <p><span><img src={mail} alt='mail logo' className='mb-1 mr-1'/></span>Email</p>
+                    {emailList}
+                </div>
+            </Column>  
+        </Row>
     );
 }
 

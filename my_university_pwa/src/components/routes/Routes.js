@@ -10,111 +10,38 @@ import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 // ROUTING
 import AppRoute from '../routing/AppRoute';
-// NAVBAR
-import MyUniversityNav from '../navmenu/navbar/MyUniversityNav';
-//CONTEXT
-import {UserContext} from '../context/UserContext';
-//AXIOS
-import myUniversity from '../../API/myUniversity';
 //COOKIE
-import {Cookies, withCookies} from 'react-cookie';
-import {instanceOf} from 'prop-types';
+import {Cookies} from 'react-cookie';
 
 //create a component
 class Routes extends Component {
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-      };
-
     constructor(props){
-        super(props);
+        super(props)
 
-        const {cookies} = props;
-        this.myCookies = new Cookies()
-
-        this.state={
-            matricola_studente: cookies.get('matricola_studente') || '',
-            matricola_docente: cookies.get('matricola_docente') || '',
-            password_studente: cookies.get('password_studente') || '',
-            password_docente: cookies.get('password_docente') || '',
-        }
-    }
-
-    login = async() => {
-        let response;
-        let userType;
-        let isAuth;
-
-        try{
-            response = await myUniversity.post('/student/login', {
-                matricola_studente: this.state.matricola_studente,
-                password_studente: this.state.password_studente
-            });
-        }catch(error){
-            console.log(`😱 There was an error: ${error}`);
-            isAuth = false;
-        }
-        if (response.data.length !== 0){
-            isAuth = true;
-            userType = 'student';
-        }else{
-            try{
-                response = await myUniversity.post('/professor/login',{
-                    matricola_docente: this.state.matricola_docente,
-                    password_docente: this.state.password_docente
-                });
-            }catch(error){
-                console.log(`😱 There was an error: ${error}`);
-                isAuth = false;
-            }
-
-            if (response.data.length !== 0){
-                isAuth = true;
-                userType = 'teacher';
-            }else{
-               isAuth = false;
-            }
-        }
-
-        // UPDATE STATE
-        this.setState({userType: userType, response:response.data[0]});
-        //UPDATE COOKIES
-        this.myCookies.set('isAuth',isAuth,{ path: '/' });
-        //UPDATE CONTEXT
-        this.context.update({[userType]:response.data[0]});
-    }
-
-    componentDidMount(){
-        if((this.state.matricola_studente && this.state.password_studente) || 
-           (this.state.matricola_docente && this.state.password_docente)){
-               this.login();
-           }else{
-                this.myCookies.set('isAuth',false,{ path: '/' });
-           }
+        this.myCookies = new Cookies();
     }
 
     render(){
-        console.log('cookies',this.myCookies.getAll());
         return (
             <div>
                 <Switch>
-                <AppRoute name="News" path="/" navBar={MyUniversityNav} component={News} {...this.props} exact>
+                <AppRoute name="News" path="/" component={News} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
-                        <AppRoute name="Calendario" path="/calendario" navBar={MyUniversityNav} component={Calendar} {...this.props} exact>
+                        <AppRoute name="Calendario" path="/calendario" component={Calendar} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
-                        <AppRoute name="Ricevimento" path="/ricevimento" navBar={MyUniversityNav} component={Receipt} {...this.props} exact>
+                        <AppRoute name="Ricevimento" path="/ricevimento" component={Receipt} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
-                        <AppRoute name="Chat" path="/chat" navBar={MyUniversityNav} component={Chat} {...this.props} exact>
+                        <AppRoute name="Chat" path="/chat" component={Chat} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
-                        <AppRoute name="Profilo" path="/profilo" navBar={MyUniversityNav} component={Profile} {...this.props} exact>
+                        <AppRoute name="Profilo" path="/profilo" component={Profile} {...this.props} exact>
                             {(this.myCookies.get('isAuth') === 'false' || this.myCookies.get('isAuth') === undefined) 
                             && <Redirect to={{pathname: "/login"}}/>}
                         </AppRoute>
@@ -126,7 +53,5 @@ class Routes extends Component {
     }
 }
 
-Routes.contextType = UserContext; 
-
 //export a component 
-export default withCookies(Routes);
+export default Routes;

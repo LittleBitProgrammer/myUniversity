@@ -1,25 +1,3 @@
-.profile-img{
-    text-align: center;
-}
-
-.profile-img img{
-    width: 50%;
-    height: 100%;
-}
-
-.profile-img .file {
-    overflow: hidden;
-    width: 50%;
-    border: none;
-    border-radius: 2;
-    font-size: 15px;
-    background: #212529b8;
-}
-
-.container-profile {
-    position: relative;
-  }
-
   /* Bottom right text */
 .text-block {
     position: absolute;
@@ -49,7 +27,6 @@
 .proile-year{
     font-size: 12px;
     color: #818182;
-    margin-top: 5%;
 }
 
 .proile-year span{
@@ -74,13 +51,12 @@
 
 .profile-contacts{
     padding-top: 12%;
-    padding-left: 25%;
     margin-top: -15%;
 }
 
 .profile-contacts p{
-    font-size: 12px;
-    color: #818182;
+    font-size: 14px;
+    color: #0062cc;
     font-weight: 600;
     margin-top: 10%;
 }
@@ -110,13 +86,41 @@
     margin-top: 0px;
 }
 
-.profile-sigle{
-    position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
-    height: 100%;
-    color: white;
-    font-weight: 900;
+.border-warning{
+    border: 5px solid #000;
+    padding-bottom: 10px;
 }
+
+@media all and (max-width:530px){
+    .profile-tab label{
+        font-size: 14px;
+    }
+    .profile-tab p{
+        font-size: 14px;
+    }
+}  
+
+@media all and (max-width:370px){
+    .profile-tab label{
+        font-size: 12px;
+    }
+    .profile-tab p{
+        font-size: 12px;
+    }
+} 
+
+@media all and (max-width:280px){
+    .profile-contacts p{
+        font-size: 12px;
+        color: #0062cc;
+        font-weight: 600;
+        margin-top: 10%;
+    }
+    
+    .profile-contacts a{
+        text-decoration: none;
+        color: #495057;
+        font-weight: 600;
+        font-size: 12px;
+    }
+} 

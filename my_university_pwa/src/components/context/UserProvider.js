@@ -37,6 +37,7 @@ class UserProvider extends Component {
                 email_docente: '',
                 contatti: []
             },
+            isAuth: false,
             update: this.updateState
         }
     }

@@ -86,17 +86,17 @@ class Login extends Component{
         this.cookies.set('userCookies', response.data[0] );
 
         //UPDATE CONTEXT
-        this.context.update({[userType]:response.data[0]});
+        this.context.update({[userType]:response.data[0], isAuth: !this.context.isAuth});
     }
 
     //RENDER METHOD
     render(){
         // CONTROL IF THE ERROR IS PRESENT 
+        console.log(this.cookies.get('isAuth'));
         const errorMessage = !this.state.loginError ? '' : <CardError errorMessage='Matricola o password errate'/>
-        if(this.cookies.get('isAuth') === 'true'){return  <Redirect to='/' key='login-to-root'/>}
+        if(this.cookies.get('isAuth') === 'true'){console.log('from redirect',this.cookies.get('isAuth'));return  <Redirect to='/' key='login-to-root'/>}
         return(
                 <div>
-                    {console.log('show login form')}
                     <LoginForm onSubmit={this.onSubmit} error={errorMessage}/>
                 </div>
             )

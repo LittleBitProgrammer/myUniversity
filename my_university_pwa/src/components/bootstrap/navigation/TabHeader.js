@@ -3,7 +3,7 @@ import React from 'react'
 
 // CREATE A COMPONENT 
 const TabHeader = ({children}) => {
-    return(<ul className="nav nav-tabs" id="myTab" role="tablist">
+    return(<ul className="nav nav-pills" id="myTab" role="tablist">
             {children}
         </ul>)
 }

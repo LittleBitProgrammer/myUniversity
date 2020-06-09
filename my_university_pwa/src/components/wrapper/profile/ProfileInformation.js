@@ -10,37 +10,25 @@ import Contacts from './Contacts';
 import ProfileBody from './ProfileBody';
 import ProfileHeader from './ProfileHeader';
 //IMAGE
-import squareLogo from '../../../img/svg/Square-profile.svg'
+import squareLogo from '../../../img/svg/square.svg'
 //CSS
 import '../../../css/profile.css'
 import ProfileTab from '../../navmenu/tabBar/ProfileTab';
+import Card from '../../bootstrap/Card/Card';
 
 // CREATE A COMPONENT
 const ProfileInformation = ({sigle,phoneNumbers,emails,firstName,lastNAme,userYear,freshman,fCode, uEmail, uSubscription,
                              domicile,bornDate,bornPlace}) => {
     return(
-        <div>
-            <Row>
-                <Column columnSize='4' screenSize='lg'>
-                    <Sidebar>
-                        <ProfileImage 
-                            inputText='Cambia Foto' 
-                            altText='Immagine del profilo' 
-                            sigle= {sigle}
-                            path={squareLogo}/>
-                            <Contacts 
-                            phoneNumbers={phoneNumbers}
-                            emails={emails}
-                            />
-                    </Sidebar>
-                </Column>
-                <Column columnSize='8' screenSize='lg'>
-                    <ProfileBody>
-                        <ProfileHeader 
-                            firstName={firstName} 
-                            lastNAme={lastNAme} 
-                            userType='studente' 
-                            userYear={userYear}/>
+        <div className='profile'>
+            <Row className='no-gutters'>
+                <Column columnSize='12'>
+                    <ProfileHeader 
+                        firstName={firstName} 
+                        lastNAme={lastNAme} 
+                        userType='studente' 
+                        userYear={userYear}/>
+                    <Card className='border-warning'>
                         <ProfileTab
                             freshman={freshman}
                             fCode={fCode}
@@ -48,9 +36,13 @@ const ProfileInformation = ({sigle,phoneNumbers,emails,firstName,lastNAme,userYe
                             uSubscription={uSubscription}
                             domicile={domicile}
                             bornDate={bornDate}
-                            bornPlace={bornPlace}
+                            bornPlace={bornPlace}/>
+                    </Card>
+                    <hr/>
+                    <Contacts 
+                        phoneNumbers={phoneNumbers}
+                        emails={emails}
                         />
-                    </ProfileBody>
                 </Column>
             </Row>
         </div>

@@ -11,7 +11,7 @@ import TabRow from '../../bootstrap/navigation/TabRow';
 // CREATE A COMPONENT
 const ProfileTab = ({freshman,fCode,uEmail,uSubscription,domicile,bornDate,bornPlace}) => {
     return (
-        <TabBar className='mt-4'>
+        <TabBar className='mt-4 ml-2'>
             <TabHeader>
                 <NavTab isActive={true} id='home-tab' to='home' tabName='Informazioni'/>
                 <NavTab isActive={false} id='other-tab' to='other' tabName='Altro'/>

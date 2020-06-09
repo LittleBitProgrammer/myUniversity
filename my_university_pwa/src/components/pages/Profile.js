@@ -18,14 +18,6 @@ import {formatDate} from '../../utility/functions';
 //CREATE A COMPONENT
 class Profile extends Component{
 
-    constructor(props){
-        super(props);
-
-        this.state = {
-            isTablet: false,
-        }
-    }
-
     populateContacts = (user) => {
         const contacts = {
                 phoneNumbers: [],
@@ -44,22 +36,10 @@ class Profile extends Component{
         return contacts;
     }
 
-    updateToTabletView = () => {
-        this.setState({isTablet: window.innerWidth <= 991});
-    }
-
-    componentDidMount(){
-        window.addEventListener('resize', this.updateToTabletView );
-    }
-
     render(){
         const user = this.context;
 
         const contacts = this.populateContacts(user);
-
-        console.log(user.student);
-        console.log(this.contacts);
-        this.state.isTablet ? console.log('tablet') : console.log('desktop')
         return (
             <ProfileInformation 
               sigle={`${user.student.nome.charAt(0).toUpperCase()}${user.student.cognome.charAt(0).toUpperCase()}`} 
