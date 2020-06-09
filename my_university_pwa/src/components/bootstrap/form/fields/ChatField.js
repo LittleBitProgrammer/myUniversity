@@ -2,11 +2,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 import React, {Component} from "react";
 
 class ChatField extends Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     onChange = (event)=>{
         this.props.textCallback(event.target.value);
     }

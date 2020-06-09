@@ -4,13 +4,8 @@ import React from 'react';
 import Row from '../../bootstrap/Row';
 import Column from '../../bootstrap/Column';
 // WRAPPER
-import Sidebar from './ProfileSide';
-import ProfileImage from '../ProfileImage';
 import Contacts from './Contacts';
-import ProfileBody from './ProfileBody';
 import ProfileHeader from './ProfileHeader';
-//IMAGE
-import squareLogo from '../../../img/svg/square.svg'
 //CSS
 import '../../../css/profile.css'
 import ProfileTab from '../../navmenu/tabBar/ProfileTab';
