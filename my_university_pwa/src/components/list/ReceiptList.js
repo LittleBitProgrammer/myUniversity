@@ -4,8 +4,8 @@ import React from 'react';
 import ReceiptsItem from '../wrapper/ReceiptsItem';
 
 // CREATE A COMPONENT
-const ReceiptsList = ({receipts, mat}) => {
-    const receiptsList = receipts.map((item, index) =>{
+const ReceiptsList = ({allReceipts, mat}) => {
+    const receiptsList = allReceipts.map((item, index) =>{
         return(
             <ReceiptsItem
                 key={index}
