@@ -6,20 +6,14 @@
 </head>
 <body>
 
-
     <input type="text" id="username">
     <button id="send_username">Send Username</button>
-
-    <br>
-    <br>
-    <br>
 
     Send To: <input type="text" id="send_to_username">
     Message: <input type="text" id="private_message">
     <button id="send_private_message">Send</button>
 
-    <script
-              src="http://code.jquery.com/jquery-3.2.1.min.js"
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"
               integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
               crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
@@ -27,23 +21,7 @@
     <script>
     $(document).ready(function() {
 
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
-        var socket_messages = io('http://' + document.domain + ':' + location.port+'/messages');
-
-        $('#send').on('click', function() {
-            var message = $('#message').val();
-            socket_messages.emit('message from user', message);
-        });
-
-        socket_messages.on('from flask', function(msg) {
-            alert(msg);
-        });
-
-        socket.on('server orginated', function(msg) {
-            alert(msg);
-        });
-
-        var private_socket = io('http://' + document.domain + ':' + location.port+'/private')
+        var private_socket = io('http://' +document.domain+ ':' +location.port+'/private')
 
         $('#send_username').on('click', function() {
             private_socket.emit('username', $('#username').val());
@@ -61,7 +39,6 @@
         });
     });
     </script>
-
 </body>
 </html>
 

@@ -1,5 +1,6 @@
 //import lib
 import React, {Component} from 'react';
+import socketIOClient from 'socket.io-client'
 
 // WRAPPER
 import SideChat from "../wrapper/Chat/SideChat/SideChat";
@@ -31,7 +32,6 @@ import '../../css/chat.css';
 
 //create a component
 class Chat extends Component {
-
     constructor(props) {
         super(props);
         this.cookies = new Cookies();
@@ -41,7 +41,8 @@ class Chat extends Component {
             chats: [],
             contacts: [],
             chat_index: '',
-            input_text: ''
+            input_text: '',
+            endpoint: "http://my-university-api.herokuapp.com/private"
         }
     }
 
@@ -74,19 +75,18 @@ class Chat extends Component {
             } )
         })
         this.mergeChats();
+
+
     }
     
     getAllExistentChats = async() => {
-
         try {
             const response = await myUniversity.post('mongodb/get_all_conversations', {
                 matricola: this.cookies.get('matricola_studente') });
                 return response.data;
-
         }catch (error) {
             console.log(error);
         }
-
     }
 
     getAllContacts = async() => {
@@ -94,14 +94,12 @@ class Chat extends Component {
             const response = await myUniversity.post('/student/reperimento_lista_docenti_iscrizione_corso_piu_newsletter_per_chat', {
                 matricola_studente: this.cookies.get('matricola_studente')});
             return response.data;
-
         }catch (error) {
             console.log(error)
         }
     }
 
     mergeChats = (chats, contacts) => {
-
         let rewrittedChatList = [];
         let rewrittedContacts = [];
 
@@ -180,30 +178,37 @@ class Chat extends Component {
     onMessageSend = async() => {
         let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
         try {
+            const private_socket = socketIOClient(this.state.endpoint);
             const response = await myUniversity.post('/mongodb/send_message', {
                 id_conversation: this.state.chat_index,
                 matricola_mittente: this.cookies.get('matricola_studente'),
                 matricola_destinatario: matricola_docente,
                 messaggio: this.state.input_text
             });
-
             response.data.data_invio = getCurrentTimeStamp();
             console.log('response + data', response.data);
             this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].messages.push(response.data);
             this.setState({
                 input_text: ""
             })
-
+            let recipient = response.data.matricola_destinatario;
+            let message_to_send = response.data.messaggio;
+            private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
         }catch (error) {
             console.log(error);
         }
-
     }
 
 
     // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
     render(){
-        console.log(this.state)
+
+        const private_socket = socketIOClient(this.state.endpoint);
+        private_socket.emit('username', this.cookies.get('matricola_studente'));
+        private_socket.on('new_private_message', (msg) => {
+            console.log(msg);
+        });
+
         return (
             <div>
                 <Row>
