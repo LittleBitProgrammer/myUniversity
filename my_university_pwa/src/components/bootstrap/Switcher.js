@@ -6,15 +6,13 @@ class Switcher extends Component{
     constructor(props){
         super(props)
 
-        console.log('LOG PROPS SWITCH',props);
-
         this.state = {
             checked: this.props.value
         }
     }
 
     switchValue = () => {
-        this.props.onClick(!this.state.checked);
+        this.props.onClick(!this.state.checked,this.props.id);
         this.setState({checked: !this.state.checked});
     }
 

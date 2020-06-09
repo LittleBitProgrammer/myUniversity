@@ -20,30 +20,34 @@ class DisciplineModalItem extends Component{
         }
     }
 
-    postNewsletter = async(codice_corso,codice_disciplina,matricola_studente,data_iscrizione) => {
+    postNewsletter = async(codice_corso,codice_disciplina,matricola_studente) => {
         try{
             await myUniversity.post('/student/iscrizione_newsletter', {
                 codice_corso: codice_corso,
                 codice_disciplina: codice_disciplina,
-                matricola: matricola_studente,
-                data_iscrizione: data_iscrizione
+                matricola: matricola_studente
             });
         }catch(error){
             console.log(`😱 Request failed: ${error}`);
         }
     }
 
-    onSwitchClick = () => {
+    onSwitchClick = (state,index) => {
+        console.log(index);
         this.setState({
-            checked: !this.state.checked
+            checked: state
         });
 
-        console.log('state - switch', this.state.checked)
+        if(state){
+            // FROM FALSE TO TRUE
+            this.postNewsletter();
+        }else{
+
+        }
     }
 
 
     render(){
-        //console.log('from item', this.state.checked)
         const {discipline_code,discipline_name,id,length} = this.props;
         return (
             <Fragment>
@@ -56,7 +60,7 @@ class DisciplineModalItem extends Component{
                         <Switcher 
                             className='float-right'
                             value={this.state.checked}
-                            id={`switcher${id}`} 
+                            id={id} 
                             label={this.state.checked.toString()}
                             onClick={this.onSwitchClick}/>
                     </Column>
