@@ -19,3 +19,12 @@ export function trimMessage(message) {
         return message.slice(0,55)+" ...";
     return message.slice(0,55);
 }
+
+export function getCurrentTimeStamp() {
+    let today = new Date();
+    let month = (today.getMonth()+1)>9?(today.getMonth()+1):"0"+(today.getMonth()+1);
+    let day = (today.getDate())>9?today.getDate():"0"+today.getDate();
+    let date = today.getFullYear()+'-'+month+'-'+day;
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    return(date+' '+time);
+}

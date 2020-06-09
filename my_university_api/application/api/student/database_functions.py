@@ -361,9 +361,6 @@ def getCalendar(matricola_studente, connection):
             print('MySQL connection is closed')
             return lessons
 
-
-
-
 def reperimentoInfoDocentiCorsiENewsletter(matricola_studente, connection):
     professors = []
 
@@ -478,3 +475,60 @@ def reperimento_insegnamenti_(matricola_studente, connection):
             cursor.close()
             print("MySQL connection is closed")
             return records
+
+
+def reperimentoListaDiscipline(matricola_studente, connection):
+    discipline = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        student_tuple = (matricola_studente, matricola_studente)
+        qry_discipline = """SELECT 
+                                    corso_di_laurea.codice_corso,
+                                    corso_di_laurea.nome_corso,
+                                    disciplina.codice_disciplina, 
+                                    disciplina.nome_disciplina, 
+                                    disciplina.anno as anno, 
+                                    disciplina.semestre as semestre, 
+                                    disciplina.cfu as cfu 
+                                    FROM disciplina 
+                                    INNER JOIN corso_di_laurea 
+                                    ON corso_di_laurea.codice_corso = disciplina.codice_corso
+                                    INNER JOIN appartiene
+                                    ON appartiene.codice_corso = corso_di_laurea.codice_corso
+                                    INNER JOIN studente
+                                    ON studente.matricola_studente = appartiene.matricola_studente
+                                    WHERE (SELECT studente.anno_in_corso 
+                                    FROM studente 
+                                    WHERE studente.matricola_studente = %s) >= disciplina.anno
+                                    AND disciplina.semestre = 1
+                                    UNION
+                                    SELECT corso_di_laurea.codice_corso,
+                                    corso_di_laurea.nome_corso,
+                                    disciplina.codice_disciplina,
+                                    disciplina.nome_disciplina, 
+                                    disciplina.anno as anno, 
+                                    disciplina.semestre as semestre,
+                                    disciplina.cfu as cfu
+                                    FROM disciplina
+                                    INNER JOIN corso_di_laurea ON corso_di_laurea.codice_corso = disciplina.codice_corso 
+                                    INNER JOIN appartiene ON appartiene.codice_corso = corso_di_laurea.codice_corso
+                                    INNER JOIN studente ON studente.matricola_studente = appartiene.matricola_studente
+                                    WHERE (SELECT studente.anno_in_corso 
+                                    from studente 
+                                    where studente.matricola_studente = %s) >= disciplina.anno 
+                                    AND disciplina.semestre = 2 
+                                    AND (SELECT MONTH(SYSDATE())>= 3 from dual) 
+                                    AND (SELECT MONTH(SYSDATE())<= 9 from dual) 
+                                    ORDER BY anno DESC, semestre DESC, cfu ASC"""
+        cursor.execute(qry_discipline, student_tuple)
+        discipline = cursor.fetchall()
+
+    except Error as e:
+        print('Error reading data from MySQL table', e)
+    finally:
+        if connection.is_connected():
+            connection.close()
+            cursor.close()
+            print('MySQL connection is closed')
+            return discipline

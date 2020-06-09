@@ -135,3 +135,13 @@ lista_ricevimenti_prenotabili_model = student.model('get_lista_possibili_ricevim
     'nome': fields.String,
     'cognome': fields.String
 })
+
+lista_discipline_model = student.model('lista_discipline_model', {
+    'codice_corso': fields.String,
+    'nome_corso': fields.String,
+    'codice_disciplina': fields.String,
+    'nome_disciplina': fields.String,
+    'anno': fields.String,
+    'semestre': fields.String,
+    'cfu': fields.String
+})

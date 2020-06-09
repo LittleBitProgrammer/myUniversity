@@ -1,5 +1,6 @@
 //import lib
 import React, {Component} from 'react';
+import socketIOClient from 'socket.io-client'
 
 // WRAPPER
 import SideChat from "../wrapper/Chat/SideChat/SideChat";
@@ -13,6 +14,9 @@ import ModalHeader from "../modal/ModalHeader";
 // GRID UTILITY
 import Row from "../bootstrap/Row";
 import Column from "../bootstrap/Column";
+
+// FUNC UTILITY
+import {getCurrentTimeStamp} from "../../utility/functions";
 
 // API - MYUNIVERSITY
 import myUniversity from "../../API/myUniversity";
@@ -28,7 +32,6 @@ import '../../css/chat.css';
 
 //create a component
 class Chat extends Component {
-
     constructor(props) {
         super(props);
         this.cookies = new Cookies();
@@ -38,7 +41,9 @@ class Chat extends Component {
             chats: [],
             contacts: [],
             chat_index: '',
-            input_text: ''
+            input_text: '',
+            endpoint: "http://my-university-api.herokuapp.com/private",
+            recived_message: false,
         }
     }
 
@@ -71,19 +76,27 @@ class Chat extends Component {
             } )
         })
         this.mergeChats();
+
+        const private_socket = await socketIOClient(this.state.endpoint);
+        await private_socket.emit('username', this.cookies.get('matricola_studente'));
+        await private_socket.on('new_private_message', (chat_response) => {
+            console.log('una bella label',this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === chat_response.id_conversation)])
+            this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === chat_response.id_conversation)].messages.push(chat_response);
+            this.setState({
+                recived_message: true
+            })
+        });
+
     }
     
     getAllExistentChats = async() => {
-
         try {
             const response = await myUniversity.post('mongodb/get_all_conversations', {
                 matricola: this.cookies.get('matricola_studente') });
                 return response.data;
-
         }catch (error) {
             console.log(error);
         }
-
     }
 
     getAllContacts = async() => {
@@ -91,14 +104,12 @@ class Chat extends Component {
             const response = await myUniversity.post('/student/reperimento_lista_docenti_iscrizione_corso_piu_newsletter_per_chat', {
                 matricola_studente: this.cookies.get('matricola_studente')});
             return response.data;
-
         }catch (error) {
             console.log(error)
         }
     }
 
     mergeChats = (chats, contacts) => {
-
         let rewrittedChatList = [];
         let rewrittedContacts = [];
 
@@ -176,24 +187,36 @@ class Chat extends Component {
 
     onMessageSend = async() => {
         let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
-        console.log('matricola_docente - send message', matricola_docente);
         try {
-            await myUniversity.post('/mongodb/send_message', {
+            const private_socket = await socketIOClient(this.state.endpoint);
+            const response = await myUniversity.post('/mongodb/send_message', {
                 id_conversation: this.state.chat_index,
                 matricola_mittente: this.cookies.get('matricola_studente'),
                 matricola_destinatario: matricola_docente,
                 messaggio: this.state.input_text
             });
+            response.data.data_invio = getCurrentTimeStamp();
+            console.log('response + data', response.data);
+            this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].messages.push(response.data);
+            this.setState({
+                input_text: ""
+            })
 
+            let recipient = response.data.matricola_destinatario;
+            let message_to_send = response.data;
+            console.log('message_to_send',message_to_send);
+            await private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
         }catch (error) {
             console.log(error);
         }
-
     }
+
 
     // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
     render(){
-        console.log(this.state)
+
+        console.log('dal render',this.state.chats)
+
         return (
             <div>
                 <Row>
@@ -207,7 +230,9 @@ class Chat extends Component {
                             chats={this.state.chats}
                             chat_index={this.state.chat_index}
                             onInputChange={this.onInputChange}
-                            onMessageSend={this.onMessageSend}/>
+                            onMessageSend={this.onMessageSend}
+                            value={this.state.input_text}
+                        />
                     </Column>
                 </Row>
                 {this.state.isModalVisible &&

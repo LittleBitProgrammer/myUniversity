@@ -11,11 +11,6 @@ cors = CORS(chat_blueprint)
 
 users = {}
 
-@socketio.on('message from user', namespace='/messages')
-def receive_message_from_user(message):
-    print('USER MESSAGE: {}'.format(message))
-    emit('from flask', message.upper(), broadcast=True)
-
 @socketio.on('username', namespace='/private')
 def receive_username(username):
     users[username] = request.sid
