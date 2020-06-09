@@ -76,6 +76,13 @@ class Chat extends Component {
         })
         this.mergeChats();
 
+        const private_socket = await socketIOClient(this.state.endpoint);
+        await private_socket.emit('username', this.cookies.get('matricola_studente'));
+        await private_socket.on('new_private_message', (msg) => {
+            console.log(msg);
+        });
+
+
 
     }
     
@@ -178,7 +185,7 @@ class Chat extends Component {
     onMessageSend = async() => {
         let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
         try {
-            const private_socket = socketIOClient(this.state.endpoint);
+            const private_socket = await socketIOClient(this.state.endpoint);
             const response = await myUniversity.post('/mongodb/send_message', {
                 id_conversation: this.state.chat_index,
                 matricola_mittente: this.cookies.get('matricola_studente'),
@@ -191,9 +198,10 @@ class Chat extends Component {
             this.setState({
                 input_text: ""
             })
+
             let recipient = response.data.matricola_destinatario;
-            let message_to_send = response.data.messaggio;
-            private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
+            let message_to_send = response.data;
+            await private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
         }catch (error) {
             console.log(error);
         }
@@ -203,11 +211,7 @@ class Chat extends Component {
     // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
     render(){
 
-        const private_socket = socketIOClient(this.state.endpoint);
-        private_socket.emit('username', this.cookies.get('matricola_studente'));
-        private_socket.on('new_private_message', (msg) => {
-            console.log(msg);
-        });
+
 
         return (
             <div>
