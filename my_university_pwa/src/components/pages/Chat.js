@@ -42,7 +42,8 @@ class Chat extends Component {
             contacts: [],
             chat_index: '',
             input_text: '',
-            endpoint: "http://my-university-api.herokuapp.com/private"
+            endpoint: "http://my-university-api.herokuapp.com/private",
+            recived_message: false,
         }
     }
 
@@ -78,11 +79,13 @@ class Chat extends Component {
 
         const private_socket = await socketIOClient(this.state.endpoint);
         await private_socket.emit('username', this.cookies.get('matricola_studente'));
-        await private_socket.on('new_private_message', (msg) => {
-            console.log(msg);
+        await private_socket.on('new_private_message', (chat_response) => {
+            console.log('una bella label',this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === chat_response.id_conversation)])
+            this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === chat_response.id_conversation)].messages.push(chat_response);
+            this.setState({
+                recived_message: true
+            })
         });
-
-
 
     }
     
@@ -201,6 +204,7 @@ class Chat extends Component {
 
             let recipient = response.data.matricola_destinatario;
             let message_to_send = response.data;
+            console.log('message_to_send',message_to_send);
             await private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
         }catch (error) {
             console.log(error);
@@ -211,7 +215,7 @@ class Chat extends Component {
     // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
     render(){
 
-
+        console.log('dal render',this.state.chats)
 
         return (
             <div>
