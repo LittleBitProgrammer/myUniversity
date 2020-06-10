@@ -32,8 +32,7 @@ delete_richiesta_ricevimento_model = student.model('delete_richiesta_ricevimento
 insert_iscrizione_newsletter_model = student.model('insert_iscrizione_newsletter_model',{
     'codice_corso': fields.String,
     'codice_disciplina': fields.String,
-    'matricola_studente': fields.String,
-    'data_iscrizione': fields.String
+    'matricola_studente': fields.String
 })
 
 get_news_student_model = student.model('get_news_student_model',{

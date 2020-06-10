@@ -5,6 +5,8 @@
 ####################################################################
 from mysql.connector import Error  # to use error
 from flask_bcrypt import Bcrypt
+from datetime import datetime
+
 bcrypt = Bcrypt()
 
 ####################################################################
@@ -73,9 +75,11 @@ def delete_richiesta_ricevimento(matricola_docente,
 def insert_iscrizione_newsletter(codice_corso,
                                  codice_disciplina,
                                  matricola_studente,
-                                 data_iscrizione,
                                  connection):
     try:
+        now = datetime.now()
+        dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
+
         cursor = connection.cursor()
         sql_insert_richiesta_ricevimento_Query = """ 
         INSERT INTO iscrizione_newsletter 
@@ -85,9 +89,9 @@ def insert_iscrizione_newsletter(codice_corso,
         print('codice_corso', codice_corso)
         print('codice_disciplina', codice_disciplina)
         print('matricola_studente', matricola_studente)
-        print('data_iscrizione', data_iscrizione)
+        print('data_iscrizione', dt_string)
 
-        insert_tuple = (codice_corso, codice_disciplina, matricola_studente, data_iscrizione)
+        insert_tuple = (codice_corso, codice_disciplina, matricola_studente, dt_string)
         cursor = connection.cursor(dictionary=True)
         cursor.execute(sql_insert_richiesta_ricevimento_Query, insert_tuple)
         connection.commit()
@@ -119,6 +123,7 @@ def reperimento_news_studente(matricola_studente, connection):
                                     INNER JOIN persona
                                     ON docente.cf = persona.cf
                                     WHERE iscrizione_newsletter.matricola_studente = %s
+                                    AND iscrizione_newsletter.data_iscrizione <= avviso.data_avviso
                                     ORDER BY avviso.data_avviso DESC;"""
         student_tuple = (matricola_studente,)
         cursor = connection.cursor(dictionary=True)

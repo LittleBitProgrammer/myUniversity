@@ -58,13 +58,8 @@ class IscrizioneNewsletter(Resource):
         parser.add_argument('codice_corso', type=str, help='codice_corso')
         parser.add_argument('codice_disciplina', type=str, help='codice_disciplina')
         parser.add_argument('matricola_studente', type=str, help='matricola_studente')
-        parser.add_argument('data_iscrizione', type=str, help='data_iscrizione')
         args = parser.parse_args(strict=True)
-        insert_iscrizione_newsletter(args['codice_corso'],
-                                     args['codice_disciplina'],
-                                     args['matricola_studente'],
-                                     args['data_iscrizione'],
-                                     database.get_connection())
+        insert_iscrizione_newsletter(args['codice_corso'], args['codice_disciplina'], args['matricola_studente'], database.get_connection()), 201
 
 # ============================    avvisi   ========================== #
 @student.route('/avvisi')
