@@ -80,7 +80,7 @@ class Chat extends Component {
         const private_socket = await socketIOClient(this.state.endpoint);
         await private_socket.emit('username', this.cookies.get('matricola_studente'));
         await private_socket.on('new_private_message', (chat_response) => {
-            this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === chat_response.id_conversation)].messages.push(chat_response);
+            this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === chat_response.id_conversation)].messages.unshift(chat_response);
             this.setState({
                 recived_message: true
             })
@@ -137,7 +137,7 @@ class Chat extends Component {
                             codice_disciplina : tempContact.codice_disciplina,
                             nome_disciplina : tempContact.nome_disciplina,
                             contacts: tempContact.contatti,
-                            messages: chat.messages
+                            messages: chat.messages.reverse()
                         }
                     );
                 }
@@ -195,7 +195,7 @@ class Chat extends Component {
                     messaggio: this.state.input_text
                 });
                 response.data.data_invio = getCurrentTimeStamp();
-                this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].messages.push(response.data);
+                this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].messages.unshift(response.data);
                 this.setState({
                     input_text: ""
                 })

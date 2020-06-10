@@ -126,6 +126,7 @@
     flex: 1;
     flex-direction: row;
     margin-bottom: 8px;
+    overflow-anchor: auto;
 }
 
 .chat-left {
@@ -155,8 +156,11 @@
 }
 
 .conv-list{
+    display: flex;
+    flex-direction: column-reverse;
     height: 52vh;
     overflow-y: auto;
+    overflow-anchor: none;
 }
 
 .conv-list::-webkit-scrollbar{
