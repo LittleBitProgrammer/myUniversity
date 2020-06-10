@@ -1,5 +1,5 @@
 // IMPORT LIB
-import React from 'react';
+import React, {Fragment} from 'react';
 // CARD
 import Card from '../bootstrap/Card/Card';
 import CardBody from '../bootstrap/Card/CardBody';
@@ -8,18 +8,30 @@ import CardTitle from '../bootstrap/Card/CardTitle';
 import CardText from '../bootstrap/Card/CardText';
 import ReceiptForm from '../form/ReceiptForm';
 // IMPORT FUNCTION
-import { capitalizeFirstLetter } from '../../utility/functions';
+import { capitalizeFirstLetter, takeTime } from '../../utility/functions';
 
 
 // CREATE A COMPONENT
-const ReceiptsItem = ({day,fName,lName,className, id, matricola_stud, matricola_doc}) => {
-
+const ReceiptsItem = ({day,fName,lName,className, id, matricola_stud, matricola_doc,onReceiptSubmit}) => {
     return (
         <Card className={className}>
             <CardBody>
-                <CardTitle>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(lName)}</CardTitle>
-                <CardText>{`${day}`}</CardText>
-                <ReceiptForm matricola_studente={matricola_stud} matricola_docente={matricola_doc} date={day}/>
+                <CardTitle className='light-gray'>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(lName)}</CardTitle>
+                <CardText className='receipt-date'>
+                {
+                   <Fragment>
+                        <span>{day.slice(0,10)}</span>
+                        <span className='receipt-time'>{takeTime(day)}</span>
+                   </Fragment>
+                }
+                </CardText>
+                <ReceiptForm 
+                  matricola_studente={matricola_stud} 
+                  matricola_docente={matricola_doc} 
+                  date={day}
+                  id={id}
+                  onReceiptSubmit={onReceiptSubmit}
+                  />
             </CardBody>
         </Card>
     )

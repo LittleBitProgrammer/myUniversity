@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 // IMPORT TEXT
 import TextArea from '../bootstrap/form/fields/TextArea';
-// IMPORT API
-import myUnversity from '../../API/myUniversity';
 // IMPORT SUBMIT
 import Submit from '../bootstrap/form/Submit';
 
@@ -25,36 +23,26 @@ class ReceiptForm extends Component{
 
     onSubmitForm = (event) =>{
         event.preventDefault();
-        console.log(this.props.matricola_studente,
-         this.props.matricola_docente,
-         this.props.date,
-         this.state.inputText)
-        try{
-            myUnversity.post('/student/richiesta_ricevimento', {
-                            'matricola_docente': this.props.matricola_docente,
-                            'data_ricevimento': this.props.date,
-                            'matricola_studente': this.props.matricola_studente,
-                            'motivazione_ricevimento': this.state.inputText})
-            window.location.reload();
-        }catch(error){
-            console.log(`There was an error: ${error}`);
-        }
+        const {matricola_docente,date,matricola_studente,id} = this.props;
+        this.props.onReceiptSubmit(matricola_docente,date,matricola_studente,this.state.inputText,id)
+        this.setState({
+            inputText: ''
+        })
     }
 
     render(){
-        console.log('input text',this.state)
         return(
             <form onSubmit={this.onSubmitForm}>
-                
-                <h5>Matricola: {this.props.matricola_studente}</h5>
                 <TextArea 
+                    id={this.props.id}
                     maxRows={10}
-                    className='form-control form-control-lg mt-2' 
+                    minRows={3}
                     textCallback={this.onChange}
+                    className='form-control form-control-lg mt-3' 
                     placeholder='Motivazione, Es."Spiegazione generatore di grafi"'
+                    inputValue={this.state.inputText}
                     />
-                <Submit classColor='btn-primary' className='mt-1 btn-right mr-0' buttontext='Invia'/>
-                
+                <Submit classColor='btn-primary' className='btn-right w-100 mt-3' buttontext='Effettua Prenotazione'/>
             </form>
         );
     }

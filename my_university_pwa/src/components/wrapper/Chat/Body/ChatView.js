@@ -3,7 +3,6 @@ import ChatHeader from "./ChatHeader";
 import Row from "../../../bootstrap/Row";
 import ChatBottom from "./ChatBottom";
 import ConversationList from "../../../list/ConversationList";
-import ScrollView from "../../ScrollView";
 
 const ChatVew = ({chats, chat_index, onInputChange, onMessageSend, value, freshman})=>{
     if (chat_index){

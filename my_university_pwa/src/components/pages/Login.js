@@ -92,9 +92,8 @@ class Login extends Component{
     //RENDER METHOD
     render(){
         // CONTROL IF THE ERROR IS PRESENT 
-        console.log(this.cookies.get('isAuth'));
         const errorMessage = !this.state.loginError ? '' : <CardError errorMessage='Matricola o password errate'/>
-        if(this.cookies.get('isAuth') === 'true'){console.log('from redirect',this.cookies.get('isAuth'));return  <Redirect to='/' key='login-to-root'/>}
+        if(this.cookies.get('isAuth') === 'true'){return  <Redirect to='/' key='login-to-root'/>}
         return(
                 <div>
                     <LoginForm onSubmit={this.onSubmit} error={errorMessage}/>

@@ -28,3 +28,10 @@ export function getCurrentTimeStamp() {
     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     return(date+' '+time);
 }
+
+export function remove(index, array){
+    if (index > -1) {
+        array.splice(index, 1);
+    }
+    return array;
+}
