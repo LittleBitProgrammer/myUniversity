@@ -227,6 +227,7 @@ class Chat extends Component {
                             onInputChange={this.onInputChange}
                             onMessageSend={this.onMessageSend}
                             value={this.state.input_text}
+                            freshman={this.cookies.get('matricola_studente')}
                         />
                     </Column>
                 </Row>

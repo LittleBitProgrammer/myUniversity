@@ -4,7 +4,7 @@ import ConversationItem from '../items/ConversationItem';
 import {takeTime} from '../../utility/functions'
 
 // CREATE A COMPONENT
-const ConversationList = ({messages}) => {
+const ConversationList = ({messages,freshman}) => {
     const messageList = messages.map((message,index) => {
         console.log(message);
 
@@ -12,7 +12,9 @@ const ConversationList = ({messages}) => {
             <ConversationItem 
               key={index} 
               message={message.messaggio} 
-              time={takeTime(message.data_invio)}/>
+              time={takeTime(message.data_invio)}
+              isUserLogin={freshman === message.matricola_mittente}
+              />
         )
     })
     return <div>{messageList}</div>;

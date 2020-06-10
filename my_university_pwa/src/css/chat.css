@@ -120,16 +120,30 @@
     padding: 1rem;
 }
 
-.chat-container li.chat-left,
-.chat-container li.chat-right {
+.chat-left,
+.chat-right {
     display: flex;
     flex: 1;
     flex-direction: row;
-    margin-bottom: 40px;
+    margin-bottom: 8px;
 }
 
-.chat-container li.chat-right {
+.chat-left {
+    justify-content: flex-start;
+    background-color:  #ffbb00;
+    color: #333333;
+    border-radius: 15px 15px 15px 0px;
+    padding: 7px;
+    margin-right: 50%;
+}
+
+.chat-right {
     justify-content: flex-end;
+    background-color:  #017bff;
+    color: #ffffff;
+    border-radius: 15px 0px 15px 15px;
+    padding: 7px;
+    margin-left: 50%;
 }
 
 .chat-header{

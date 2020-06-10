@@ -5,7 +5,7 @@ import ChatBottom from "./ChatBottom";
 import ConversationList from "../../../list/ConversationList";
 import ScrollView from "../../ScrollView";
 
-const ChatVew = ({chats, chat_index, onInputChange, onMessageSend, value})=>{
+const ChatVew = ({chats, chat_index, onInputChange, onMessageSend, value, freshman})=>{
     if (chat_index){
         let chat = chats[chats.findIndex((obj)=>obj.id_conversation === chat_index)];
         return (
@@ -14,7 +14,7 @@ const ChatVew = ({chats, chat_index, onInputChange, onMessageSend, value})=>{
                         <ChatHeader nome={chat.nome_docente} cognome={chat.cognome_docente}/>
                     </Row>
                     <ScrollView>
-                        <ConversationList messages={chat.messages}/>
+                        <ConversationList messages={chat.messages} freshman={freshman}/>
                     </ScrollView>
 
                     <ChatBottom
