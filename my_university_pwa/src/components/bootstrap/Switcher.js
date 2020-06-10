@@ -17,7 +17,6 @@ class Switcher extends Component{
     }
 
     render(){
-        console.log('from switcher', this.state.checked)
         const {className,id,label} = this.props;
         return (
             <div className={`custom-control custom-switch pointer${className ? ' ' + className : ''}`}>

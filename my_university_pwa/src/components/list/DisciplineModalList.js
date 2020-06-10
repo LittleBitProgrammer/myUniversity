@@ -5,10 +5,8 @@ import Container from '../bootstrap/Container';
 
 // CREATE A COMPONENT
 const DisciplineModalList = ({discipline,freshman}) => {
-    //console.log('DISCIPLINE',discipline);
     
     const disciplineList = discipline.map((dis,index) => {
-        //console.log('SINGOLO ELEMENTO', '-' , index, dis.seguito)
         return (<DisciplineModalItem 
                   key={index} 
                   id={index}

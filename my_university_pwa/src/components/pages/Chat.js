@@ -80,7 +80,6 @@ class Chat extends Component {
         const private_socket = await socketIOClient(this.state.endpoint);
         await private_socket.emit('username', this.cookies.get('matricola_studente'));
         await private_socket.on('new_private_message', (chat_response) => {
-            console.log('una bella label',this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === chat_response.id_conversation)])
             this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === chat_response.id_conversation)].messages.push(chat_response);
             this.setState({
                 recived_message: true
@@ -165,7 +164,6 @@ class Chat extends Component {
     }
 
     onModalItemCLick = async (matricola_docente)=> {
-        //TODO RITORNA INDICE DI CONVERSAZIONE, UTILIZZARE PER IMPOSTARE IL FOCUS SULLA CONVERSAZIONE
         let respose = await myUniversity.post("/mongodb/create_new_conversation", {
             matricola1: this.cookies.get("matricola_studente"),
             matricola2: matricola_docente
@@ -186,37 +184,34 @@ class Chat extends Component {
     }
 
     onMessageSend = async() => {
-        let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
-        try {
-            const private_socket = await socketIOClient(this.state.endpoint);
-            const response = await myUniversity.post('/mongodb/send_message', {
-                id_conversation: this.state.chat_index,
-                matricola_mittente: this.cookies.get('matricola_studente'),
-                matricola_destinatario: matricola_docente,
-                messaggio: this.state.input_text
-            });
-            response.data.data_invio = getCurrentTimeStamp();
-            console.log('response + data', response.data);
-            this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].messages.push(response.data);
-            this.setState({
-                input_text: ""
-            })
+        if(this.state.input_text){
+            let matricola_docente = this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].matricola_docente;
+            try {
+                const private_socket = await socketIOClient(this.state.endpoint);
+                const response = await myUniversity.post('/mongodb/send_message', {
+                    id_conversation: this.state.chat_index,
+                    matricola_mittente: this.cookies.get('matricola_studente'),
+                    matricola_destinatario: matricola_docente,
+                    messaggio: this.state.input_text
+                });
+                response.data.data_invio = getCurrentTimeStamp();
+                this.state.chats[this.state.chats.findIndex((obj)=>obj.id_conversation === this.state.chat_index)].messages.push(response.data);
+                this.setState({
+                    input_text: ""
+                })
 
-            let recipient = response.data.matricola_destinatario;
-            let message_to_send = response.data;
-            console.log('message_to_send',message_to_send);
-            await private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
-        }catch (error) {
-            console.log(error);
+                let recipient = response.data.matricola_destinatario;
+                let message_to_send = response.data;
+                await private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
+            }catch (error) {
+                console.log(error);
+            }
         }
     }
 
 
     // CANCELLARE IL TESTO NEL MESSAGETEXT ALL'iNVIO DEL MESSAGGIO
     render(){
-
-        console.log('dal render',this.state.chats)
-
         return (
             <div className='chat-wrapper'>
                 <Row className='no-gutters'>

@@ -78,6 +78,15 @@ class News extends Component {
         }
     }
 
+    newsRefresh = async(freshman) => {
+        await this.getAlert(freshman);
+        await this.getDiscipline(freshman);
+        await this.getNewsLetter(freshman);
+        
+
+        this.mergeNewsLetter(this.state.discipline, this.state.newsletter);
+    }
+
     async componentDidMount(){
         const freshman = this.myCookies.get('matricola_studente');
         await this.getAlert(freshman);
@@ -85,6 +94,7 @@ class News extends Component {
         await this.getNewsLetter(freshman);
 
         this.mergeNewsLetter(this.state.discipline, this.state.newsletter);
+        setInterval(() => {this.newsRefresh(freshman)},10000);
     }
 
     mergeNewsLetter = (discipline,newsletter) => {
