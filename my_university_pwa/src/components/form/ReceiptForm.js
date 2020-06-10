@@ -35,13 +35,14 @@ class ReceiptForm extends Component{
                             'data_ricevimento': this.props.date,
                             'matricola_studente': this.props.matricola_studente,
                             'motivazione_ricevimento': this.state.inputText})
+            window.location.reload();
         }catch(error){
             console.log(`There was an error: ${error}`);
         }
     }
 
     render(){
-        console.log(this.state)
+        console.log('input text',this.state)
         return(
             <form onSubmit={this.onSubmitForm}>
                 

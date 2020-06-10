@@ -1,7 +1,7 @@
 // IMPORT LIB
 import React from 'react';
 // ITEM 
-import ReceiptsItem from '../wrapper/ReceiptsItem';
+import ReceiptsItem from '../items/ReceiptsItem';
 
 // CREATE A COMPONENT
 const ReceiptsList = ({allReceipts, mat}) => {
