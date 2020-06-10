@@ -153,3 +153,16 @@
     width: 100%;
     border-bottom: 1px solid #017cff38;
 }
+
+.conv-list{
+    height: 52vh;
+    overflow-y: auto;
+}
+
+.conv-list::-webkit-scrollbar{
+    display: none;
+}
+
+.chat-bottom{
+    padding-top: 100px;
+}

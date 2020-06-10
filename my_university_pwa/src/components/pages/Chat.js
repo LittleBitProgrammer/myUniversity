@@ -220,7 +220,7 @@ class Chat extends Component {
                                   onItemClick={this.onSideChatItemClick}
                                   chats={this.state.chats}/>
                     </Column>
-                    <Column columnSize='8'>
+                    <Column columnSize='8' className='maxHeight'>
                         <ChatVew
                             chats={this.state.chats}
                             chat_index={this.state.chat_index}

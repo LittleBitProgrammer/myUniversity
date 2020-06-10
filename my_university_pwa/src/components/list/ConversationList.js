@@ -17,7 +17,7 @@ const ConversationList = ({messages,freshman}) => {
               />
         )
     })
-    return <div>{messageList}</div>;
+    return <div className='conv-list'>{messageList}</div>;
 }
 
 // EXPORT A COMPONENT
