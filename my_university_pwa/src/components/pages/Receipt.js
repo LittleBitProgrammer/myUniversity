@@ -5,6 +5,8 @@ import myUniversity from '../../API/myUniversity';
 //COOKIE
 import { Cookies } from 'react-cookie';
 import ReceiptsList from '../list/ReceiptList';
+// FUNCTIONS
+import {remove} from '../../utility/functions';
 // CSS
 import '../../css/receipt.css';
 
@@ -16,15 +18,28 @@ class Receipts extends Component {
         this.myCookies = new Cookies();
 
         this.state = {
-            allReceipts: [],
-            receipts: []
+            allPossibleReceipts: []
         }
     }
 
-    getReceipt = async () =>{
+    onReceiptSubmit = (matricola_docente,date,matricola_studente,inputText,id) => {
+        try{
+            myUniversity.post('/student/richiesta_ricevimento', {
+                            'matricola_docente': matricola_docente,
+                            'data_ricevimento': date,
+                            'matricola_studente': matricola_studente,
+                            'motivazione_ricevimento': inputText})
+        }catch(error){
+            console.log(`There was an error: ${error}`);
+        }
+        const newPossibleReceipt = remove(id,this.state.allPossibleReceipts);
+        this.setState({allPossibleReceipts: newPossibleReceipt});
+    }
+
+    getReceipt = async (freshman) =>{
         try{
             const response = await myUniversity.post('/student/lista_prenotazioni_ricevimento',{
-                                                    matricola_studente: this.myCookies.get('matricola_studente')});
+                                                    matricola_studente: freshman});
             return response.data;
 
         }catch(error){
@@ -32,10 +47,10 @@ class Receipts extends Component {
         }
     }
 
-    getAllReceipt = async () =>{
+    getAllPossibleReceipt = async (freshman) =>{
         try{
             const response =  await myUniversity.post('/student/lista_ricevimenti_prenotabili',
-                                                    {matricola_studente: this.myCookies.get('matricola_studente')});
+                                                    {matricola_studente: freshman});
             return response.data;
         }catch(error){
             console.log(`Request failed: ${error}`);
@@ -43,25 +58,27 @@ class Receipts extends Component {
     }
 
     async componentDidMount(){
-        const AllReceipts = await this.getAllReceipt();
-        const Receipts = await this.getReceipt();
+        const freshman = this.myCookies.get('matricola_studente');
+
+        const AllPossibleReceipts = await this.getAllPossibleReceipt(freshman);
+        const Receipts = await this.getReceipt(freshman);
         
-        this.mergeReceipts(AllReceipts, Receipts);
+        this.mergeReceipts(AllPossibleReceipts, Receipts);
     }
 
-    mergeReceipts = (allReceipts, receipts) =>{
-        let rewAllReceipts = [];
+    mergeReceipts = (allPossibleReceipts, receipts) =>{
+        let rewAllPossibleReceipts = [];
 
-        if(allReceipts && receipts){
-            allReceipts.forEach((allReceipt) => {
+        if(allPossibleReceipts.length !== 0 && receipts.length !== 0){
+            allPossibleReceipts.forEach((allReceipt) => {
                 let chk = false;
 
                 receipts.forEach((receipt) =>{
 
-                    var d1 = allReceipt.data_ricevimento;
-                    var d2 = receipt.data_ricevimento;
+                    let d1 = allReceipt.data_ricevimento;
+                    let d2 = receipt.data_ricevimento;
 
-                    var compare = d1.localeCompare(d2);
+                    let compare = d1.localeCompare(d2);
             
                     if(receipt.nome === allReceipt.nome && receipt.cognome === allReceipt.cognome && compare === 0){
                         chk = true
@@ -69,7 +86,7 @@ class Receipts extends Component {
                 });
 
                 if(!chk){
-                    rewAllReceipts.push({
+                    rewAllPossibleReceipts.push({
                         cognome: allReceipt.cognome,
                         data_ricevimento: allReceipt.data_ricevimento,
                         email_docente: allReceipt.email_docente,
@@ -81,18 +98,25 @@ class Receipts extends Component {
             });
 
             this.setState({
-                allReceipts: rewAllReceipts,
-                receipts: receipts
+                allPossibleReceipts: rewAllPossibleReceipts
             })
+        }else{
+            this.setState({
+                allPossibleReceipts: allPossibleReceipts
+            });
         }
         
     }
 
     render(){
         return(
-            <div>
-                <h3>Ricevimento</h3>
-                <ReceiptsList allReceipts={this.state.allReceipts} mat={this.myCookies.get('matricola_studente')}/>
+            <div className='pb-4'>
+                <h3 className='light-gray'>Ricevimento</h3>
+                <ReceiptsList 
+                  allPossibleReceipts={this.state.allPossibleReceipts} 
+                  mat={this.myCookies.get('matricola_studente')}
+                  onReceiptSubmit={this.onReceiptSubmit}
+                  />
             </div>
         );
     }
