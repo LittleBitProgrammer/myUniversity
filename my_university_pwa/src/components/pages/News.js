@@ -142,7 +142,9 @@ class News extends Component {
                       color='white' textSize='h5' 
                       iconSize='h3'/>
                       <ModalBody>
-                            <DisciplineModalList discipline={this.state.discipline}/>
+                            <DisciplineModalList 
+                              discipline={this.state.discipline} 
+                              freshman={this.myCookies.get('matricola_studente')}/>
                       </ModalBody>
                 </Modal>
                 }

@@ -218,14 +218,14 @@ class Chat extends Component {
         console.log('dal render',this.state.chats)
 
         return (
-            <div>
-                <Row>
-                    <Column columnSize='5'>
+            <div className='chat-wrapper'>
+                <Row className='no-gutters'>
+                    <Column columnSize='4' className='users-container'>
                         <SideChat onButtonClick={this.onModalChatButtonCLick}
                                   onItemClick={this.onSideChatItemClick}
                                   chats={this.state.chats}/>
                     </Column>
-                    <Column columnSize='7'>
+                    <Column columnSize='8'>
                         <ChatVew
                             chats={this.state.chats}
                             chat_index={this.state.chat_index}

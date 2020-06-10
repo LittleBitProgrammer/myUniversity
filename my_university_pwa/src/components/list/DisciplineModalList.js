@@ -4,7 +4,7 @@ import DisciplineModalItem from '../items/DiciplineModalItem';
 import Container from '../bootstrap/Container';
 
 // CREATE A COMPONENT
-const DisciplineModalList = ({discipline}) => {
+const DisciplineModalList = ({discipline,freshman}) => {
     //console.log('DISCIPLINE',discipline);
     
     const disciplineList = discipline.map((dis,index) => {
@@ -16,6 +16,8 @@ const DisciplineModalList = ({discipline}) => {
                   discipline_name={dis.nome_disciplina} 
                   discipline_code={dis.codice_disciplina}
                   isSubscribe={dis.seguito}
+                  freshman={freshman}
+                  course_code={dis.codice_corso}
                   />
                 );
     });

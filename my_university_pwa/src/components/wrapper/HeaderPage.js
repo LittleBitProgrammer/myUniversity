@@ -9,7 +9,7 @@ import Button from '../bootstrap/Button';
 // CREATE A COMPONENT 
 const HeaderPage = ({title,buttonTitle,buttonClick}) => {
     return (
-        <Row className='justify-content-between'>
+        <Row className='justify-content-between light-gray no-gutters'>
             <Column columnSize='6'>
                 <h3>{title}</h3>
             </Column>

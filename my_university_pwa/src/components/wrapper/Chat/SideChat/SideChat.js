@@ -1,29 +1,23 @@
 import React from "react";
-import Card from "../../../bootstrap/Card/Card";
 import Button from "../../../bootstrap/Button";
 import ChatList from "../../../list/ChatList";
-import ScrollView from "../../../wrapper/ScrollView";
+import chatLogo from '../../../../img/svg/chat-add.svg';
 
 
 const SideChat = ({onButtonClick, chats, onItemClick})=>{
     return (
-        <div>
-            <Card className='p-2 sidechat-card-size'>
-                <div>
-                    <Button buttontext="Nuova Chat"
-                            classColor="btn-primary"
-                            onClick={onButtonClick}/>
-                    <div>
-                        <ScrollView>
-                            <div>
-                                <ChatList chats={chats}
-                                          onItemClick={onItemClick}/>
-                            </div>
-
-                        </ScrollView>
-                    </div>
+        <div className='sidechat h-100 pr-4'>
+            <Button 
+              buttontext={
+                <div>Nuova chat
+                    <span className='ml-2'>
+                        <img className='chat-logo' src={chatLogo} alt='chat add logo'/>
+                    </span>
                 </div>
-            </Card>
+                }
+              classColor="btn-primary w-100"
+              onClick={onButtonClick}/>
+            <ChatList chats={chats} onItemClick={onItemClick}/>
         </div>
     )
 }

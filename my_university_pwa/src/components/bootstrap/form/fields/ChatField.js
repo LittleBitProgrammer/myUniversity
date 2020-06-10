@@ -9,6 +9,7 @@ class ChatField extends Component {
     render() {
         return(<TextareaAutosize
             maxRows={this.props.maxRows}
+            minRows={2}
             value={this.props.value}
             className={this.props.className?this.props.className: ''}
             onChange={this.onChange}

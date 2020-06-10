@@ -2,8 +2,8 @@ import React from "react";
 
 const ChatHeader = ({nome, cognome})=>{
     return (
-        <div>
-            {nome && cognome ? `${nome} ${cognome}`: "Chat View"}
+        <div className='bold-gray chat-header'>
+            {nome && cognome ? `A: ${nome} ${cognome}`: 'Seleziona una chat'}
         </div>
     )
 }

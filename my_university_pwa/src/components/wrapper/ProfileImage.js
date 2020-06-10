@@ -4,10 +4,10 @@ import React from 'react'
 import RoundedImage from '../bootstrap/RoundedImage';
 
 // CREATE A COMPONENT
-const ProfileImage = ({path,altText,sigle,inputText,isVisibleInput,className,size}) => {
+const ProfileImage = ({path,altText,sigle,className,containerClass}) => {
     return (
-        <div className="img-container">
-            <RoundedImage className={className} path={path} altText={altText} height={size} width={size} alt='profile img'/>
+        <div className={`img-container mt-0${containerClass?' '+containerClass:''}`}>
+            <RoundedImage className={className} path={path} altText={altText} alt='profile img'/>
             <h2>{sigle}</h2>
         </div>
     );
@@ -18,7 +18,6 @@ ProfileImage.defaultProps ={
     inputText: 'Change Photo',
     altText: 'Profile Image',
     sigle: 'AB',
-    isVisibleInput: true
 }
 
 // EXPORT A COMPONENT

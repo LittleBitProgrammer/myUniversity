@@ -13,36 +13,50 @@ class DisciplineModalItem extends Component{
     constructor(props){
         super(props)
 
-        //console.log('LOG PROPS SWITCH',props);
-
         this.state = {
             checked: this.props.isSubscribe
         }
     }
 
-    postNewsletter = async(codice_corso,codice_disciplina,matricola_studente) => {
+    postNewsletter = async(codice_corso,codice_disciplina,freshman) => {
         try{
+            console.log('POST ', codice_corso,codice_disciplina,freshman)
             await myUniversity.post('/student/iscrizione_newsletter', {
                 codice_corso: codice_corso,
                 codice_disciplina: codice_disciplina,
-                matricola: matricola_studente
+                matricola_studente: freshman
             });
         }catch(error){
             console.log(`😱 Request failed: ${error}`);
         }
     }
 
-    onSwitchClick = (state,index) => {
-        console.log(index);
+    deleteNewsLetter = async(codice_corso,codice_disciplina,freshman) => {
+        try{
+            await myUniversity.post('/student/unfollow_newsletter', {
+                codice_corso: codice_corso,
+                codice_disciplina: codice_disciplina,
+                matricola_studente: freshman
+            });
+        }catch(error){
+            console.log(`😱 Request failed: ${error}`);
+        }
+    }
+
+    onSwitchClick = (state) => {
+        
         this.setState({
             checked: state
         });
 
+        const {course_code,discipline_code,freshman} = this.props;
+
         if(state){
             // FROM FALSE TO TRUE
-            this.postNewsletter();
+            this.postNewsletter(course_code,discipline_code,freshman);
         }else{
-
+            // FROM TRUE TO FALSE
+            this.deleteNewsLetter(course_code,discipline_code,freshman);
         }
     }
 
