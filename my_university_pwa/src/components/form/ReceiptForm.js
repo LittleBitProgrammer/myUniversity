@@ -17,20 +17,29 @@ class ReceiptForm extends Component{
 
     onChange = (value) => {
         this.setState({
-            inputText: value
+            inputText: value,
+            isError: false
         });
     }
 
     onSubmitForm = (event) =>{
         event.preventDefault();
         const {matricola_docente,date,matricola_studente,id} = this.props;
-        this.props.onReceiptSubmit(matricola_docente,date,matricola_studente,this.state.inputText,id)
-        this.setState({
-            inputText: ''
-        })
+
+        if(this.state.inputText){
+            this.props.onReceiptSubmit(matricola_docente,date,matricola_studente,this.state.inputText,id)
+            this.setState({
+                inputText: ''
+            })
+        }else{
+            this.setState({
+                isError: true
+            })
+        }
     }
 
     render(){
+        console.log(this.state.inputText);
         return(
             <form onSubmit={this.onSubmitForm}>
                 <TextArea 
@@ -38,10 +47,13 @@ class ReceiptForm extends Component{
                     maxRows={10}
                     minRows={3}
                     textCallback={this.onChange}
-                    className='form-control form-control-lg mt-3' 
+                    className={`form-control form-control-lg mt-3${this.state.isError ? ' is-invalid' : ''}`}
                     placeholder='Motivazione, Es."Spiegazione generatore di grafi"'
                     inputValue={this.state.inputText}
                     />
+                    <div class="invalid-feedback">
+                        Inserisci una motivazione valida...STRUNZ
+                    </div>
                 <Submit classColor='btn-primary' className='btn-right w-100 mt-3' buttontext='Effettua Prenotazione'/>
             </form>
         );
