@@ -4,11 +4,11 @@ import React from 'react';
 import Card from '../bootstrap/Card/Card';
 import CardBody from '../bootstrap/Card/CardBody';
 import CardTitle from '../bootstrap/Card/CardTitle';
-// FUNCTIONS
-import {capitalizeFirstLetter} from '../../utility/functions';
 // BUTTON
 import CardText from '../bootstrap/Card/CardText';
 import ReceiptForm from '../form/ReceiptForm';
+// IMPORT FUNCTION
+import { capitalizeFirstLetter } from '../../utility/functions';
 
 
 // CREATE A COMPONENT
@@ -17,7 +17,7 @@ const ReceiptsItem = ({day,fName,lName,className, id, matricola_stud, matricola_
     return (
         <Card className={className}>
             <CardBody>
-                <CardTitle>{`${fName}`} {`${lName}`}</CardTitle>
+                <CardTitle>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(lName)}</CardTitle>
                 <CardText>{`${day}`}</CardText>
                 <ReceiptForm matricola_studente={matricola_stud} matricola_docente={matricola_doc} date={day}/>
             </CardBody>
