@@ -1,26 +1,22 @@
 import React from "react";
-import Card from "../../../bootstrap/Card/Card";
 import ChatHeader from "./ChatHeader";
 import Row from "../../../bootstrap/Row";
 import ChatBottom from "./ChatBottom";
 import ConversationList from "../../../list/ConversationList";
 import ScrollView from "../../ScrollView";
 
-const ChatVew = ({chats, chat_index, onInputChange, onMessageSend, value})=>{
+const ChatVew = ({chats, chat_index, onInputChange, onMessageSend, value, freshman})=>{
     if (chat_index){
         let chat = chats[chats.findIndex((obj)=>obj.id_conversation === chat_index)];
         return (
-            <Card className='p-2 chat-card-size'>
-                <div className="d-flex-column maxHeight">
+                <div className="h-100 chat-container">
                     <Row>
                         <ChatHeader nome={chat.nome_docente} cognome={chat.cognome_docente}/>
                     </Row>
-                    <ScrollView>
-                        <ConversationList messages={chat.messages}/>
-                    </ScrollView>
-
+                    <ConversationList messages={chat.messages} freshman={freshman}/>
+                    <Row>
                     <ChatBottom
-                        className="toBottom"
+                        className="no-gutters w-100 chat-bottom"
                         placeholder="Messaggio"
                         maxRows={4}
                         sizeSendButton="1"
@@ -29,10 +25,10 @@ const ChatVew = ({chats, chat_index, onInputChange, onMessageSend, value})=>{
                         onMessageSend={onMessageSend}
                         value={value}
                     />
-                </div>
-            </Card>)
+                    </Row>
+                </div>)
     }
-    return (<Card className='p-2 chat-card-size'><ChatHeader/></Card>)
+    return (<div className='p-2 chat-card-size'><ChatHeader/></div>)
 }
 
 export default ChatVew;

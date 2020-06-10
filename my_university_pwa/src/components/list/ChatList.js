@@ -27,9 +27,9 @@ const ChatList = ({chats, onItemClick})=>{
         }
     )
     return (
-        <div className="inside-sidechat-card-size">
+        <ul className="users mt-3 chat-list">
             {chatList}
-        </div>
+        </ul>
     )
 }
 

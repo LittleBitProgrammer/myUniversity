@@ -1,18 +1,17 @@
 import React from "react";
 import Column from "../../../bootstrap/Column";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import Row from "../../../bootstrap/Row";
 import ChatField from "../../../bootstrap/form/fields/ChatField";
+import send from '../../../../img/svg/send.svg';
 
 //sizeTextSendButton serve ad impostare la garndezza del button
 const ChatBottom = ({className,textCallback,maxRows,placeholder,sizeTextArea,sizeSendButton, sizeTextSendButton, onMessageSend, value})=>{
     return(
         <Row className={className}>
 
-            <Column screenSize="lg" columnSize={sizeTextArea}>
+            <Column columnSize={sizeTextArea}>
                 <ChatField
-                    className="form-control"
+                    className="form-control chat-area"
                     maxRows={maxRows}
                     placeholder={placeholder}
                     textCallback={textCallback}
@@ -20,8 +19,8 @@ const ChatBottom = ({className,textCallback,maxRows,placeholder,sizeTextArea,siz
                 />
 
             </Column>
-            <Column Column screenSize="lg" columnSize={sizeSendButton}>
-                <FontAwesomeIcon icon={faPaperPlane} color='black' className="pointer toBottom" onClick={onMessageSend}/>
+            <Column columnSize={sizeSendButton}>
+                <img src={send} className="float-bottom send-logo" alt='Send button' onClick={onMessageSend}/>
             </Column>
         </Row>
     )
