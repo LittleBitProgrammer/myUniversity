@@ -1,3 +1,7 @@
+// MOMENT LIB
+import moment from 'moment';
+import localization from 'moment/locale/it';
+
 export function capitalizeFirstLetter(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -53,8 +57,18 @@ export function getMonday(d) {
     // RITORNA DATA IMPOSTATA AL LUNEDì CORRENTE 
     // @sab-dom
     // RITORNA DATA IMPOSTATA AL LUNEDì SUCCESSIVO
-    return new Date(d.setDate(diff));
+    moment.locale('it',localization); // IMPOSTA LOCALIZZAZIONE ITALIANA
+    return new moment(new Date(d.setDate(diff)));
   }
+
+export function getSemester(date){
+    const month = parseInt(moment(date).format('MM'));
+    console.log(month);
+    if(month >= 9 && month <= 2){
+        return 'I Semestre';
+    }
+    return 'II Semestre';
+}
 
 export function remove(index, array){
     if (index > -1) {
