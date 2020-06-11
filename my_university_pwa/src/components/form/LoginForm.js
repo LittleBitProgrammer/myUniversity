@@ -64,8 +64,12 @@ class LoginForm extends Component{
                     {/* EROOR SPACE */}
                     {this.props.error}
 
-                    {/* SUBMIT BUTTON FORM*/}
-                    <Submit classColor='btn-primary' className='btn-lg btn-block mt-5' buttontext='Login'/>
+                    {/* SUBMIT BUTTON FORM */}
+                    <Submit 
+                      classColor='btn-primary' 
+                      className='btn-lg btn-block mt-5' 
+                      buttontext='Login' 
+                      isLoading={this.props.isLoading}/>
                 </form>
             </div>
         )

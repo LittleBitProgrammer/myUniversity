@@ -28,7 +28,8 @@ class Login extends Component{
 
         // THE STATE MEMORIZE EVENTUALLY ERRORS
         this.state = {
-            loginError: false
+            loginError: false,
+            isLoading: false
         }
     }
 
@@ -44,13 +45,14 @@ class Login extends Component{
 
         //LOGIN CALL
         try{
+            this.setState({isLoading: true})
             response = await myUniversity.post('/student/login', {
                 matricola_studente: freshman,
                 password_studente: password
             });
         }catch(error){
             console.log(`😱 There was an error: ${error}`);
-            this.setState({loginError: true});
+            this.setState({loginError: true, isLoading: false});
             isAuth = false;
         }
         if(response.data.length !== 0){
@@ -58,6 +60,7 @@ class Login extends Component{
             this.cookies.set('password_studente',password);
             userType = 'student';
             isAuth = true;
+            this.setState({isLoading: false});
         }else{
             try{
                 response = await myUniversity.post('/professor/login',{
@@ -66,7 +69,7 @@ class Login extends Component{
                 });
             }catch(error){
                 console.log(`😱 There was an error: ${error}`);
-                this.setState({loginError: true});
+                this.setState({loginError: true, isLoading: false});
                 isAuth = false
             }
 
@@ -79,6 +82,7 @@ class Login extends Component{
                 this.setState({loginError: true});
                 isAuth = false
             }
+            this.setState({loginError: true, isLoading: false});
         }
 
         //UPDATE COOKIE
@@ -96,7 +100,7 @@ class Login extends Component{
         if(this.cookies.get('isAuth') === 'true'){return  <Redirect to='/' key='login-to-root'/>}
         return(
                 <div>
-                    <LoginForm onSubmit={this.onSubmit} error={errorMessage}/>
+                    <LoginForm onSubmit={this.onSubmit} error={errorMessage} isLoading={this.state.isLoading}/>
                 </div>
             )
     }
