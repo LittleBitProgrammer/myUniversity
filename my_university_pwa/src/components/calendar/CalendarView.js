@@ -6,20 +6,24 @@ import WeekCalendar from 'react-week-calendar';
 import moment from 'moment';
 // FUNCTIONS
 import {getMonday} from '../../utility/functions';
+// CSS
+import '../../css/calendar.css';
 
 // CREATE A COMPONENT
 class CalendarView extends Component {
-    constructor(props){
-        super(props)
-
-        // CAMBIARE QUI PER IMPOSTARE IL PRIMO GIORNO
-        //console.log(this.momentObj = new moment("2020-06-12", moment.ISO_8601));
-    }
     render(){
         return(
             <WeekCalendar
               firstDay={getMonday(new Date())}
               numberOfDays={7}
+              scaleUnit={30}
+              startTime={moment({h: 9, m: 0})}
+              endTime={moment({h: 18, m: 30})}
+              dayFormat={'dddd DD'}
+              eventSpacing={0}
+              useModal={false}
+              cellHeight={50}
+              scaleHeaderTitle={moment().format('MMMM')}
             />
         );
     }
