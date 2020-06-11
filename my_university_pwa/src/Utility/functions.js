@@ -40,6 +40,22 @@ export function getLessonLocation(headquarter,room,floor){
     return `Sede ${capitalizeFirstLetter(headquarter)}, Aula ${room} - ${floor}° Piano`;
 }
 
+export function getMonday(d) {
+    // PRENDO DATA CORRENTE
+    d = new Date(d);
+    // PRENDO NUMERO [0,6] DELLA SETTIMANA
+    let day = d.getDay()
+    // GENERO VALORE DA ADDIZIONARE
+    const add = day === 6 ? 2 : 1;
+    // GENERO DIFFERENZA
+    const diff = d.getDate() - day + add;
+    // @lun-ven
+    // RITORNA DATA IMPOSTATA AL LUNEDì CORRENTE 
+    // @sab-dom
+    // RITORNA DATA IMPOSTATA AL LUNEDì SUCCESSIVO
+    return new Date(d.setDate(diff));
+  }
+
 export function remove(index, array){
     if (index > -1) {
         array.splice(index, 1);
