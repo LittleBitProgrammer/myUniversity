@@ -4,7 +4,6 @@ from flask_cors import CORS, cross_origin
 
 cors = CORS(chat_blueprint)
 
-
 @chat_blueprint.route('/')
 @cross_origin()
 def index():

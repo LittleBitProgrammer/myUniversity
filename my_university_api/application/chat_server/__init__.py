@@ -4,11 +4,7 @@ from flask import request
 from application import socketio
 from flask_cors import CORS
 chat_blueprint = Blueprint('chat_blueprint', __name__, template_folder='templates', static_folder='static', static_url_path='static')
-
-# CORS(chat_blueprint, resources={r"/chat": {"origins": "http://my-university-api.herokuapp.com/chat"}})
-
 cors = CORS(chat_blueprint)
-
 users = {}
 
 @socketio.on('username', namespace='/private')

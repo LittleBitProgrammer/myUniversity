@@ -5,11 +5,13 @@
     <title>SocketIO Example</title>
 </head>
 <body>
-
-    <input type="text" id="username">
+    Username (inviare prima di mandare messaggi): <input type="text" id="username">
     <button id="send_username">Send Username</button>
-
+    <br>
+    Id Conversation: <input type="text" id="id_conversation">
+    <br>
     Send To: <input type="text" id="send_to_username">
+    <br>
     Message: <input type="text" id="private_message">
     <button id="send_private_message">Send</button>
 
@@ -17,7 +19,6 @@
               integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
               crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-
     <script>
     $(document).ready(function() {
 
@@ -31,11 +32,47 @@
             var recipient = $('#send_to_username').val();
             var message_to_send = $('#private_message').val();
 
-            private_socket.emit('private_message', {'username' : recipient, 'message' : message_to_send});
-        });
+            var date = new Date();
+            var dateStr =
+                ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+                ("00" + date.getDate()).slice(-2) + "/" +  date.getFullYear() + " " +
+                ("00" + date.getHours()).slice(-2) + ":" +
+                ("00" + date.getMinutes()).slice(-2) + ":" +
+                ("00" + date.getSeconds()).slice(-2);
 
+            var id_conversation = $('#id_conversation').val()
+            var matricola_mittente = $('#username').val()
+            console.log('id_conversation',id_conversation)
+            console.log('matricola_mittente',matricola_mittente)
+            console.log('matricola_destinatario',recipient)
+            console.log('messaggio',message_to_send)
+            console.log('data_invio',dateStr)
+
+
+
+            var messaggio_inchiodato = {
+                'id_conversation': id_conversation,
+                'matricola_mittente': matricola_mittente,
+                'matricola_destinatario': recipient,
+                'messaggio': message_to_send,
+                'data_invio': dateStr
+            }
+
+
+
+            private_socket.emit('private_message', {'username' : recipient, 'message' : messaggio_inchiodato});
+        });
         private_socket.on('new_private_message', function(msg) {
-            alert(msg);
+            var messaggio_ricevuto = {
+                'id_conversation': msg.id_conversation,
+                'matricola_mittente': msg.matricola_mittente,
+                'matricola_destinatario': msg.matricola_destinatario,
+                'messaggio': msg.messaggio,
+                'data_invio': msg.data_invio
+            }
+            alert(messaggio_ricevuto);
+            console.log(messaggio_ricevuto)
+
         });
     });
     </script>

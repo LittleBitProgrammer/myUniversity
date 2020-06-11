@@ -39,7 +39,6 @@ class GetAllConversations(Resource):
     @mongodb.expect(freshman_model)
     @mongodb.marshal_with(full_conversation_model)
     def post(self):
-        # arguments
         parser = reqparse.RequestParser()
         parser.add_argument('matricola', type=str, help='mat')
         args = parser.parse_args(strict=True)
