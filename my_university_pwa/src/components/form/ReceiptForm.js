@@ -52,7 +52,7 @@ class ReceiptForm extends Component{
                     inputValue={this.state.inputText}
                     />
                     <div className="invalid-feedback">
-                        Inserisci una motivazione valida...STRUNZ
+                        Inserisci una motivazione valida...
                     </div>
                 <Submit classColor='btn-primary' className='btn-right w-100 mt-3' buttontext='Effettua Prenotazione'/>
             </form>

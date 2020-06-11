@@ -6,7 +6,7 @@
   overflow: hidden;
   padding-left: 125px;
   padding-top: 28px;
-  color: #6b6b6b;
+  color: #464646;
 }
 
 .weekCalendar * {
@@ -32,10 +32,10 @@
   z-index: 15;
   width: 125px;
   height: 28px;
-  background-color: #f7f7f7;
-  border: 1px solid #b7b7b7;
+  background-color: #0165d1;
+  border: 1px solid #fff;
   line-height: 28px;
-  color: #6b6b6b;
+  color: #fff;
   text-align: center;
   font-size: 16px;
   font-weight: 700;
@@ -43,10 +43,10 @@
 
 .weekCalendar__headerWrapper {
   height: 100%;
-  border-top: 1px solid #b7b7b7;
-  border-bottom: 1px solid #b7b7b7;
-  background-color: #f7f7f7;
-  color: #6b6b6b;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  background-color: #017bff;
+  color: #fff;
 }
 
 .weekCalendar__headerColumn {
@@ -67,8 +67,8 @@
 }
 
 .weekCalendar__scaleCell {
-  background-color: #fff;
-  border-bottom: 1px solid #b7b7b7;
+  background-color: #FDBF06;
+  border-bottom: 1px solid #fff;
 }
 
 .weekCalendar__content {
