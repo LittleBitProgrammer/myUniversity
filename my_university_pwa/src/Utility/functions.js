@@ -1,3 +1,6 @@
+// MOMENT LIB
+import moment from 'moment';
+
 export function capitalizeFirstLetter(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -53,7 +56,7 @@ export function getMonday(d) {
     // RITORNA DATA IMPOSTATA AL LUNEDì CORRENTE 
     // @sab-dom
     // RITORNA DATA IMPOSTATA AL LUNEDì SUCCESSIVO
-    return new Date(d.setDate(diff));
+    return new moment(new Date(d.setDate(diff)), moment.ISO_8601);
   }
 
 export function remove(index, array){

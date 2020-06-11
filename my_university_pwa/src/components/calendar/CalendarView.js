@@ -2,7 +2,10 @@
 import React, {Component} from 'react';
 //WEEK-CALENDAR
 import WeekCalendar from 'react-week-calendar';
-const moment = require('moment');
+// MOMENT LIB
+import moment from 'moment';
+// FUNCTIONS
+import {getMonday} from '../../utility/functions';
 
 // CREATE A COMPONENT
 class CalendarView extends Component {
@@ -10,12 +13,12 @@ class CalendarView extends Component {
         super(props)
 
         // CAMBIARE QUI PER IMPOSTARE IL PRIMO GIORNO
-        this.momentObj = new moment("2020-06-12", moment.ISO_8601);
+        //console.log(this.momentObj = new moment("2020-06-12", moment.ISO_8601));
     }
     render(){
         return(
             <WeekCalendar
-              firstDay={this.momentObj}
+              firstDay={getMonday(new Date())}
               numberOfDays={7}
             />
         );
