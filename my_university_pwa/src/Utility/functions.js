@@ -29,6 +29,17 @@ export function getCurrentTimeStamp() {
     return(date+' '+time);
 }
 
+export function endTime(date,duration){
+    const myDate = new Date(date);
+    myDate.setHours(myDate.getHours() + duration);
+
+    return myDate;
+}
+
+export function getLessonLocation(headquarter,room,floor){
+    return `Sede ${capitalizeFirstLetter(headquarter)}, Aula ${room} - ${floor}° Piano`;
+}
+
 export function remove(index, array){
     if (index > -1) {
         array.splice(index, 1);
