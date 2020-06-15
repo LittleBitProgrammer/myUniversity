@@ -5,7 +5,7 @@ import WeekCalendar from 'react-week-calendar';
 // MOMENT LIB
 import moment from 'moment';
 // FUNCTIONS
-import {getMonday} from '../../utility/functions';
+import {getMonday} from '../../Utility/functions';
 // CSS
 import '../../css/calendar.css';
 

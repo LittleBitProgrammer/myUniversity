@@ -6,7 +6,7 @@ import myUniversity from '../../API/myUniversity';
 import { Cookies } from 'react-cookie';
 import ReceiptsList from '../list/ReceiptList';
 // FUNCTIONS
-import {remove} from '../../utility/functions';
+import {remove} from '../../Utility/functions';
 // CSS
 import '../../css/receipt.css';
 

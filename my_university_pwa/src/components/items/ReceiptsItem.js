@@ -8,7 +8,7 @@ import CardTitle from '../bootstrap/Card/CardTitle';
 import CardText from '../bootstrap/Card/CardText';
 import ReceiptForm from '../form/ReceiptForm';
 // IMPORT FUNCTION
-import { capitalizeFirstLetter, takeTime } from '../../utility/functions';
+import { capitalizeFirstLetter, takeTime } from '../../Utility/functions';
 
 
 // CREATE A COMPONENT

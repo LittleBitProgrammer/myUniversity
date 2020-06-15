@@ -16,7 +16,7 @@ import Row from "../bootstrap/Row";
 import Column from "../bootstrap/Column";
 
 // FUNC UTILITY
-import {getCurrentTimeStamp} from "../../utility/functions";
+import {getCurrentTimeStamp} from "../../Utility/functions";
 
 // API - MYUNIVERSITY
 import myUniversity from "../../API/myUniversity";

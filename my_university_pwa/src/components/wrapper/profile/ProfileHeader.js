@@ -1,7 +1,7 @@
 //IMPORT LIB
 import React from 'react';
 //FUNCTIONS
-import {capitalizeFirstLetter} from '../../../utility/functions';
+import {capitalizeFirstLetter} from '../../../Utility/functions';
 // GRID
 import Row from '../../bootstrap/Row';
 import Column from '../../bootstrap/Column';

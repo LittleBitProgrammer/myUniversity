@@ -7,7 +7,7 @@ import CalendarView from '../calendar/CalendarView';
 //API
 import myUniversity from '../../API/myUniversity';
 // FUNCTIONS
-import {endTime,getLessonLocation,getSemester} from '../../utility/functions';
+import {endTime,getLessonLocation,getSemester} from '../../Utility/functions';
 // MOMENT LIB
 import moment from 'moment';
 // COOKIE
