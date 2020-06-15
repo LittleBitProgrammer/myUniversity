@@ -37,6 +37,13 @@ export function endTime(date,duration){
     const myDate = new Date(date);
     myDate.setHours(myDate.getHours() + duration);
 
+    return moment(myDate);
+}
+
+export function endMinutes(date,duration){
+    const myDate = moment(date);
+    myDate.add(duration,'minutes')
+
     return myDate;
 }
 

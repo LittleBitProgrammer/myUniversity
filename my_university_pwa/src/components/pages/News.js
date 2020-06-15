@@ -94,7 +94,7 @@ class News extends Component {
         await this.getNewsLetter(freshman);
 
         this.mergeNewsLetter(this.state.discipline, this.state.newsletter);
-        setInterval(() => {this.newsRefresh(freshman)},10000);
+        setInterval(() => {this.newsRefresh(freshman)},1000);
     }
 
     mergeNewsLetter = (discipline,newsletter) => {

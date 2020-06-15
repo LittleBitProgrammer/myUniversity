@@ -5,7 +5,7 @@ import ProfileInformation from '../wrapper/profile/ProfileInformation';
 //CONTEXT
 import {UserContext} from '../context/UserContext';
 // UTILITY FUNCTION
-import {formatDate} from '../../utility/functions';
+import {formatDate} from '../../Utility/functions';
 
 //TODO: dynamic alt text
 //TODO: fix image size on smaller screen

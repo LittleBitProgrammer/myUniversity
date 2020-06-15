@@ -117,7 +117,7 @@
 }
 .dayCell:hover {
   cursor: pointer;
-  background-color: rgba(249, 105, 14, 0.4);
+  background-color: #0166d196;
   border-color: #f9690e;
 }
 .event {
@@ -173,12 +173,55 @@
 .customModal__button:focus,
 .customModal__button:hover {
   cursor: pointer;
-  background-color: rgba(249, 105, 14, 0.6);
+  background-color: #0166d196;
 }
 .customModal__button_float_right {
   float: right;
 }
 
 .calendar-header{
-    margin-bottom: 10px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #464646
+}
+
+.end-time{
+  margin-left: 10px;
+}
+
+.event-component{
+  height: 100%;
+  color: white;
+  overflow-y: scroll;
+  font-size: 13px;
+  border: #464646 2px solid;
+}
+
+.room-lesson{
+  margin-left: 10px;
+}
+
+.calendar-custom-content{
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  color: white;
+}
+
+.left-key{
+  font-weight: 700;
+  color: #0165d1;
+  padding-left: 9%;
+}
+
+.right-key{
+  font-weight: 400;
+  color: #464646;
+}
+
+.description{
+  margin-top: 5px;
+  padding-left: 9%;
+  padding-right: 9%;
 }

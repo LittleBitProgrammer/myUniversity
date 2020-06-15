@@ -75,7 +75,6 @@ class DisciplineModalItem extends Component{
                             className='float-right'
                             value={this.state.checked}
                             id={id} 
-                            label={this.state.checked.toString()}
                             onClick={this.onSwitchClick}/>
                     </Column>
                 </Row>

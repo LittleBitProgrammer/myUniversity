@@ -2,20 +2,24 @@
 import React, {Component} from 'react';
 //WEEK-CALENDAR
 import WeekCalendar from 'react-week-calendar';
+//EVENT
+import Event from './Event';
 // MOMENT LIB
 import moment from 'moment';
 // FUNCTIONS
-import {getMonday} from '../../utility/functions';
+import {getMonday} from '../../Utility/functions';
 // CSS
 import '../../css/calendar.css';
 
 // CREATE A COMPONENT
 class CalendarView extends Component {
+
     render(){
+        //console.log('APP',this.props.appointments)
         return(
             <WeekCalendar
               firstDay={getMonday(new Date())}
-              numberOfDays={7}
+              numberOfDays={5}
               scaleUnit={30}
               startTime={moment({h: 9, m: 0})}
               endTime={moment({h: 18, m: 30})}
@@ -24,6 +28,8 @@ class CalendarView extends Component {
               useModal={false}
               cellHeight={50}
               scaleHeaderTitle={moment().format('MMMM')}
+              eventComponent={Event}
+              selectedIntervals={this.props.appointments}
             />
         );
     }

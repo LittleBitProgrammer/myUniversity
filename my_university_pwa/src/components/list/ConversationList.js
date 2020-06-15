@@ -1,7 +1,7 @@
 // IMPORT LIB
 import React from 'react';
 import ConversationItem from '../items/ConversationItem';
-import {takeTime} from '../../utility/functions'
+import {takeTime} from '../../Utility/functions'
 
 // CREATE A COMPONENT
 const ConversationList = ({messages,freshman}) => {
