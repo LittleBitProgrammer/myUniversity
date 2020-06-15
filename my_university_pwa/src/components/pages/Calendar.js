@@ -14,7 +14,7 @@ import Column from '../bootstrap/Column';
 //API
 import myUniversity from '../../API/myUniversity';
 // FUNCTIONS
-import {endTime,getSemester} from '../../Utility/functions';
+import {endTime,endMinutes,getSemester} from '../../Utility/functions';
 // MOMENT LIB
 import moment from 'moment';
 // COOKIE
@@ -31,7 +31,30 @@ class Calendar extends Component{
         this.state = {
             isModalVisible: false,
             indexSelected: 0,
-            lessons: []
+            lessons: [],
+            receipts: []
+        }
+    }
+
+    getReceipt = async(freshman) => {
+        try{
+            const response =  await myUniversity.post('/student/lista_prenotazioni_ricevimento',{
+                matricola_studente: freshman
+            })
+            console.log('RESPONSE', response);
+            const mappedResponse = response.data.map((receipt) => {
+                console.log('DATA RIC', moment(receipt.data_ricevimento) )
+                return (
+                    {
+                        uid: receipt.matricola_docente + receipt.data_ricevimento,
+                        start: receipt.ora_inizio ? moment(receipt.ora_inizio) : moment(receipt.data_ricevimento),
+                        end: receipt.ora_inizio ? endMinutes(receipt.ora_inizio,receipt.durata) :  endMinutes(receipt.data_ricevimento,30)
+                    }
+                );
+            });
+            this.setState({receipts: mappedResponse});
+        }catch(error){
+            console.log(`😱 Request failed: ${error}`);
         }
     }
  
@@ -75,6 +98,7 @@ class Calendar extends Component{
     componentDidMount(){
         const freshman = this.cookies.get('matricola_studente');
         this.getCalendar(freshman);
+        this.getReceipt(freshman);
     }
 
     onEventclick = (event) => {
@@ -94,6 +118,7 @@ class Calendar extends Component{
     }
 
     render(){
+        console.log('STATE', this.state);
         const selectedAppointment = this.state.lessons[this.state.indexSelected];
         return (
             <div>
@@ -101,7 +126,7 @@ class Calendar extends Component{
                   year={this.year} 
                   courseName={this.state.lessons.length !== 0 ? this.state.lessons[0].nome_corso : 'Informatica'} 
                   semester={getSemester(new Date())}/>
-                <CalendarView appointments={this.state.lessons}/>
+                <CalendarView appointments={this.state.lessons.concat(this.state.receipts)}/>
                 {this.state.isModalVisible && 
                 <Modal className='modal' classContent='modal-content-little'>
                     <ModalHeader 

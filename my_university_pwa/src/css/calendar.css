@@ -117,7 +117,7 @@
 }
 .dayCell:hover {
   cursor: pointer;
-  background-color: rgba(249, 105, 14, 0.4);
+  background-color: #0166d196;
   border-color: #f9690e;
 }
 .event {
@@ -173,7 +173,7 @@
 .customModal__button:focus,
 .customModal__button:hover {
   cursor: pointer;
-  background-color: rgba(249, 105, 14, 0.6);
+  background-color: #0166d196;
 }
 .customModal__button_float_right {
   float: right;
