@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "express": "^4.17.1",
     "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-cookie": "^4.0.3",
@@ -24,8 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start-sw": "http-server ./build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
