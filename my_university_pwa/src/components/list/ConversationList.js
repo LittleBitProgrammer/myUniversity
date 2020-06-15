@@ -6,7 +6,6 @@ import {takeTime} from '../../Utility/functions'
 // CREATE A COMPONENT
 const ConversationList = ({messages,freshman}) => {
     const messageList = messages.map((message,index) => {
-        console.log(message);
 
         return(
             <ConversationItem 

@@ -41,7 +41,6 @@ class News extends Component {
         this.setState({isModalVisible: false});
     }
 
-    //TODO BACKEND CONTROLLO SU DATA
     getAlert = async(freshman) => {
         try{
             const response = await myUniversity.post('/student/avvisi', 
@@ -139,7 +138,6 @@ class News extends Component {
     }
 
     render(){
-        //console.log('NEWS', this.state)
         return (
             <div>
                 <HeaderPage title='Avvisi' buttonTitle='Gestisci Newsletter' buttonClick={this.onNewsButtonClick}/>

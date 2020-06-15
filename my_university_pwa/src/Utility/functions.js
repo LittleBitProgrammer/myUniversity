@@ -70,7 +70,6 @@ export function getMonday(d) {
 
 export function getSemester(date){
     const month = parseInt(moment(date).format('MM'));
-    console.log(month);
     if(month >= 9 && month <= 2){
         return 'I Semestre';
     }

@@ -8,7 +8,6 @@ class TextArea extends Component {
         if(this.props.textCallback){
             this.props.textCallback(event.target.value);
         }
-        console.log(event.target);
     }
 
     render() {

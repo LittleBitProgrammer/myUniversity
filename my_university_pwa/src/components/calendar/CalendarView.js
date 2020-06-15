@@ -15,7 +15,6 @@ import '../../css/calendar.css';
 class CalendarView extends Component {
 
     render(){
-        //console.log('APP',this.props.appointments)
         return(
             <WeekCalendar
               firstDay={getMonday(new Date())}

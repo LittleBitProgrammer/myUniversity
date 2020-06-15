@@ -37,8 +37,6 @@ class DrawerMenu extends Component{
         });
     }
 
-    //TODO ALT TEXT DYNAMIC IN NAVITEM
-    //TODO LINK TO HOME ON MYUNIVERSITY CLICK
     render(){
         return(
             <React.Fragment>

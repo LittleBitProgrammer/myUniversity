@@ -5,8 +5,6 @@ import ChatModalItem from "../items/ChatModalItem";
 
 // CREATE A COMPONENT
 const ChatModalList = ({onModalItemCLick, contacts})=>{
-
-    console.log('contatti in lista cos',contacts);
     if(!contacts){
         return (
             <div>

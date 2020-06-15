@@ -5,10 +5,6 @@ import logo from '../../img/svg/graduation-hat.svg';
 // CSS
 import '../../css/loading.css'
 
-
-//TODO CREATE A SPINNER COMPONENT
-//TODO dynamic text-logo on loading instance
-
 // CREATE A COMPONENT 
 const Loading = (props) => {
     return (

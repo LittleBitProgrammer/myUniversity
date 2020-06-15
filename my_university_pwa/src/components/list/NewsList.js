@@ -3,8 +3,6 @@ import React from 'react';
 // ITEM
 import AlertItem from '../wrapper/AlertItem';
 
-// TODO:// CARD COLOR
-
 // CREATE A COMPONENT
 const NewsList = ({news}) => {
 

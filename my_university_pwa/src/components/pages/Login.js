@@ -14,8 +14,6 @@ import {UserContext} from '../context/UserContext';
 // CSS
 import '../../css/login.css';
 
-//TODO: cookie banner showed to the user
-
 //create a component 
 class Login extends Component{
 
