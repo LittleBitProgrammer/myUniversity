@@ -48,7 +48,15 @@ class Calendar extends Component{
                     {
                         uid: receipt.matricola_docente + receipt.data_ricevimento,
                         start: receipt.ora_inizio ? moment(receipt.ora_inizio) : moment(receipt.data_ricevimento),
-                        end: receipt.ora_inizio ? endMinutes(receipt.ora_inizio,receipt.durata) :  endMinutes(receipt.data_ricevimento,30)
+                        end: receipt.ora_inizio ? endMinutes(receipt.ora_inizio,receipt.durata) :  endMinutes(receipt.data_ricevimento,30),
+                        value: (
+                            <div 
+                              onClick={(event) => {this.onEventclick(event)}} 
+                              id={receipt.matricola_docente + receipt.data_ricevimento} 
+                              className='calendar-custom-content'>
+                                <div className='discipline_name'>{`Ricevimento Prof: ${receipt.nome} ${receipt.cognome}`}</div>
+                            </div>
+                        )
                     }
                 );
             });
