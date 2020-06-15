@@ -531,6 +531,7 @@ password_docente | vecchia password docente
 
 Variazione della password del docente
 
+
 ## Student
 
 ### POST /student/avvisi
@@ -627,7 +628,7 @@ matricola_studente | matricola dello studente
 Reperimento lista dei ricevimenti prenotabili dallo studente
 
 
-### POST /professor/login
+### POST /student/login
 
 parametri | descrizione
 ------------ | -------------
@@ -639,7 +640,7 @@ password_studente | password studente
 Effettua il login dello studente
 
 
-### POST /professor/password
+### POST /student/password
 
 parametri | descrizione
 ------------ | -------------
@@ -650,6 +651,7 @@ password_studente | vecchia password studente
 #### Response
 
 Variazione della password dello studente
+
 
 
 
