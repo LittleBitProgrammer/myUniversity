@@ -147,6 +147,7 @@ def reperimento_prenotazioni_ricevimento_studente(matricola_studente, connection
         sql_select_Query = """SELECT
             richiesta_ricevimento.data_ricevimento,
             persona.nome, persona.cognome,
+            docente.matricola_docente, 
             docente.email_docente,
             richiesta_ricevimento.motivazione_ricevimento,
             richiesta_ricevimento.data_ricevimento,

@@ -48,6 +48,7 @@ get_news_student_model = student.model('get_news_student_model',{
 
 get_prenotazioni_ricevimento_model = student.model('get_prenotazioni_ricevimento_model',{
     'data_ricevimento': fields.String,
+    'matricola_docente': fields.String,
     'nome': fields.String,
     'cognome': fields.String,
     'email_docente': fields.String,
