@@ -30,7 +30,7 @@ class Calendar extends Component{
 
         this.state = {
             isModalVisible: false,
-            indexSelected: 0,
+            indexSelected: '',
             lessons: [],
             receipts: []
         }
@@ -72,7 +72,7 @@ class Calendar extends Component{
             const mapped_response = response.data.map((appointment,index) => {
                 return (
                     {
-                        uid: index,
+                        uid: index.toString(),
                         start: moment(appointment.data_inizio),
                         end: endTime(appointment.data_inizio,appointment.numero_ore),
                         title: appointment.titolo,
@@ -112,10 +112,9 @@ class Calendar extends Component{
     onEventclick = (event) => {
         event.stopPropagation();
         console.log('ID',event.target.parentNode.id)
-        console.log('LESSONS', this.state.lessons);
         this.setState({
             isModalVisible: true,
-            indexSelected: event.target.parentNode.id ? event.target.parentNode.id : event.target.id
+            indexSelected: event.target.parentNode.id ? (event.target.parentNode.id).toString() : event.target.id.toString()
         })
     }
 
@@ -127,23 +126,26 @@ class Calendar extends Component{
 
     render(){
         console.log('STATE', this.state);
-        const selectedAppointment = this.state.lessons[this.state.indexSelected];
+        const concat = this.state.lessons.concat(this.state.receipts)
+        const selectedAppointment = concat[concat.findIndex((obj)=>obj.uid === this.state.indexSelected)];
+        console.log('SELECTED APP', selectedAppointment)
         return (
             <div>
                 <HeaderCalendar 
                   year={this.year} 
                   courseName={this.state.lessons.length !== 0 ? this.state.lessons[0].nome_corso : 'Informatica'} 
                   semester={getSemester(new Date())}/>
-                <CalendarView appointments={this.state.lessons.concat(this.state.receipts)}/>
+                <CalendarView appointments={concat}/>
                 {this.state.isModalVisible && 
                 <Modal className='modal' classContent='modal-content-little'>
+                {( selectedAppointment.uid.length <= 10) &&
+                    <React.Fragment>
                     <ModalHeader 
                       title={selectedAppointment.title}
                       onCloseClick={this.onEventClose} 
                       color='white' textSize='h5' 
                       iconSize='h3'/>
                     <ModalBody>
-                        {/*TODO:// ADD CONDITIONAL RENDERING FOR RECEIPT*/}
                         <Row>
                             <Column className='left-key' columnSize='5'>Disciplina:</Column>
                             <Column className='right-key' columnSize='7'>{selectedAppointment.discipline}</Column>
@@ -170,6 +172,20 @@ class Calendar extends Component{
                             <Column className='right-key description' columnSize='12'>{selectedAppointment.description}</Column>
                         </Row>
                     </ModalBody>
+                </React.Fragment>
+                }
+                {!(selectedAppointment.uid.length <= 10) &&
+                    <React.Fragment>
+                        <ModalHeader 
+                        title='inchiodata'
+                        onCloseClick={this.onEventClose} 
+                        color='white' textSize='h5' 
+                        iconSize='h3'/>
+                        <ModalBody>
+                            <div>cacca</div>
+                        </ModalBody>
+                    </React.Fragment>
+                }
                 </Modal>
                 }
             </div>
