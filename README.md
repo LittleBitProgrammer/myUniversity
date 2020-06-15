@@ -700,24 +700,89 @@ motivazione_ricevimento | motivazione per la quale si sta richiedendo un ricevim
 Invio di una richiesta per un determinato ricevimento con motivazione
 
 
-### POST /student/richiesta_ricevimento
+### POST /student/unfollow_disciplina
 
 parametri | descrizione
 ------------ | -------------
-matricola_docente | matricola del docente
-data_ricevimento | data ed orario del ricevimento del docente
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
 matricola_studente | matricola dello studente
-motivazione_ricevimento | motivazione per la quale si sta richiedendo un ricevimento con il docente
 
 #### Response
 
-Invio di una richiesta per un determinato ricevimento con motivazione
+Unfollow di una determinata disciplina di un determinato corso di laurea
 
 
+### POST /student/unfollow_newsletter
+
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+matricola_studente | matricola dello studente
+
+#### Response
+
+Unfollow degli avvisi di una determinata disciplina di un determinato corso di laurea
 
 
+## Mongodb
+
+### POST /mongodb/unfollow_newsletter
+
+parametri | descrizione
+------------ | -------------
+matricola1 | matricola 
+matricola2 | matricola
+
+#### Response
+
+Creazione di una nuova conversazione 
 
 
+### POST /mongodb/get_all_colors
+
+#### Response
+
+Reperimento dei colori delle varie discipline
+
+
+### POST /mongodb/get_all_conversations
+
+parametri | descrizione
+------------ | -------------
+matricola | matricola 
+
+#### Response
+
+Reperimento di tutte le conversazioni 
+
+
+### POST /mongodb/insert_discipline_color
+
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+colore_esadecimale | colore in formato esadecimale
+
+#### Response
+
+Inserimento del colore di una determinata disciplina di un determinato corso di laurea
+
+
+### POST /mongodb/send:message
+
+parametri | descrizione
+------------ | -------------
+id_conversation | id della conversazione
+matricola1 | matricola 
+matricola2 | matricola
+messaggio | messaggio di testo da inviare
+
+#### Response
+
+Invio del messaggio 
 
 
 ## Dependencies
