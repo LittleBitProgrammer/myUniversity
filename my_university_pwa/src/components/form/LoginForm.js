@@ -11,7 +11,6 @@ import myUniversityLogo from '../../img/svg/graduation-hat-primary.svg'
 
 
 //create a component 
-//TODO: OPTIMIZE CALL (SPINNER)
 class LoginForm extends Component{
 
     constructor(props){

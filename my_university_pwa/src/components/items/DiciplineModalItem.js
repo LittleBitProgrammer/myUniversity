@@ -20,7 +20,6 @@ class DisciplineModalItem extends Component{
 
     postNewsletter = async(codice_corso,codice_disciplina,freshman) => {
         try{
-            console.log('POST ', codice_corso,codice_disciplina,freshman)
             await myUniversity.post('/student/iscrizione_newsletter', {
                 codice_corso: codice_corso,
                 codice_disciplina: codice_disciplina,

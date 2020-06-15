@@ -7,14 +7,6 @@ import {UserContext} from '../context/UserContext';
 // UTILITY FUNCTION
 import {formatDate} from '../../Utility/functions';
 
-//TODO: dynamic alt text
-//TODO: fix image size on smaller screen
-//TODO: teacher content
-//TODO: show user datetime format
-//TODO: conditional rendering on profile image 
-//TODO: dynamic contacts
-//TODO: use state and not context
-
 //CREATE A COMPONENT
 class Profile extends Component{
 

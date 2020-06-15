@@ -39,7 +39,6 @@ class ReceiptForm extends Component{
     }
 
     render(){
-        console.log(this.state.inputText);
         return(
             <form onSubmit={this.onSubmitForm}>
                 <TextArea 

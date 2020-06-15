@@ -2,7 +2,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 
-//TODO: create component icon with text
 
 //create a component
 const Navitem = ({path, name, exact,logoImage,className,liClass,onClick,children}) => {

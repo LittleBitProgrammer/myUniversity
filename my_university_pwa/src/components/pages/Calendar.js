@@ -136,7 +136,6 @@ class Calendar extends Component{
                 }
             }
             if(chk){
-                console.log('TEMP', temp)
                 rewrittenLessons[i].color = temp.colore_esadecimale;
             }
         }
@@ -170,7 +169,6 @@ class Calendar extends Component{
     }
 
     render(){
-        console.log('STATE', this.state);
         const concat = this.state.lessons.concat(this.state.receipts)
         const selectedAppointment = concat[concat.findIndex((obj)=>obj.uid === this.state.indexSelected)];
         return (
