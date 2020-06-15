@@ -204,3 +204,19 @@
 .calendar-custom-content{
   height: 100%;
 }
+
+.left-key{
+  font-weight: 700;
+  color: #0165d1;
+  padding-left: 9%;
+}
+
+.right-key{
+  font-weight: 400;
+  color: #464646;
+}
+
+.description{
+  margin-top: 5px;
+  padding-left: 9%;
+}

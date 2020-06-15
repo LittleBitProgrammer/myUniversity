@@ -7,6 +7,10 @@ import CalendarView from '../calendar/CalendarView';
 //MODAL
 import Modal from '../modal/Modal';
 import ModalHeader from '../modal/ModalHeader';
+import ModalBody from '../modal/ModalBody';
+//GRID
+import Row from '../bootstrap/Row';
+import Column from '../bootstrap/Column';
 //API
 import myUniversity from '../../API/myUniversity';
 // FUNCTIONS
@@ -31,6 +35,7 @@ class Calendar extends Component{
         }
     }
 
+    //TODO: insert button 
     getCalendar = async(freshman) => {
         try{
             const response = await myUniversity.post('student/calendario', {matricola_studente: freshman});
@@ -41,6 +46,12 @@ class Calendar extends Component{
                         start: moment(appointment.data_inizio),
                         end: endTime(appointment.data_inizio,appointment.numero_ore),
                         title: appointment.titolo,
+                        discipline: appointment.nome_disciplina,
+                        floor_number: appointment.numero_piano,
+                        room_number: appointment.numero_aula,
+                        headOffice: appointment.nome_sede,
+                        teacher: `${appointment.nome} ${appointment.cognome}`,
+                        description: appointment.descrizione,
                         value: (
                         <div onClick={(event) => {this.onEventclick(event)}} id={index} className='calendar-custom-content'>
                             <div className='discipline_name'>{appointment.nome_disciplina}</div>
@@ -93,12 +104,40 @@ class Calendar extends Component{
                   semester={getSemester(new Date())}/>
                 <CalendarView appointments={this.state.lessons}/>
                 {this.state.isModalVisible && 
-                <Modal className='modal' classContent='modal-content'>
+                <Modal className='modal' classContent='modal-content-little'>
                     <ModalHeader 
                       title={selectedAppointment.title}
                       onCloseClick={this.onEventClose} 
                       color='white' textSize='h5' 
                       iconSize='h3'/>
+                    <ModalBody>
+                        {/*TODO:// ADD CONDITIONAL RENDERING FOR RECEIPT*/}
+                        <Row>
+                            <Column className='left-key' columnSize='5'>Disciplina:</Column>
+                            <Column className='right-key' columnSize='7'>{selectedAppointment.discipline}</Column>
+                        </Row>
+                        <Row>
+                            <Column className='left-key' columnSize='5'>Piano:</Column>
+                            <Column className='right-key' columnSize='7'>{selectedAppointment.floor_number}</Column>
+                        </Row>
+                        <Row>
+                            <Column className='left-key' columnSize='5'>Aula:</Column>
+                            <Column className='right-key' columnSize='7'>{selectedAppointment.room_number}</Column>
+                        </Row>
+                        <Row>
+                            <Column className='left-key' columnSize='5'>Sede:</Column>
+                            <Column className='right-key' columnSize='7'>{selectedAppointment.headOffice}</Column>
+                        </Row>
+                        <Row>
+                            <Column className='left-key' columnSize='5'>Professore:</Column>
+                            <Column className='right-key' columnSize='7'>{selectedAppointment.teacher}</Column>
+                        </Row>
+                        <hr/>
+                        <Row className='pb-4'>
+                            <Column className='left-key' columnSize='12'>Descrizione</Column>
+                            <Column className='right-key description' columnSize='12'>{selectedAppointment.description}</Column>
+                        </Row>
+                    </ModalBody>
                 </Modal>
                 }
             </div>
