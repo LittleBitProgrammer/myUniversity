@@ -180,7 +180,10 @@
 }
 
 .calendar-header{
-    margin-bottom: 10px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #464646
 }
 
 .end-time{
@@ -189,7 +192,6 @@
 
 .event-component{
   height: 100%;
-  background-color: #0166d1ea;
   color: white;
   overflow-y: scroll;
   font-size: 13px;

@@ -17,7 +17,6 @@ import myUniversity from '../../API/myUniversity';
 import {endTime,endMinutes,getSemester} from '../../Utility/functions';
 // MOMENT LIB
 import moment from 'moment';
-import localization from 'moment/locale/it';
 // COOKIE
 import {Cookies} from 'react-cookie';
 
@@ -33,7 +32,19 @@ class Calendar extends Component{
             isModalVisible: false,
             indexSelected: '',
             lessons: [],
-            receipts: []
+            receipts: [],
+            colors:[]
+        }
+    }
+
+    getColors = async() => {
+        try{
+            const response = await myUniversity.post('/mongodb/get_all_colors');
+            this.setState({
+                colors: response.data
+            });
+        }catch(error){
+            console.log(`😱 Request failed: ${error}`);
         }
     }
 
@@ -42,9 +53,7 @@ class Calendar extends Component{
             const response =  await myUniversity.post('/student/lista_prenotazioni_ricevimento',{
                 matricola_studente: freshman
             })
-            console.log('RESPONSE', response);
             const mappedResponse = response.data.map((receipt) => {
-                console.log('DATA RIC', moment(receipt.data_ricevimento) )
                 return (
                     {
                         uid: receipt.matricola_docente + receipt.data_ricevimento,
@@ -81,6 +90,7 @@ class Calendar extends Component{
                         uid: index.toString(),
                         start: moment(appointment.data_inizio),
                         end: endTime(appointment.data_inizio,appointment.numero_ore),
+                        color: '#fff',
                         title: appointment.titolo,
                         discipline: appointment.nome_disciplina,
                         floor_number: appointment.numero_piano,
@@ -88,13 +98,15 @@ class Calendar extends Component{
                         headOffice: appointment.nome_sede,
                         teacher: `${appointment.nome} ${appointment.cognome}`,
                         description: appointment.descrizione,
+                        courseCode: appointment.codice_corso,
+                        disciplineCode: appointment.codice_disciplina,
                         value: (
                         <div onClick={(event) => {this.onEventclick(event)}} id={index} className='calendar-custom-content'>
                             <div className='discipline_name'>{appointment.nome_disciplina}</div>
-                            <div>
+                            <React.Fragment>
                                 <span className='floor-lesson'>{`Piano: ${appointment.numero_piano}`}</span>
                                 <span className='room-lesson'>{`Aula: ${appointment.numero_aula}`}</span>
-                            </div>
+                            </React.Fragment>
                             <div>{`Sede: ${appointment.nome_sede}`}</div>
                             <div className='teacher'>{`${appointment.nome} ${appointment.cognome}`}</div>
                         </div>
@@ -109,15 +121,42 @@ class Calendar extends Component{
         }
     }
 
-    componentDidMount(){
+    mergeCalendar = (lessons,colors) => {
+        const rewrittenLessons = this.state.lessons;
+
+        
+        for(let i = 0; i < lessons.length ;i++){
+            
+            let chk = false;
+            let temp;
+            for(let j = 0; j < colors.length ;j++){
+                if(rewrittenLessons[i].courseCode === colors[j].codice_corso && rewrittenLessons[i].disciplineCode === colors[j].codice_disciplina){
+                    chk = true;
+                    temp = colors[j]
+                }
+            }
+            if(chk){
+                console.log('TEMP', temp)
+                rewrittenLessons[i].color = temp.colore_esadecimale;
+            }
+        }
+
+        this.setState({
+            lessons: rewrittenLessons
+        })
+    }
+
+    async componentDidMount(){
         const freshman = this.cookies.get('matricola_studente');
-        this.getCalendar(freshman);
+        await this.getCalendar(freshman);
         this.getReceipt(freshman);
+        await this.getColors();
+        this.mergeCalendar(this.state.lessons,this.state.colors);
+
     }
 
     onEventclick = (event) => {
         event.stopPropagation();
-        console.log('ID',event.target.parentNode.id)
         this.setState({
             isModalVisible: true,
             indexSelected: event.target.parentNode.id ? (event.target.parentNode.id).toString() : event.target.id.toString()
@@ -134,7 +173,6 @@ class Calendar extends Component{
         console.log('STATE', this.state);
         const concat = this.state.lessons.concat(this.state.receipts)
         const selectedAppointment = concat[concat.findIndex((obj)=>obj.uid === this.state.indexSelected)];
-        console.log('SELECTED APP', selectedAppointment)
         return (
             <div>
                 <HeaderCalendar 
@@ -157,12 +195,12 @@ class Calendar extends Component{
                             <Column className='right-key' columnSize='7'>{selectedAppointment.discipline}</Column>
                         </Row>
                         <Row>
-                            <Column className='left-key' screenSize='lg' columnSize='5'>Piano:</Column>
-                            <Column className='right-key' screenSize='lg' columnSize='7'>{selectedAppointment.floor_number}</Column>
+                            <Column className='left-key' columnSize='5'>Piano:</Column>
+                            <Column className='right-key' columnSize='7'>{selectedAppointment.floor_number}</Column>
                         </Row>
                         <Row>
-                            <Column className='left-key' screenSize='lg' columnSize='5'>Aula:</Column>
-                            <Column className='right-key' screenSize='lg' columnSize='7'>{selectedAppointment.room_number}</Column>
+                            <Column className='left-key' columnSize='5'>Aula:</Column>
+                            <Column className='right-key' columnSize='7'>{selectedAppointment.room_number}</Column>
                         </Row>
                         <Row>
                             <Column className='left-key' columnSize='5'>Sede:</Column>

@@ -43,7 +43,6 @@ export function endTime(date,duration){
 export function endMinutes(date,duration){
     const myDate = moment(date);
     myDate.add(duration,'minutes')
-    console.log('MY DATE',myDate)
 
     return myDate;
 }
