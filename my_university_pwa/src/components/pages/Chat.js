@@ -42,7 +42,7 @@ class Chat extends Component {
             contacts: [],
             chat_index: '',
             input_text: '',
-            endpoint: "http://my-university-api.herokuapp.com/private",
+            endpoint: "https://my-university-api.herokuapp.com/private",
             recived_message: false,
         }
     }
