@@ -1,263 +1,307 @@
-# myUniversity
-University project for the examination of web technologies, Parthenope 🎓
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
 
-## API 
-![Immagine di path](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROSC6b0CtrgxHuiMRgl1VynmK98NiRGdQjtyv5aE-mYpWYP0B_&usqp=CAU)
+#### Response
 
-Le API sono organizzate in quattro namespace:
-- API Segreteria (secretary '/segreteria' )
-- API Docente (professor '/docente')
-- API Stuedente (student '/studente')
-- API Global (universal '/universal')
+Reperimento avvisi delle discipline a cui lo sr
 
-Inoltre gode di un prefisso, il quale utilizza questo path:
 
-![Immagine di path](https://github.com/robertove93/myUniversity/blob/Developer/images/path_myUniversity.png?raw=true)
+### POST /student/calendario
 
-Vediamo ora nel dettaglio le nostre API:
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
 
-#### API_Segreteria
+#### Response
 
-![test](https://raw.githubusercontent.com/robertove93/myUniversity/Developer/images/Schermata%202020-05-04%20alle%2020.12.26.png)
+Reperimento lezione delle discipline a cui lo studente è iscritto
 
-Prevede la possibilità, da parte della segreteria, di poter inserire una sede.
-```
-Inserimento_sede(
-  nome_Sede: string, 
-  orario_apertura: int, 
-  orario_chiusura: int,  
-  numero_piani: int,   
-  cap: int,
-  via_piazza: string,
-  civico: string)
-  {
-  inserimento in SEDE con 
-  nome_Sede: string,
-  orario_apertura: int,
-  orario_chiusura: int, 
-  numero_piani: int,
-  cap: int,
-  via_piazza: string,
-  civico: string
-  }
-```
 
-- GET
-reperimento_sedi() --> utilizza dictionary [schema tabella Sede join con Indirizzo_Sede]
-- DELETE
-cancella_sede(nome_sede: string)
+### POST /student/cancella_richiesta_ricevimento
 
-- POST
-inserimento_aula(
-  nome_sede: string,
-  numero_piano: int,
-  numero_aula: int,
-  capienza: int)
-- DELETE
-cancella_aula(
- nome_sede: string
- numero_piano: int
- numero_aula: int)
+parametri | descrizione
+------------ | -------------
+matricola_docente | matricola del docente
+data_ricevimento | data ed orario del ricevimento del docente
+matricola_studente | matricola dello studente
 
-- POST
-inserimento_corso_laurea(
-  codice_corso: string,
-  nome_corso: string,
-  durata_corso_laurea: int)
-- GET
-reperimento_corsi_laurea() --> utilizza dictionary [schema tabella corso_di_laurea]
-- DELETE
-cancella_corso_laurea(
-codice_corso: string)
+#### Response
 
-- POST
-inserimento_ospitazione(
-nome_sede: string,
-codice_corso: string)
-- GET
-reperimento_ospitazioni() --> utilizza dictionary [JOIN tra Ospitazione e Corso_di_laurea]
-- DELETE
-cancella_ospitazione(
-nome_sede: string
-codice_corso: string)
+Cancellazione di una richiesta di uno specifico ricevimento
 
-- POST
-inserimento_disciplina(
- codice_corso: string
- codice_disciplina: string
- nome_disciplina: string
- cfu: int
- semestre:int
- anno: int)
-- GET
-reperimento_discipline()--> utilizza dictionary [JOIN tra Disciplina e Corso_di_laurea(solo nome_corso_laurea)]
-- DELETE
-cancella_disciplina(
-codice_corso: string
-codice_disciplina: string
-)
-- POST ??
-inserimento_docente(
-  cf: string
-  nome: string
-  cognome: string
-  data_di_nascita: date
-  luogo_di_nascita: string
-  matricola_docente: string
-  email_docente: string
-  password_docente: string
-  cap: int
-  via_piazza : string
-  civico: string
-)
-{prevede:
-insert in PERSONA
-cf: string
-nome: string
-cognome: string
-data_di_nascita: date
-luogo_di_nascita: string
-cap: int
-via_piazza : string
-civico: string)
-insert in DOCENTE
- inserimento_docente(
- matricola_docente: string
- cf: string (uguale a quello di persona)
- mail_docente: string
- password_docente: string)
 
-}
+### POST /student/discipline_seguibili
 
-- GET
-reperimento_docenti()--> utilizza dictionary [JOIN tra DOCENTE e PERSONA(senza valore password_docente) + select join tra PERSONA, CONTATTO_PERSONA e CONTATTO (per reperire a tutti i contatti di quella persona )]
-- DELETE  ?? (eliminare prima docente e poi persona )
-cancella_docente(
-cf: string
-matricola_docente: string)
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
 
-- POST
-assunzione_docenti(
-matricola_docente: string,
-codice_corso: string)
+#### Response
 
-- GET
-reperimento_assunzioni() --> utilizza dictionary[JOIN tra PERSONA, DOCENTE, LAVORA, CORSO_DI_LAUREA, OSPITAZIONE e SEDE]
+Reperimento discipline 
 
-- POST ??
-inserimento_studente(
-  cf: string
-  nome: string
-  cognome: string
-  data_di_nascita: date
-  luogo_di_nascita: string
-  matricola_studente: string
-  email_studente: string
-  password_studente: string
-  data_immatricolazione: date
-  cap: int
-  via_piazza : string
-  civico: string)
-{prevede:
-insert in PERSONA
-cf: string
-nome: string
-cognome: string
-data_di_nascita: date
-luogo_di_nascita: string
-cap: int
-via_piazza : string
-civico: string)
-insert in STUDENTE
- inserimento_studente(
- matricola_studente: string
- cf: string (uguale a quello di persona)
- mail_studente: string
- password_studente: string
- data_immatricolazione: date)
 
-}
+### POST /student/follow_disciplina
 
-- GET
-reperimento_studenti()--> utilizza dictionary [JOIN tra STUDENTE e PERSONA(senza valore password_studente) + select join tra PERSONA, CONTATTO_PERSONA e CONTATTO (per reperire a tutti i contatti di quella persona )]
-- DELETE  ?? (eliminare prima studente e poi persona )
-cancella_studente(
-cf: string
-matricola_studente: string)
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+matricola_studente | matricola dello studente
 
-- POST
-inserimento_insegna(
-matricola_docente: string
-codice_corso: string
-codice_disciplina: string)
+#### Response
 
-- GET
-reperimento_insegnamenti()--> utilizza dictionary [JOIN tra DISCIPLINA, INSEGNA, DOCENTE e PERSONA]
+Seguire una determinata disciplina di un determinato corso di laurea
 
-- DELETE
-cancella_insegna(
-matricola_docente: string
-codice_corso: string
-codice_disciplina: string
-)
 
-- POST
-inserimento_lezione(
-codice_corso: string
-codice_disciplina: string
-nome_sede: string
-numero_piano: int
-numero_aula: int
-numero_lezione: int
-data_inizio: dateTime
-numero_ore: int
-titolo: string
-descrizione: string)
+### POST /student/iscrizione_newsletter
 
-- DELETE
-cancella_lezione(
-codice_corso: string
-codice_disciplina: string
-nome_sede: string
-numero_piano: int
-numero_aula: int
-numero_lezione: int)
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+matricola_studente | matricola dello studente
 
-- POST
-insegnamento_docente(matricola_docente: string, codice_corso: string, codice_disciplina: string){
-INSERT in INSEGNA
-}
-- GET 
-reperimento_insegnamenti_docenti(){
-JOIN tra PERSONA, DOCENTE, INSEGNA, DISCIPLINA, CORSO_DI_LAUREA, OSPITAZIONE, SEDE
-}
+#### Response
 
-#### API Docente
-#### API Studente
-- [ ] Progettare API studente
-#### API Globali
-- [ ] Progettare API Globali
+Iscrizione agli avvisi di una determinata disciplina di un determinato corso di laurea
+
+
+### POST /student/lista_prenotazioni_ricevimento
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista dei ricevimenti già prenotati dallo studente
+
+
+### POST /student/lista_ricevimenti_prenotabili
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista dei ricevimenti prenotabili dallo studente
+
+
+### POST /student/login
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola del studente
+password_studente | password studente
+
+#### Response
+
+Effettua il login dello studente
+
+
+### POST /student/password
+
+parametri | descrizione
+------------ | -------------
+nuova_password_studente | nuova password 
+matricola_studente | matricola dello studente
+password_studente | vecchia password studente
+
+#### Response
+
+Variazione della password dello studente
+
+
+### POST /student/reperimento_lista_discipline_seguite
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista delle discipline seguite
+
+
+### POST /student/reperimento_lista_docenti_iscrizione_corso_piu_newsletter_per_chat
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista docenti per la chat
+
+
+### POST /student/reperimento_lista_iscrizioni_newsletter
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista per le iscrizioni agli avvisi
+
+
+### POST /student/richiesta_ricevimento
+
+parametri | descrizione
+------------ | -------------
+matricola_docente | matricola del docente
+data_ricevimento | data ed orario del ricevimento del docente
+matricola_studente | matricola dello studente
+motivazione_ricevimento | motivazione per la quale si sta richiedendo un ricevimento con il docente
+
+#### Response
+
+Invio di una richiesta per un determinato ricevimento con motivazione
+
+
+### POST /student/unfollow_disciplina
+
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+matricola_studente | matricola dello studente
+
+#### Response
+
+Unfollow di una determinata disciplina di un determinato corso di laurea
+
+
+### POST /student/unfollow_newsletter
+
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+matricola_studente | matricola dello studente
+
+#### Response
+
+Unfollow degli avvisi di una determinata disciplina di un determinato corso di laurea
+
+
+## Mongodb
+
+### POST /mongodb/unfollow_newsletter
+
+parametri | descrizione
+------------ | -------------
+matricola1 | matricola primo interlocutore
+matricola2 | matricola secondo interlocutore
+
+#### Response
+
+Creazione di una nuova conversazione 
+
+
+### POST /mongodb/get_all_colors
+
+#### Response
+
+Reperimento dei colori delle varie discipline
+
+
+### POST /mongodb/get_all_conversations
+
+parametri | descrizione
+------------ | -------------
+matricola | matricola 
+
+#### Response
+
+Reperimento di tutte le conversazioni 
+
+
+### POST /mongodb/insert_discipline_color
+
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+colore_esadecimale | colore in formato esadecimale
+
+#### Response
+
+Inserimento del colore di una determinata disciplina di un determinato corso di laurea
+
+
+### POST /mongodb/send:message
+
+parametri | descrizione
+------------ | -------------
+id_conversation | id della conversazione
+matricola_mittente | matricola mittente
+matricola_destinatario | matricola destinatario
+messaggio | messaggio di testo da inviare
+
+#### Response
+
+Invio del messaggio 
+
 
 ## Dependencies
 
-```
 aniso8601==8.0.0
+appnope==0.1.0
+astroid==2.4.1
 attrs==19.3.0
+backcall==0.1.0
+bcrypt==3.1.7
+cffi==1.14.0
 click==7.1.2
+decorator==4.4.2
 dnspython==1.16.0
 Flask==1.1.2
+Flask-Bcrypt==0.7.1
+Flask-Cors==3.0.8
 flask-restx==0.2.0
+Flask-SocketIO==4.3.0
+gevent==20.5.2
+gevent-websocket==0.10.1
+greenlet==0.4.15
+gunicorn==20.0.4
 importlib-metadata==1.6.0
+ipython==7.14.0
+ipython-genutils==0.2.0
+isort==4.3.21
 itsdangerous==1.1.0
+jedi==0.17.0
 Jinja2==2.11.2
 jsonschema==3.2.0
+lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
+mccabe==0.6.1
 mysql-connector-python==8.0.19
+parso==0.7.0
+pexpect==4.8.0
+pickleshare==0.7.5
+prompt-toolkit==3.0.5
 protobuf==3.6.1
+ptyprocess==0.6.0
+pycparser==2.20
+Pygments==2.6.1
+pylint==2.5.2
+pymongo==3.10.1
 pyrsistent==0.16.0
 python-dotenv==0.13.0
+python-engineio==3.13.0
+python-socketio==4.6.0
 pytz==2020.1
+scrypt==0.8.15
 six==1.14.0
+toml==0.10.1
+traitlets==4.3.3
+wcwidth==0.1.9
 Werkzeug==1.0.1
+wrapt==1.12.1
 zipp==3.1.0
-```
+zope.event==4.4
+zope.interface==5.1.0
