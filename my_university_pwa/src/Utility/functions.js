@@ -37,7 +37,7 @@ export function endTime(date,duration){
     const myDate = new Date(date);
     myDate.setHours(myDate.getHours() + duration);
 
-    return myDate;
+    return moment(myDate);
 }
 
 export function getLessonLocation(headquarter,room,floor){

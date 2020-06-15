@@ -6,7 +6,11 @@ import React from 'react';
 
 // CREATE A COMPONENT
 const Event = (props) => {
-    return <div>Hello Event!</div>
+    return (
+    <div className='event-component'>
+        {props.value}
+    </div>
+    )
 }
 
 // EXPORT A COMPONENT

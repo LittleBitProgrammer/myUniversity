@@ -2,7 +2,7 @@
 .modal {
     display: block; /* Hidden by default */
     position: fixed; /*  Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 15; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -25,7 +25,7 @@
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
 }
 
 .to-right {
