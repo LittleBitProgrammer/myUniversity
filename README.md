@@ -497,7 +497,7 @@ matricola_docente | matricola del docente
 Reperimento di tutte le lezioni programmate dal docente
 
 
-### POST /professor//professor/reperimento_lista_studenti_iscritti_corso_piu_newsletter_per_chat
+### POST /professor/reperimento_lista_studenti_iscritti_corso_piu_newsletter_per_chat
 
 parametri | descrizione
 ------------ | -------------
