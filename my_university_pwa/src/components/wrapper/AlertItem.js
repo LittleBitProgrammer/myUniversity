@@ -6,7 +6,7 @@ import CardBody from '../bootstrap/Card/CardBody';
 import CardTitle from '../bootstrap/Card/CardTitle';
 import CardText from '../bootstrap/Card/CardText';
 // FUNCTIONS
-import {capitalizeFirstLetter} from '../../Utility/functions';
+import {capitalizeFirstLetter} from '../../utility/functions';
 
 // CREATE A COMPONENT
 class AlertItem extends Component {
