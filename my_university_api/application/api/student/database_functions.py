@@ -150,6 +150,7 @@ def reperimento_prenotazioni_ricevimento_studente(matricola_studente, connection
             docente.email_docente,
             richiesta_ricevimento.motivazione_ricevimento,
             richiesta_ricevimento.data_ricevimento,
+            richiesta_ricevimento.ora_inizio,
             richiesta_ricevimento.durata
             FROM richiesta_ricevimento
             inner join ricevimento

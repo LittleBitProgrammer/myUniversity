@@ -53,6 +53,7 @@ get_prenotazioni_ricevimento_model = student.model('get_prenotazioni_ricevimento
     'email_docente': fields.String,
     'motivazione_ricevimento': fields.String,
     'data_ricevimento': fields.String,
+    'ora_inizio': fields.String,
     'durata': fields.String
 })
 
