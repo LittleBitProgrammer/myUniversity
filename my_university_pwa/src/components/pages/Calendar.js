@@ -34,8 +34,7 @@ class Calendar extends Component{
             lessons: []
         }
     }
-
-    //TODO: insert button 
+ 
     getCalendar = async(freshman) => {
         try{
             const response = await myUniversity.post('student/calendario', {matricola_studente: freshman});
@@ -84,7 +83,7 @@ class Calendar extends Component{
         console.log('LESSONS', this.state.lessons);
         this.setState({
             isModalVisible: true,
-            indexSelected: event.target.parentNode.id
+            indexSelected: event.target.parentNode.id ? event.target.parentNode.id : event.target.id
         })
     }
 
@@ -117,12 +116,12 @@ class Calendar extends Component{
                             <Column className='right-key' columnSize='7'>{selectedAppointment.discipline}</Column>
                         </Row>
                         <Row>
-                            <Column className='left-key' columnSize='5'>Piano:</Column>
-                            <Column className='right-key' columnSize='7'>{selectedAppointment.floor_number}</Column>
+                            <Column className='left-key' screenSize='lg' columnSize='5'>Piano:</Column>
+                            <Column className='right-key' screenSize='lg' columnSize='7'>{selectedAppointment.floor_number}</Column>
                         </Row>
                         <Row>
-                            <Column className='left-key' columnSize='5'>Aula:</Column>
-                            <Column className='right-key' columnSize='7'>{selectedAppointment.room_number}</Column>
+                            <Column className='left-key' screenSize='lg' columnSize='5'>Aula:</Column>
+                            <Column className='right-key' screenSize='lg' columnSize='7'>{selectedAppointment.room_number}</Column>
                         </Row>
                         <Row>
                             <Column className='left-key' columnSize='5'>Sede:</Column>

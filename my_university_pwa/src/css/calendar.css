@@ -194,7 +194,6 @@
   overflow-y: scroll;
   font-size: 13px;
   border: #464646 2px solid;
-  padding-left: 3px;
 }
 
 .room-lesson{
@@ -203,6 +202,9 @@
 
 .calendar-custom-content{
   height: 100%;
+  width: 100%;
+  text-align: center;
+  color: white;
 }
 
 .left-key{
