@@ -28,7 +28,6 @@ class CalendarView extends Component {
               cellHeight={50}
               scaleHeaderTitle={moment().format('MMMM')}
               eventComponent={Event}
-              onEventClick={this.props.onEventClick}
               selectedIntervals={this.props.appointments}
             />
         );

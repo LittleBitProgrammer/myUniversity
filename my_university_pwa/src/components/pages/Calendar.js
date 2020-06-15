@@ -26,6 +26,7 @@ class Calendar extends Component{
 
         this.state = {
             isModalVisible: false,
+            indexSelected: 0,
             lessons: []
         }
     }
@@ -39,8 +40,9 @@ class Calendar extends Component{
                         uid: index,
                         start: moment(appointment.data_inizio),
                         end: endTime(appointment.data_inizio,appointment.numero_ore),
+                        title: appointment.titolo,
                         value: (
-                        <React.Fragment>
+                        <div onClick={(event) => {this.onEventclick(event)}} id={index} className='calendar-custom-content'>
                             <div className='discipline_name'>{appointment.nome_disciplina}</div>
                             <div>
                                 <span className='floor-lesson'>{`Piano: ${appointment.numero_piano}`}</span>
@@ -48,7 +50,7 @@ class Calendar extends Component{
                             </div>
                             <div>{`Sede: ${appointment.nome_sede}`}</div>
                             <div className='teacher'>{`${appointment.nome} ${appointment.cognome}`}</div>
-                        </React.Fragment>
+                        </div>
                         )
                     }
                 );
@@ -66,9 +68,12 @@ class Calendar extends Component{
     }
 
     onEventclick = (event) => {
-        console.log(event.target)
+        event.stopPropagation();
+        console.log('ID',event.target.parentNode.id)
+        console.log('LESSONS', this.state.lessons);
         this.setState({
             isModalVisible: true,
+            indexSelected: event.target.parentNode.id
         })
     }
 
@@ -79,18 +84,18 @@ class Calendar extends Component{
     }
 
     render(){
-        console.log(this.state);
+        const selectedAppointment = this.state.lessons[this.state.indexSelected];
         return (
             <div>
                 <HeaderCalendar 
                   year={this.year} 
                   courseName={this.state.lessons.length !== 0 ? this.state.lessons[0].nome_corso : 'Informatica'} 
                   semester={getSemester(new Date())}/>
-                <CalendarView appointments={this.state.lessons} onEventClick={this.onEventclick}/>
+                <CalendarView appointments={this.state.lessons}/>
                 {this.state.isModalVisible && 
                 <Modal className='modal' classContent='modal-content'>
                     <ModalHeader 
-                      title='Gestici Avvisi' 
+                      title={selectedAppointment.title}
                       onCloseClick={this.onEventClose} 
                       color='white' textSize='h5' 
                       iconSize='h3'/>
