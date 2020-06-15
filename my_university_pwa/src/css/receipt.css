@@ -1,0 +1,15 @@
+.btn-right{
+    float: right;
+}
+
+.receipt-date{
+    font-size: 14px;
+}
+
+.receipt-time{
+    margin-left: 6px;
+}
+
+.card-subtitle{
+    margin-top: -14px;
+}
