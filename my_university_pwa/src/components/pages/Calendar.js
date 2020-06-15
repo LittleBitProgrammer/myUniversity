@@ -231,11 +231,11 @@ class Calendar extends Component{
                             </Row>
                             <Row className='mt-3'>
                                 <Column className='left-key' columnSize='5'>Email:</Column>
-                                <Column className='right-key ml-0' columnSize='7'>{selectedAppointment.email}</Column>
+                                <Column className='right-key' columnSize='7'>{selectedAppointment.email}</Column>
                             </Row>
                             <Row className='mt-2'>
                                 <Column className='left-key' columnSize='5'>Matricola Docente:</Column>
-                                <Column className='right-key ml-0' columnSize='7'>{selectedAppointment.freshman}</Column>
+                                <Column className='right-key' columnSize='7'>{selectedAppointment.freshman}</Column>
                             </Row>
                             <hr/>
                                 <Row className='mt-2'>
@@ -243,11 +243,11 @@ class Calendar extends Component{
                                 </Row>
                                 <Row className='mt-3'>
                                     <Column className='left-key' columnSize='5'>Ora inizio:</Column>
-                                    <Column className='right-key ml-0' columnSize='7'>{selectedAppointment.startHour.format('HH:mm')}</Column>
+                                    <Column className='right-key' columnSize='7'>{selectedAppointment.startHour.format('HH:mm')}</Column>
                                 </Row>
                                 <Row className='mt-2 pb-4'>
                                     <Column className='left-key' columnSize='5'>Durata:</Column>
-                                    <Column className='right-key ml-0' columnSize='7'>{selectedAppointment.duration}</Column>
+                                    <Column className='right-key' columnSize='7'>{selectedAppointment.duration}</Column>
                                 </Row>
                         </ModalBody>
                     </React.Fragment>
