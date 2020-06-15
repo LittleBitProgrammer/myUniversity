@@ -653,9 +653,65 @@ password_studente | vecchia password studente
 Variazione della password dello studente
 
 
+### POST /student/reperimento_lista_discipline_seguite
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista delle discipline seguite
 
 
+### POST /student/reperimento_lista_docenti_iscrizione_corso_piu_newsletter_per_chat
 
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista docenti per la chat
+
+
+### POST /student/reperimento_lista_iscrizioni_newsletter
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista per le iscrizioni agli avvisi
+
+
+### POST /student/richiesta_ricevimento
+
+parametri | descrizione
+------------ | -------------
+matricola_docente | matricola del docente
+data_ricevimento | data ed orario del ricevimento del docente
+matricola_studente | matricola dello studente
+motivazione_ricevimento | motivazione per la quale si sta richiedendo un ricevimento con il docente
+
+#### Response
+
+Invio di una richiesta per un determinato ricevimento con motivazione
+
+
+### POST /student/richiesta_ricevimento
+
+parametri | descrizione
+------------ | -------------
+matricola_docente | matricola del docente
+data_ricevimento | data ed orario del ricevimento del docente
+matricola_studente | matricola dello studente
+motivazione_ricevimento | motivazione per la quale si sta richiedendo un ricevimento con il docente
+
+#### Response
+
+Invio di una richiesta per un determinato ricevimento con motivazione
 
 
 
