@@ -5,7 +5,7 @@ import ProfileInformation from '../wrapper/profile/ProfileInformation';
 //CONTEXT
 import {UserContext} from '../context/UserContext';
 // UTILITY FUNCTION
-import {formatDate} from '../../Utility/functions';
+import {formatDate} from '../../utility/functions';
 
 //CREATE A COMPONENT
 class Profile extends Component{

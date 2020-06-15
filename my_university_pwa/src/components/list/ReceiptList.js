@@ -3,7 +3,7 @@ import React from 'react';
 // ITEM 
 import ReceiptsItem from '../items/ReceiptsItem';
 // IMPORT FUNCTION
-import { takeDate, takeTime } from '../../Utility/functions';
+import { takeDate, takeTime } from '../../utility/functions';
 
 // CREATE A COMPONENT
 const ReceiptsList = ({allPossibleReceipts, mat,onReceiptSubmit}) => {

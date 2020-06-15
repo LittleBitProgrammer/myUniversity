@@ -7,7 +7,7 @@ import Event from './Event';
 // MOMENT LIB
 import moment from 'moment';
 // FUNCTIONS
-import {getMonday} from '../../Utility/functions';
+import {getMonday} from '../../utility/functions';
 // CSS
 import '../../css/calendar.css';
 

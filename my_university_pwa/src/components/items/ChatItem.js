@@ -3,7 +3,7 @@ import React from "react";
 import squareLogo from "../../img/svg/square.svg"
 import Row from "../bootstrap/Row";
 import Column from "../bootstrap/Column";
-import {capitalizeFirstLetter,takeDate, trimMessage} from "../../Utility/functions";
+import {capitalizeFirstLetter,takeDate, trimMessage} from "../../utility/functions";
 import ProfileImage from "../wrapper/ProfileImage";
 
 
