@@ -579,6 +579,81 @@ matricola_studente | matricola dello studente
 Reperimento discipline 
 
 
+### POST /student/follow_disciplina
+
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+matricola_studente | matricola dello studente
+
+#### Response
+
+Seguire una determinata disciplina di un determinato corso di laurea
+
+
+### POST /student/iscrizione_newsletter
+
+parametri | descrizione
+------------ | -------------
+codice_corso | codice corso di laurea
+codice_disciplina | codice disciplina
+matricola_studente | matricola dello studente
+
+#### Response
+
+Iscrizione agli avvisi di una determinata disciplina di un determinato corso di laurea
+
+
+### POST /student/lista_prenotazioni_ricevimento
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista dei ricevimenti già prenotati dallo studente
+
+
+### POST /student/lista_ricevimenti_prenotabili
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola dello studente
+
+#### Response
+
+Reperimento lista dei ricevimenti prenotabili dallo studente
+
+
+### POST /professor/login
+
+parametri | descrizione
+------------ | -------------
+matricola_studente | matricola del studente
+password_studente | password studente
+
+#### Response
+
+Effettua il login dello studente
+
+
+### POST /professor/password
+
+parametri | descrizione
+------------ | -------------
+nuova_password_studente | nuova password 
+matricola_studente | matricola dello studente
+password_studente | vecchia password studente
+
+#### Response
+
+Variazione della password dello studente
+
+
+
+
 
 
 
