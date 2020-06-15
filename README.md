@@ -732,8 +732,8 @@ Unfollow degli avvisi di una determinata disciplina di un determinato corso di l
 
 parametri | descrizione
 ------------ | -------------
-matricola1 | matricola 
-matricola2 | matricola
+matricola1 | matricola primo interlocutore
+matricola2 | matricola secondo interlocutore
 
 #### Response
 
@@ -776,8 +776,8 @@ Inserimento del colore di una determinata disciplina di un determinato corso di 
 parametri | descrizione
 ------------ | -------------
 id_conversation | id della conversazione
-matricola1 | matricola 
-matricola2 | matricola
+matricola_mittente | matricola mittente
+matricola_destinatario | matricola destinatario
 messaggio | messaggio di testo da inviare
 
 #### Response
