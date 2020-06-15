@@ -17,6 +17,7 @@ import myUniversity from '../../API/myUniversity';
 import {endTime,endMinutes,getSemester} from '../../Utility/functions';
 // MOMENT LIB
 import moment from 'moment';
+import localization from 'moment/locale/it';
 // COOKIE
 import {Cookies} from 'react-cookie';
 
@@ -49,6 +50,11 @@ class Calendar extends Component{
                         uid: receipt.matricola_docente + receipt.data_ricevimento,
                         start: receipt.ora_inizio ? moment(receipt.ora_inizio) : moment(receipt.data_ricevimento),
                         end: receipt.ora_inizio ? endMinutes(receipt.ora_inizio,receipt.durata) :  endMinutes(receipt.data_ricevimento,30),
+                        title: `Ricevimento Prof. ${receipt.nome} ${receipt.cognome}`,
+                        email: receipt.email_docente,
+                        freshman: receipt.matricola_docente,
+                        startHour: moment(receipt.ora_inizio),
+                        duration: receipt.durata,
                         value: (
                             <div 
                               onClick={(event) => {this.onEventclick(event)}} 
@@ -177,12 +183,34 @@ class Calendar extends Component{
                 {!(selectedAppointment.uid.length <= 10) &&
                     <React.Fragment>
                         <ModalHeader 
-                        title='inchiodata'
+                        title={selectedAppointment.title}
                         onCloseClick={this.onEventClose} 
                         color='white' textSize='h5' 
                         iconSize='h3'/>
                         <ModalBody>
-                            <div>cacca</div>
+                            <Row>
+                                <Column className='left-key' columnSize='12'>Informazioni Professore</Column>
+                            </Row>
+                            <Row className='mt-3'>
+                                <Column className='left-key' columnSize='5'>Email:</Column>
+                                <Column className='right-key ml-0' columnSize='7'>{selectedAppointment.email}</Column>
+                            </Row>
+                            <Row className='mt-2'>
+                                <Column className='left-key' columnSize='5'>Matricola Docente:</Column>
+                                <Column className='right-key ml-0' columnSize='7'>{selectedAppointment.freshman}</Column>
+                            </Row>
+                            <hr/>
+                                <Row className='mt-2'>
+                                    <Column className='left-key' columnSize='12'>Informazioni Ricevimento</Column>
+                                </Row>
+                                <Row className='mt-3'>
+                                    <Column className='left-key' columnSize='5'>Ora inizio:</Column>
+                                    <Column className='right-key ml-0' columnSize='7'>{selectedAppointment.startHour.format('HH:mm')}</Column>
+                                </Row>
+                                <Row className='mt-2 pb-4'>
+                                    <Column className='left-key' columnSize='5'>Durata:</Column>
+                                    <Column className='right-key ml-0' columnSize='7'>{selectedAppointment.duration}</Column>
+                                </Row>
                         </ModalBody>
                     </React.Fragment>
                 }
