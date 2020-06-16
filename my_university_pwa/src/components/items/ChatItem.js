@@ -3,7 +3,7 @@ import React from "react";
 import squareLogo from "../../img/svg/square.svg"
 import Row from "../bootstrap/Row";
 import Column from "../bootstrap/Column";
-import {capitalizeFirstLetter,takeDate, trimMessage} from "../../Utility/functions";
+import {capitalizeFirstLetter,takeDate, trimMessage} from "../../utility/functions";
 import ProfileImage from "../wrapper/ProfileImage";
 
 
@@ -21,7 +21,7 @@ const ChatItem = ({fName, sName, lastMessage, lmTime, lenght, index, onItemClick
                       sigle={`${fName[0].toUpperCase().concat(sName[0].toUpperCase())}`} 
                       path={squareLogo}/>
                 </Column>
-                <Column columnSize='7' screenSize='lg' className='d-flex d-flex-column'>
+                <Column columnSize='7' screenSize='lg'>
                     <div className='ml-3'>
                         <div className='chat-name'>{capitalizeFirstLetter(fName)} {capitalizeFirstLetter(sName)}</div>
                         <div className='text-muted'>{trimMessage(lastMessage)}</div>

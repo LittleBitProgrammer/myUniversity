@@ -14,7 +14,7 @@ import Column from '../bootstrap/Column';
 //API
 import myUniversity from '../../API/myUniversity';
 // FUNCTIONS
-import {endTime,endMinutes,getSemester} from '../../Utility/functions';
+import {endTime,endMinutes,getSemester} from '../../utility/functions';
 // MOMENT LIB
 import moment from 'moment';
 // COOKIE
