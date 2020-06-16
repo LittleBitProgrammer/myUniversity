@@ -1,6 +1,8 @@
 # myUniversity
 University project for the examination of web technologies, Parthenope 🎓
 
+## [PWA] (http://my-university-pwa.herokuapp.com)
+
 ## [API] (http://my-university-api.herokuapp.com/api/)
 * Secretary
 * Professor
