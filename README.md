@@ -195,7 +195,7 @@ parametri | descrizione
 ------------ | -------------
 codice_corso | codice del corso di laurea
 codice_disciplina | codice della disciplina
-nome_ disciplina | nome della disciplina
+nome_disciplina | nome della disciplina
 cfu | crediti formativi universitari della disciplina
 semestre | semestre in cui viene svolta la disciplina
 anno | anno in cui viene svolta la disciplina
@@ -318,7 +318,7 @@ civico | civico della sede
 
 #### Response
 
-Collega un determinato corso di laurea ad una determinata sede
+Creazione/inserimento di una nuova sede
 
 
 ### GET /secretary/sede
@@ -348,7 +348,7 @@ codice_corso | codice del corso a cui si è iscritto lo studente
 
 #### Response
 
-Inserimento di un nuovo docente
+Inserimento di un nuovo studente
 
 
 ### GET /secretary/studente
@@ -542,7 +542,7 @@ matricola_studente | matricola dello studente
 
 #### Response
 
-Reperimento avvisi delle discipline a cui lo sr
+Reperimento avvisi delle discipline a cui lo studente è iscritto
 
 
 ### POST /student/calendario
@@ -728,7 +728,7 @@ Unfollow degli avvisi di una determinata disciplina di un determinato corso di l
 
 ## Mongodb
 
-### POST /mongodb/unfollow_newsletter
+### POST /mongodb/create_new_conversation
 
 parametri | descrizione
 ------------ | -------------
@@ -771,7 +771,7 @@ colore_esadecimale | colore in formato esadecimale
 Inserimento del colore di una determinata disciplina di un determinato corso di laurea
 
 
-### POST /mongodb/send:message
+### POST /mongodb/send_message
 
 parametri | descrizione
 ------------ | -------------
